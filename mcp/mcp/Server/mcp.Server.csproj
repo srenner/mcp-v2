@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20210203165255_Vehicle-v1.cs" />
+    <Compile Remove="Data\Migrations\20210203165255_Vehicle-v1.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210203165441_VehicleModel.cs" />
+    <Compile Remove="Data\Migrations\20210203165441_VehicleModel.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="3.2.1" />
   </ItemGroup>
 

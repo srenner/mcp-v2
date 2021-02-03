@@ -17,5 +17,31 @@ namespace mcp.Server.Data
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+
+        public DbSet<Vehicle> Vehicle { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            string dbType = "sql";
+
+            if(dbType == "sql")
+            {
+                string currencyFormat = "decimal(10,2)";
+
+                builder.Entity<Vehicle>().Property(o => o.PurchasePrice).HasColumnType(currencyFormat);
+                builder.Entity<Vehicle>().Property(o => o.TotalInvested).HasColumnType(currencyFormat);
+                builder.Entity<Vehicle>().Property(o => o.EstimatedValue).HasColumnType(currencyFormat);
+                builder.Entity<Vehicle>().Property(o => o.ForSaleAskingPrice).HasColumnType(currencyFormat);
+                builder.Entity<Vehicle>().Property(o => o.ForSaleTransactionPrice).HasColumnType(currencyFormat);
+
+
+
+
+
+            }
+        }
+
     }
 }
