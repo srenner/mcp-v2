@@ -18,6 +18,7 @@ namespace mcp.Server.Data
         {
         }
 
+        public DbSet<Category> Category { get; set; }
         public DbSet<Vehicle> Vehicle { get; set; }
 
 
@@ -35,11 +36,6 @@ namespace mcp.Server.Data
                 builder.Entity<Vehicle>().Property(o => o.EstimatedValue).HasColumnType(currencyFormat);
                 builder.Entity<Vehicle>().Property(o => o.ForSaleAskingPrice).HasColumnType(currencyFormat);
                 builder.Entity<Vehicle>().Property(o => o.ForSaleTransactionPrice).HasColumnType(currencyFormat);
-
-
-
-
-
             }
         }
 
