@@ -32,6 +32,8 @@ namespace mcp.Server.Data
             {
                 string currencyFormat = "decimal(10,2)";
 
+                builder.Entity<ApplicationUser>().HasIndex(i => i.UniqueName).IsUnique(true);
+
                 builder.Entity<Vehicle>().Property(o => o.PurchasePrice).HasColumnType(currencyFormat);
                 builder.Entity<Vehicle>().Property(o => o.TotalInvested).HasColumnType(currencyFormat);
                 builder.Entity<Vehicle>().Property(o => o.EstimatedValue).HasColumnType(currencyFormat);
