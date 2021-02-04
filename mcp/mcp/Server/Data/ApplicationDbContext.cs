@@ -19,6 +19,7 @@ namespace mcp.Server.Data
         }
 
         public DbSet<Category> Category { get; set; }
+        public DbSet<UserCategory> UserCategory { get; set; }
         public DbSet<Vehicle> Vehicle { get; set; }
 
 
