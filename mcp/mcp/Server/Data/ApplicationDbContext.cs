@@ -20,6 +20,7 @@ namespace mcp.Server.Data
 
         public DbSet<Category> Category { get; set; }
         public DbSet<Project> Project { get; set; }
+        public DbSet<ProjectDependency> ProjectDependency { get; set; }
         public DbSet<UserCategory> UserCategory { get; set; }
         public DbSet<Vehicle> Vehicle { get; set; }
 
@@ -37,6 +38,9 @@ namespace mcp.Server.Data
 
                 builder.Entity<Project>().Property(o => o.TargetCost).HasColumnType(currencyFormat);
                 builder.Entity<Project>().Property(o => o.ActualCost).HasColumnType(currencyFormat);
+
+                //TODO not sure if this is correct, but Projects will not normally be deleted, so this is ok for now
+                builder.Entity<ProjectDependency>().HasOne(o => o.Project).WithMany().OnDelete(DeleteBehavior.Restrict);
 
                 builder.Entity<Vehicle>().Property(o => o.PurchasePrice).HasColumnType(currencyFormat);
                 builder.Entity<Vehicle>().Property(o => o.TotalInvested).HasColumnType(currencyFormat);

@@ -10,6 +10,8 @@
     <Compile Remove="Data\Migrations\20210203165255_Vehicle-v1.Designer.cs" />
     <Compile Remove="Data\Migrations\20210203165441_VehicleModel.cs" />
     <Compile Remove="Data\Migrations\20210203165441_VehicleModel.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210205163351_ProjectDependencyModel.cs" />
+    <Compile Remove="Data\Migrations\20210205163351_ProjectDependencyModel.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
