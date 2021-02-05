@@ -19,6 +19,7 @@ namespace mcp.Server.Data
         }
 
         public DbSet<Category> Category { get; set; }
+        public DbSet<Project> Project { get; set; }
         public DbSet<UserCategory> UserCategory { get; set; }
         public DbSet<Vehicle> Vehicle { get; set; }
 
@@ -33,6 +34,9 @@ namespace mcp.Server.Data
                 string currencyFormat = "decimal(10,2)";
 
                 builder.Entity<ApplicationUser>().HasIndex(i => i.UniqueName).IsUnique(true);
+
+                builder.Entity<Project>().Property(o => o.TargetCost).HasColumnType(currencyFormat);
+                builder.Entity<Project>().Property(o => o.ActualCost).HasColumnType(currencyFormat);
 
                 builder.Entity<Vehicle>().Property(o => o.PurchasePrice).HasColumnType(currencyFormat);
                 builder.Entity<Vehicle>().Property(o => o.TotalInvested).HasColumnType(currencyFormat);
