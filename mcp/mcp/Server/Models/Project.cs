@@ -31,6 +31,7 @@ namespace mcp.Server.Models
 
         public bool IsComplete { get; set; }
         public bool IsPublic { get; set; }
+        public bool IsCostPublic { get; set; }
         public bool IsDeleted { get; set; }
     }
 }
