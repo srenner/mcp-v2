@@ -30,6 +30,7 @@ namespace mcp.Server.Models
         public DateTime? ActualEndDate { get; set; }
 
         public bool IsComplete { get; set; }
+        public bool IsPublic { get; set; }
         public bool IsDeleted { get; set; }
     }
 }
