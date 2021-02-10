@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace mcp.Server.Models
 {
+    /// <summary>
+    /// Represents when a project requires a different project to be completed first
+    /// </summary>
     public class ProjectDependency
     {
         public int ProjectDependencyID { get; set; }

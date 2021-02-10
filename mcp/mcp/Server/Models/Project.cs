@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace mcp.Server.Models
 {
+    /// <summary>
+    /// Represents a project being applied to a vehicle, e.g. "Upgrade brakes"
+    /// </summary>
     public class Project
     {
         public int ProjectID { get; set; }

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace mcp.Server.Models
 {
+    /// <summary>
+    /// A user's car, truck, motorcycle, etc.
+    /// </summary>
     public class Vehicle
     {
         [Key]
