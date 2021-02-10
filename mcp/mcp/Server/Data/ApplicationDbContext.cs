@@ -23,6 +23,7 @@ namespace mcp.Server.Data
         public DbSet<ProjectDependency> ProjectDependency { get; set; }
         public DbSet<UserCategory> UserCategory { get; set; }
         public DbSet<Vehicle> Vehicle { get; set; }
+        public DbSet<VehicleModification> VehicleModification { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
