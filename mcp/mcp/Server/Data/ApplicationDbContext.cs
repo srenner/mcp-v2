@@ -37,6 +37,14 @@ namespace mcp.Server.Data
 
                 builder.Entity<ApplicationUser>().HasIndex(i => i.UniqueName).IsUnique(true);
 
+                builder.Entity<Category>().HasData(new Category { CategoryID = 1, SortOrder = 1, Name = "Engine" });
+                builder.Entity<Category>().HasData(new Category { CategoryID = 2, SortOrder = 2, Name = "Suspension/Chassis" });
+                builder.Entity<Category>().HasData(new Category { CategoryID = 3, SortOrder = 3, Name = "Brakes" });
+                builder.Entity<Category>().HasData(new Category { CategoryID = 4, SortOrder = 4, Name = "Interior" });
+                builder.Entity<Category>().HasData(new Category { CategoryID = 5, SortOrder = 5, Name = "Body" });
+                builder.Entity<Category>().HasData(new Category { CategoryID = 6, SortOrder = 6, Name = "Electrical" });
+                builder.Entity<Category>().HasData(new Category { CategoryID = 7, SortOrder = 7, Name = "Audio/Video" });
+
                 builder.Entity<Project>().Property(o => o.TargetCost).HasColumnType(currencyFormat);
                 builder.Entity<Project>().Property(o => o.ActualCost).HasColumnType(currencyFormat);
 

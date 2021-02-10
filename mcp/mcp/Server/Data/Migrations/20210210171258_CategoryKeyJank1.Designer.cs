@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using mcp.Server.Data;
 
 namespace mcp.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210210171258_CategoryKeyJank1")]
+    partial class CategoryKeyJank1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -313,8 +315,10 @@ namespace mcp.Server.Data.Migrations
 
             modelBuilder.Entity("mcp.Server.Models.Category", b =>
                 {
-                    b.Property<int>("CategoryID")
-                        .HasColumnType("int");
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -322,53 +326,9 @@ namespace mcp.Server.Data.Migrations
                     b.Property<int>("SortOrder")
                         .HasColumnType("int");
 
-                    b.HasKey("CategoryID");
+                    b.HasKey("ID");
 
                     b.ToTable("Category");
-
-                    b.HasData(
-                        new
-                        {
-                            CategoryID = 1,
-                            Name = "Engine",
-                            SortOrder = 1
-                        },
-                        new
-                        {
-                            CategoryID = 2,
-                            Name = "Suspension/Chassis",
-                            SortOrder = 2
-                        },
-                        new
-                        {
-                            CategoryID = 3,
-                            Name = "Brakes",
-                            SortOrder = 3
-                        },
-                        new
-                        {
-                            CategoryID = 4,
-                            Name = "Interior",
-                            SortOrder = 4
-                        },
-                        new
-                        {
-                            CategoryID = 5,
-                            Name = "Body",
-                            SortOrder = 5
-                        },
-                        new
-                        {
-                            CategoryID = 6,
-                            Name = "Electrical",
-                            SortOrder = 6
-                        },
-                        new
-                        {
-                            CategoryID = 7,
-                            Name = "Audio/Video",
-                            SortOrder = 7
-                        });
                 });
 
             modelBuilder.Entity("mcp.Server.Models.Project", b =>

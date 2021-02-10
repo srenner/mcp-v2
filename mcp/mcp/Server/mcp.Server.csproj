@@ -12,6 +12,8 @@
     <Compile Remove="Data\Migrations\20210203165441_VehicleModel.Designer.cs" />
     <Compile Remove="Data\Migrations\20210205163351_ProjectDependencyModel.cs" />
     <Compile Remove="Data\Migrations\20210205163351_ProjectDependencyModel.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210210170307_CategoryKeyNoIdentity.cs" />
+    <Compile Remove="Data\Migrations\20210210170307_CategoryKeyNoIdentity.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
