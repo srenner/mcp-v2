@@ -10,48 +10,56 @@ using mcp.Server.Data;
 namespace mcp.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210205162124_ProjectModel")]
-    partial class ProjectModel
+    [Migration("20210211231715_Net50Upgrade")]
+    partial class Net50Upgrade
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("ProductVersion", "5.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
                 {
                     b.Property<string>("UserCode")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("ClientId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Data")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasMaxLength(50000);
+                        .HasMaxLength(50000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("DeviceCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime?>("Expiration")
                         .IsRequired()
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("SessionId")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("SubjectId")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("UserCode");
 
@@ -66,39 +74,52 @@ namespace mcp.Server.Data.Migrations
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.PersistedGrant", b =>
                 {
                     b.Property<string>("Key")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("ClientId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("ConsumedTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Data")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasMaxLength(50000);
+                        .HasMaxLength(50000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime?>("Expiration")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("SessionId")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("SubjectId")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Key");
 
                     b.HasIndex("Expiration");
 
                     b.HasIndex("SubjectId", "ClientId", "Type");
+
+                    b.HasIndex("SubjectId", "SessionId", "Type");
 
                     b.ToTable("PersistedGrants");
                 });
@@ -113,18 +134,18 @@ namespace mcp.Server.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex")
+                        .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
@@ -181,12 +202,12 @@ namespace mcp.Server.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -223,12 +244,12 @@ namespace mcp.Server.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -254,8 +275,8 @@ namespace mcp.Server.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
@@ -267,12 +288,12 @@ namespace mcp.Server.Data.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -293,17 +314,17 @@ namespace mcp.Server.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
+                        .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex")
+                        .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.HasIndex("UniqueName")
@@ -316,9 +337,7 @@ namespace mcp.Server.Data.Migrations
             modelBuilder.Entity("mcp.Server.Models.Category", b =>
                 {
                     b.Property<int>("CategoryID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -329,6 +348,50 @@ namespace mcp.Server.Data.Migrations
                     b.HasKey("CategoryID");
 
                     b.ToTable("Category");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryID = 1,
+                            Name = "Engine",
+                            SortOrder = 1
+                        },
+                        new
+                        {
+                            CategoryID = 2,
+                            Name = "Suspension/Chassis",
+                            SortOrder = 2
+                        },
+                        new
+                        {
+                            CategoryID = 3,
+                            Name = "Brakes",
+                            SortOrder = 3
+                        },
+                        new
+                        {
+                            CategoryID = 4,
+                            Name = "Interior",
+                            SortOrder = 4
+                        },
+                        new
+                        {
+                            CategoryID = 5,
+                            Name = "Body",
+                            SortOrder = 5
+                        },
+                        new
+                        {
+                            CategoryID = 6,
+                            Name = "Electrical",
+                            SortOrder = 6
+                        },
+                        new
+                        {
+                            CategoryID = 7,
+                            Name = "Audio/Video",
+                            SortOrder = 7
+                        });
                 });
 
             modelBuilder.Entity("mcp.Server.Models.Project", b =>
@@ -350,7 +413,13 @@ namespace mcp.Server.Data.Migrations
                     b.Property<bool>("IsComplete")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsCostPublic")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPublic")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -378,6 +447,212 @@ namespace mcp.Server.Data.Migrations
                     b.HasIndex("VehicleID");
 
                     b.ToTable("Project");
+                });
+
+            modelBuilder.Entity("mcp.Server.Models.ProjectDependency", b =>
+                {
+                    b.Property<int>("ProjectDependencyID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DependsOnProjectID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjectDependencyID");
+
+                    b.HasIndex("DependsOnProjectID");
+
+                    b.HasIndex("ProjectID");
+
+                    b.ToTable("ProjectDependency");
+                });
+
+            modelBuilder.Entity("mcp.Server.Models.Tag", b =>
+                {
+                    b.Property<int>("TagID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.HasKey("TagID");
+
+                    b.ToTable("Tag");
+
+                    b.HasData(
+                        new
+                        {
+                            TagID = 1,
+                            Description = "A vehicle being restored to a like-new state",
+                            IsDeleted = false,
+                            Name = "Restoration",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 2,
+                            Description = "A vehicle being restored while making modifications along the way",
+                            IsDeleted = false,
+                            Name = "Restomod",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 3,
+                            Description = "A vehicle that is built for performance but driven on public streets",
+                            IsDeleted = false,
+                            Name = "Performance Street",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 4,
+                            Description = "A vehicle that is street driven and also goes to the drag strip",
+                            IsDeleted = false,
+                            Name = "Street/Strip",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 5,
+                            Description = "A vehicle used on the drag strip that is rarely, if ever, street driven",
+                            IsDeleted = false,
+                            Name = "Drag",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 6,
+                            Description = "A vehicle that competes in autocross competitions",
+                            IsDeleted = false,
+                            Name = "Autocross",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 7,
+                            Description = "A vehicle that competes in road race competitions",
+                            IsDeleted = false,
+                            Name = "Road Race",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 8,
+                            Description = "A vehicle built for road race events",
+                            IsDeleted = false,
+                            Name = "Drift",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 9,
+                            Description = "A vehicle modified to deliberately look worn or unfinished",
+                            IsDeleted = false,
+                            Name = "Rat Rod",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 10,
+                            Description = "A vehicle that is entered into car shows",
+                            IsDeleted = false,
+                            Name = "Show",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 11,
+                            Description = "A vehicle with airbags or hydraulics modified in the lowrider style",
+                            IsDeleted = false,
+                            Name = "Lowrider",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 12,
+                            Description = "A vehicle modified to be lower, often with stretched tires and lots of negative camber",
+                            IsDeleted = false,
+                            Name = "Stanced",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 13,
+                            Description = "A vehicle from Europe, typically modified by removing seams, badges, or trim",
+                            IsDeleted = false,
+                            Name = "Euro",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 14,
+                            Description = "A vehicle from Japan often modified in a Japanese style",
+                            IsDeleted = false,
+                            Name = "JDM",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 15,
+                            Description = "A vehicle that has been lightly modified with upgraded parts from the manufacturer",
+                            IsDeleted = false,
+                            Name = "OEM+",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 16,
+                            Description = "A vehicle modified to have an impressive stereo, often used in competition",
+                            IsDeleted = false,
+                            Name = "Stereo",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 17,
+                            Description = "A vehicle from the 1930s and 1940s modified in the hot rod style",
+                            IsDeleted = false,
+                            Name = "Hot Rod",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 18,
+                            Description = "A vehicle with collector value",
+                            IsDeleted = false,
+                            Name = "Collector",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 19,
+                            Description = "A vehicle driven on a road course for fun instead of competition",
+                            IsDeleted = false,
+                            Name = "Open Track",
+                            SortOrder = 0
+                        },
+                        new
+                        {
+                            TagID = 20,
+                            Description = "A vehicle that is much faster than it looks",
+                            IsDeleted = false,
+                            Name = "Sleeper",
+                            SortOrder = 0
+                        });
                 });
 
             modelBuilder.Entity("mcp.Server.Models.UserCategory", b =>
@@ -461,6 +736,40 @@ namespace mcp.Server.Data.Migrations
                     b.ToTable("Vehicle");
                 });
 
+            modelBuilder.Entity("mcp.Server.Models.VehicleModification", b =>
+                {
+                    b.Property<int>("VehicleModificationID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsHighlighted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserCategoryID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VehicleID")
+                        .HasColumnType("int");
+
+                    b.HasKey("VehicleModificationID");
+
+                    b.HasIndex("UserCategoryID");
+
+                    b.HasIndex("VehicleID");
+
+                    b.ToTable("VehicleModification");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -523,6 +832,29 @@ namespace mcp.Server.Data.Migrations
                         .HasForeignKey("VehicleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("UserCategory");
+
+                    b.Navigation("Vehicle");
+                });
+
+            modelBuilder.Entity("mcp.Server.Models.ProjectDependency", b =>
+                {
+                    b.HasOne("mcp.Server.Models.Project", "DependsOnProject")
+                        .WithMany()
+                        .HasForeignKey("DependsOnProjectID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("mcp.Server.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("DependsOnProject");
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("mcp.Server.Models.UserCategory", b =>
@@ -534,6 +866,10 @@ namespace mcp.Server.Data.Migrations
                     b.HasOne("mcp.Server.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserID");
+
+                    b.Navigation("BaseCategory");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("mcp.Server.Models.Vehicle", b =>
@@ -541,6 +877,25 @@ namespace mcp.Server.Data.Migrations
                     b.HasOne("mcp.Server.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserID");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("mcp.Server.Models.VehicleModification", b =>
+                {
+                    b.HasOne("mcp.Server.Models.UserCategory", "UserCategory")
+                        .WithMany()
+                        .HasForeignKey("UserCategoryID");
+
+                    b.HasOne("mcp.Server.Models.Vehicle", "Vehicle")
+                        .WithMany()
+                        .HasForeignKey("VehicleID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserCategory");
+
+                    b.Navigation("Vehicle");
                 });
 #pragma warning restore 612, 618
         }
