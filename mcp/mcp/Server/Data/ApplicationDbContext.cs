@@ -24,6 +24,7 @@ namespace mcp.Server.Data
         public DbSet<UserCategory> UserCategory { get; set; }
         public DbSet<Vehicle> Vehicle { get; set; }
         public DbSet<VehicleModification> VehicleModification { get; set; }
+        public DbSet<Tag> Tag { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -51,11 +52,48 @@ namespace mcp.Server.Data
                 //TODO not sure if this is correct, but Projects will not normally be deleted, so this is ok for now
                 builder.Entity<ProjectDependency>().HasOne(o => o.Project).WithMany().OnDelete(DeleteBehavior.Restrict);
 
+                builder.Entity<Tag>().HasData(new Tag { TagID = 1, Name = "Restoration",        Description = "A vehicle being restored to a like-new state" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 2, Name = "Restomod",           Description = "A vehicle being restored while making modifications along the way" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 3, Name = "Performance Street", Description = "A vehicle that is built for performance but driven on public streets" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 4, Name = "Street/Strip",       Description = "A vehicle that is street driven and also goes to the drag strip" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 5, Name = "Drag",               Description = "A vehicle used on the drag strip that is rarely, if ever, street driven" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 6, Name = "Autocross",          Description = "A vehicle that competes in autocross competitions" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 7, Name = "Road Race",          Description = "A vehicle that competes in road race competitions" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 8, Name = "Drift",              Description = "A vehicle built for road race events" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 9, Name = "Rat Rod",            Description = "A vehicle modified to deliberately look worn or unfinished" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 10, Name = "Show",              Description = "A vehicle that is entered into car shows" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 11, Name = "Lowrider",          Description = "A vehicle with airbags or hydraulics modified in the lowrider style" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 12, Name = "Stanced",           Description = "A vehicle modified to be lower, often with stretched tires and lots of negative camber" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 13, Name = "Euro",              Description = "A vehicle from Europe, typically modified by removing seams, badges, or trim" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 14, Name = "JDM",               Description = "A vehicle from Japan often modified in a Japanese style" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 15, Name = "OEM+",              Description = "A vehicle that has been lightly modified with upgraded parts from the manufacturer" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 16, Name = "Stereo",            Description = "A vehicle modified to have an impressive stereo, often used in competition" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 17, Name = "Hot Rod",           Description = "A vehicle from the 1930s and 1940s modified in the hot rod style" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 18, Name = "Collector",         Description = "A vehicle with collector value" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 19, Name = "Open Track",        Description = "A vehicle driven on a road course for fun instead of competition" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 20, Name = "Sleeper",           Description = "A vehicle that is much faster than it looks" });
+
                 builder.Entity<Vehicle>().Property(o => o.PurchasePrice).HasColumnType(currencyFormat);
                 builder.Entity<Vehicle>().Property(o => o.TotalInvested).HasColumnType(currencyFormat);
                 builder.Entity<Vehicle>().Property(o => o.EstimatedValue).HasColumnType(currencyFormat);
                 builder.Entity<Vehicle>().Property(o => o.ForSaleAskingPrice).HasColumnType(currencyFormat);
                 builder.Entity<Vehicle>().Property(o => o.ForSaleTransactionPrice).HasColumnType(currencyFormat);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
         }
 

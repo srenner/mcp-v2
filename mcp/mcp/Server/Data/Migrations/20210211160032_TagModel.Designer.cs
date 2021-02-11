@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using mcp.Server.Data;
 
 namespace mcp.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210211160032_TagModel")]
+    partial class TagModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -456,9 +458,6 @@ namespace mcp.Server.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -474,7 +473,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 1,
                             Description = "A vehicle being restored to a like-new state",
-                            IsDeleted = false,
                             Name = "Restoration",
                             SortOrder = 0
                         },
@@ -482,7 +480,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 2,
                             Description = "A vehicle being restored while making modifications along the way",
-                            IsDeleted = false,
                             Name = "Restomod",
                             SortOrder = 0
                         },
@@ -490,7 +487,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 3,
                             Description = "A vehicle that is built for performance but driven on public streets",
-                            IsDeleted = false,
                             Name = "Performance Street",
                             SortOrder = 0
                         },
@@ -498,7 +494,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 4,
                             Description = "A vehicle that is street driven and also goes to the drag strip",
-                            IsDeleted = false,
                             Name = "Street/Strip",
                             SortOrder = 0
                         },
@@ -506,7 +501,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 5,
                             Description = "A vehicle used on the drag strip that is rarely, if ever, street driven",
-                            IsDeleted = false,
                             Name = "Drag",
                             SortOrder = 0
                         },
@@ -514,7 +508,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 6,
                             Description = "A vehicle that competes in autocross competitions",
-                            IsDeleted = false,
                             Name = "Autocross",
                             SortOrder = 0
                         },
@@ -522,7 +515,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 7,
                             Description = "A vehicle that competes in road race competitions",
-                            IsDeleted = false,
                             Name = "Road Race",
                             SortOrder = 0
                         },
@@ -530,7 +522,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 8,
                             Description = "A vehicle built for road race events",
-                            IsDeleted = false,
                             Name = "Drift",
                             SortOrder = 0
                         },
@@ -538,7 +529,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 9,
                             Description = "A vehicle modified to deliberately look worn or unfinished",
-                            IsDeleted = false,
                             Name = "Rat Rod",
                             SortOrder = 0
                         },
@@ -546,7 +536,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 10,
                             Description = "A vehicle that is entered into car shows",
-                            IsDeleted = false,
                             Name = "Show",
                             SortOrder = 0
                         },
@@ -554,7 +543,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 11,
                             Description = "A vehicle with airbags or hydraulics modified in the lowrider style",
-                            IsDeleted = false,
                             Name = "Lowrider",
                             SortOrder = 0
                         },
@@ -562,7 +550,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 12,
                             Description = "A vehicle modified to be lower, often with stretched tires and lots of negative camber",
-                            IsDeleted = false,
                             Name = "Stanced",
                             SortOrder = 0
                         },
@@ -570,7 +557,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 13,
                             Description = "A vehicle from Europe, typically modified by removing seams, badges, or trim",
-                            IsDeleted = false,
                             Name = "Euro",
                             SortOrder = 0
                         },
@@ -578,7 +564,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 14,
                             Description = "A vehicle from Japan often modified in a Japanese style",
-                            IsDeleted = false,
                             Name = "JDM",
                             SortOrder = 0
                         },
@@ -586,7 +571,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 15,
                             Description = "A vehicle that has been lightly modified with upgraded parts from the manufacturer",
-                            IsDeleted = false,
                             Name = "OEM+",
                             SortOrder = 0
                         },
@@ -594,7 +578,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 16,
                             Description = "A vehicle modified to have an impressive stereo, often used in competition",
-                            IsDeleted = false,
                             Name = "Stereo",
                             SortOrder = 0
                         },
@@ -602,7 +585,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 17,
                             Description = "A vehicle from the 1930s and 1940s modified in the hot rod style",
-                            IsDeleted = false,
                             Name = "Hot Rod",
                             SortOrder = 0
                         },
@@ -610,7 +592,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 18,
                             Description = "A vehicle with collector value",
-                            IsDeleted = false,
                             Name = "Collector",
                             SortOrder = 0
                         },
@@ -618,7 +599,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 19,
                             Description = "A vehicle driven on a road course for fun instead of competition",
-                            IsDeleted = false,
                             Name = "Open Track",
                             SortOrder = 0
                         },
@@ -626,7 +606,6 @@ namespace mcp.Server.Data.Migrations
                         {
                             TagID = 20,
                             Description = "A vehicle that is much faster than it looks",
-                            IsDeleted = false,
                             Name = "Sleeper",
                             SortOrder = 0
                         });
