@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp.Server", "mcp\Server\mcp.Server.csproj", "{07E6CD64-2347-43FA-9506-9B52F347F3BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mcp.Server", "mcp\Server\mcp.Server.csproj", "{07E6CD64-2347-43FA-9506-9B52F347F3BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp.Client", "mcp\Client\mcp.Client.csproj", "{4764BE75-6721-4A69-909C-9AB9BAB55AEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mcp.Client", "mcp\Client\mcp.Client.csproj", "{4764BE75-6721-4A69-909C-9AB9BAB55AEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp.Shared", "mcp\Shared\mcp.Shared.csproj", "{4006060C-3AB8-42D4-8B82-A1F6908D7B95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mcp.Shared", "mcp\Shared\mcp.Shared.csproj", "{4006060C-3AB8-42D4-8B82-A1F6908D7B95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
