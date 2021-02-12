@@ -45,6 +45,7 @@ namespace mcp.Server.Data
                 builder.Entity<Category>().HasData(new Category { CategoryID = 5, SortOrder = 5, Name = "Body" });
                 builder.Entity<Category>().HasData(new Category { CategoryID = 6, SortOrder = 6, Name = "Electrical" });
                 builder.Entity<Category>().HasData(new Category { CategoryID = 7, SortOrder = 7, Name = "Audio/Video" });
+                builder.Entity<Category>().HasData(new Category { CategoryID = 8, SortOrder = 8, Name = "Drivetrain" });
 
                 builder.Entity<Project>().Property(o => o.TargetCost).HasColumnType(currencyFormat);
                 builder.Entity<Project>().Property(o => o.ActualCost).HasColumnType(currencyFormat);
