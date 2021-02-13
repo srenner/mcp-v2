@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using mcp.Server.Data;
 using mcp.Server.Models;
+using mcp.Shared.ViewModels;
+using mcp.Server.ModelExtensions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace mcp.Server.Controllers
 {
@@ -15,16 +20,20 @@ namespace mcp.Server.Controllers
     public class VehicleController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        //private readonly UserManager<IdentityUser> _userManager;
 
-        public VehicleController(ApplicationDbContext context)
+        public VehicleController(ApplicationDbContext context)//, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            //_userManager = userManager;
         }
 
         // GET: api/Vehicle
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vehicle>>> GetVehicle()
         {
+            string username = HttpContext.User.Identity.Name;
+
             return await _context.Vehicle.ToListAsync();
         }
 
@@ -34,12 +43,52 @@ namespace mcp.Server.Controllers
         {
             var vehicle = await _context.Vehicle.FindAsync(id);
 
+
             if (vehicle == null)
             {
                 return NotFound();
             }
 
             return vehicle;
+        }
+
+        [HttpGet("listitems")]
+        public async Task<ActionResult<List<VehicleListItemViewModel>>> GetVehicleListItems()
+        {
+            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var vehicles = await _context.Vehicle
+                .Include(e => e.Projects)
+                .Include(e => e.Modifications)
+                .Where(w => w.UserID == userID)
+                .ToListAsync();
+
+            if (vehicles == null)
+            {
+                return NotFound();
+            }
+
+            return vehicles.ToListItemViewModel();
+                
+        }
+
+        [HttpGet("listitem/{id}")]
+        [Authorize]
+        public async Task<ActionResult<VehicleListItemViewModel>> GetVehicleListItem(int id)
+        {
+
+
+            var vehicle = await _context.Vehicle
+                .Include(e => e.Projects)
+                .Include(e => e.Modifications)
+                .FirstOrDefaultAsync(e => e.VehicleID == id);
+
+            if(vehicle == null)
+            {
+                return NotFound();
+            }
+
+            return vehicle.ToListItemViewModel();
         }
 
         // PUT: api/Vehicle/5

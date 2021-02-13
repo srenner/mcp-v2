@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using mcp.Shared
+@using mcp.Shared.ViewModels 
 @attribute [Authorize]
 @inject HttpClient Http
 
@@ -15,19 +16,25 @@
 }
 else
 {
-    @foreach (var forecast in forecasts)
+    @if (vehicles != null)
     {
-        <VehicleListItem VehicleID=@forecast.TemperatureC></VehicleListItem>
+        @foreach (var vehicle in vehicles)
+        {
+            <VehicleListItem Vehicle=@vehicle></VehicleListItem>
+        }
     }
+
 }
 
 @code {
     private WeatherForecast[] forecasts;
+    private List<VehicleListItemViewModel> vehicles;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
+            vehicles = await Http.GetFromJsonAsync<List<VehicleListItemViewModel>>("/api/Vehicle/listitems");
             forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
         }
         catch (AccessTokenNotAvailableException exception)

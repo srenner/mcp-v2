@@ -1,6 +1,13 @@
-﻿<h3>VehicleListItem: @VehicleID</h3>
+﻿@using mcp.Shared.ViewModels
+
+<li>
+    @Vehicle.Name
+</li>
 
 @code {
+    //[Parameter]
+    //public int VehicleID { get; set; }
+
     [Parameter]
-    public int VehicleID { get; set; }
+    public VehicleListItemViewModel Vehicle { get; set; }
 }

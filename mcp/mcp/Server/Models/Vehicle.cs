@@ -34,5 +34,8 @@ namespace mcp.Server.Models
         public bool IsSold { get; set; }
         public bool IsDeleted { get; set; }
 
+        public List<Project> Projects { get; set; }
+        public List<VehicleModification> Modifications { get; set; }
+
     }
 }
