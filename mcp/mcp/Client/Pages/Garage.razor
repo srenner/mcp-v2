@@ -8,9 +8,9 @@
 
 <h1>Garage</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p>Welcome home, bucko</p>
 
-@if (forecasts == null)
+@if (vehicles == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -27,7 +27,6 @@ else
 }
 
 @code {
-    private WeatherForecast[] forecasts;
     private List<VehicleListItemViewModel> vehicles;
 
     protected override async Task OnInitializedAsync()
@@ -35,7 +34,6 @@ else
         try
         {
             vehicles = await Http.GetFromJsonAsync<List<VehicleListItemViewModel>>("/api/Vehicle/listitems");
-            forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
         }
         catch (AccessTokenNotAvailableException exception)
         {
