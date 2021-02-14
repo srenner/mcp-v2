@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using mcp.Shared
-@using mcp.Shared.ViewModels 
+@using mcp.Shared.ViewModels
 @attribute [Authorize]
 @inject HttpClient Http
 
@@ -16,12 +16,25 @@
 }
 else
 {
+    <button class="btn btn-primary mb-4">Add Vehicle</button>
+
     @if (vehicles != null)
     {
-        @foreach (var vehicle in vehicles)
+        @if (vehicles.Count == 0)
         {
-            <VehicleListItem Vehicle=@vehicle></VehicleListItem>
+            <div class="alert alert-info" role="alert">
+                Your garage is empty :(
+            </div>
         }
+        else
+        {
+            @foreach (var vehicle in vehicles)
+            {
+                <VehicleListItem Vehicle=@vehicle></VehicleListItem>
+            }
+        }
+
+
     }
 
 }
