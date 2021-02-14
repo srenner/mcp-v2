@@ -20,12 +20,10 @@ namespace mcp.Server.Controllers
     public class VehicleController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        //private readonly UserManager<IdentityUser> _userManager;
 
-        public VehicleController(ApplicationDbContext context)//, UserManager<IdentityUser> userManager)
+        public VehicleController(ApplicationDbContext context)
         {
             _context = context;
-            //_userManager = userManager;
         }
 
         // GET: api/Vehicle
