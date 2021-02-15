@@ -2,7 +2,9 @@
 
 <div class="col-lg-3 col-md-4 col-sm-6">
     <div class="card">
-        <div class="card-header">@Vehicle.Name</div>
+        <div class="card-header">
+            <NavLink class="nav-link" href="@VehicleLink" Match="NavLinkMatch.All">@Vehicle.Name</NavLink>
+        </div>
         <div class="card-body">
             <div class="small">
                 @Vehicle.ModificationCount modifications | @Vehicle.ProjectCount projects
@@ -17,4 +19,12 @@
 
     [Parameter]
     public VehicleListItemViewModel Vehicle { get; set; }
+
+    public string VehicleLink
+    {
+        get
+        {
+            return "/vehicle/" + Vehicle.VehicleID;
+        }
+    }
 }
