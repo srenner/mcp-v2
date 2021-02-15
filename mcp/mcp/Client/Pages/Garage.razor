@@ -29,10 +29,13 @@ else
         }
         else
         {
-            @foreach (var vehicle in vehicles)
-            {
-                <VehicleListItem Vehicle=@vehicle></VehicleListItem>
-            }
+            <div class="row">
+                @foreach (var vehicle in vehicles)
+                {
+                    <VehicleListItem Vehicle=@vehicle></VehicleListItem>
+                }
+            </div>
+            
         }
 
 

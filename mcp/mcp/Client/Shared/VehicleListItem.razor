@@ -1,8 +1,17 @@
 ﻿@using mcp.Shared.ViewModels
 
-<li>
-    @Vehicle.Name
-</li>
+<div class="col-lg-3 col-md-4 col-sm-6">
+    <div class="card">
+        <div class="card-header">@Vehicle.Name</div>
+        <div class="card-body">
+            <div class="small">
+                @Vehicle.ModificationCount modifications | @Vehicle.ProjectCount projects
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 @code {
 
