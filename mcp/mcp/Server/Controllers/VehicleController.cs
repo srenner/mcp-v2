@@ -37,7 +37,7 @@ namespace mcp.Server.Controllers
 
         // GET: api/Vehicle/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Vehicle>> GetVehicle(int id)
+        public async Task<ActionResult<VehicleViewModel>> GetVehicle(int id)
         {
             var vehicle = await _context.Vehicle.FindAsync(id);
 
@@ -47,7 +47,7 @@ namespace mcp.Server.Controllers
                 return NotFound();
             }
 
-            return vehicle;
+            return vehicle.ToViewModel();
         }
 
         [HttpGet("listitems")]

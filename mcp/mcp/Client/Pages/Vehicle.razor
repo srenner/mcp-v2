@@ -1,8 +1,8 @@
 ﻿@page "/vehicle/{VehicleID:int}"
-
 @using mcp.Shared.ViewModels
+@inject HttpClient Http
 
-<h3>Vehicle</h3>
+<h3>@VehicleViewModel?.Name</h3>
 
 
 @code {
@@ -10,4 +10,24 @@
 
     [Parameter]
     public int VehicleID { get; set; }
+
+
+    private VehicleViewModel VehicleViewModel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            VehicleViewModel = await Http.GetFromJsonAsync<VehicleViewModel>("api/vehicle/" + VehicleID.ToString());
+        }
+        catch
+        {
+            //todo
+        }
+        //catch (AccessTokenNotAvailableException exception)
+        //{
+        //    exception.Redirect();
+        //}
+    }
+
 }
