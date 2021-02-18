@@ -9,6 +9,9 @@ namespace mcp.Server.ModelExtensions
 {
     public static class VehicleExtensions
     {
+
+        #region VehicleListItemViewModel
+
         public static VehicleListItemViewModel ToListItemViewModel(this Vehicle vehicle)
         {
             var model = new VehicleListItemViewModel();
@@ -27,5 +30,45 @@ namespace mcp.Server.ModelExtensions
             vehicles.ForEach(x => list.Add(x.ToListItemViewModel()));
             return list;
         }
+
+        #endregion
+
+        #region VehicleViewModel
+
+        public static VehicleViewModel ToViewModel(this Vehicle vehicle)
+        {
+            var model = new VehicleViewModel();
+            model.VehicleID = vehicle.VehicleID;
+            model.EstimatedValue = vehicle.EstimatedValue;
+            model.ForSaleAskingPrice = vehicle.ForSaleAskingPrice;
+            model.ForSaleLink = vehicle.ForSaleLink;
+            model.ForSaleTransactionPrice = vehicle.ForSaleTransactionPrice;
+            model.IsDeleted = vehicle.IsDeleted;
+            model.IsForSale = vehicle.IsForSale;
+            model.IsSold = vehicle.IsSold;
+            model.Name = vehicle.Name;
+            model.PurchaseDate = vehicle.PurchaseDate;
+            model.PurchasePrice = vehicle.PurchasePrice;
+            model.TotalInvested = vehicle.TotalInvested;
+            if(vehicle.User != null)
+            {
+                model.UserDisplayName = vehicle.User.DisplayName;
+                model.UserID = vehicle.UserID;
+                model.UserUniqueName = vehicle.User.UniqueName;
+            }
+            return model;
+        }
+
+        public static List<VehicleViewModel> ToViewModel(this List<Vehicle> vehicles)
+        {
+            var list = new List<VehicleViewModel>();
+            vehicles.ForEach(x => list.Add(x.ToViewModel()));
+            return list;
+        }
+
+        #endregion
+
+
+
     }
 }
