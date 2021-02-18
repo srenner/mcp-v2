@@ -7,7 +7,7 @@
         </div>
         <div class="card-body">
             <div class="small">
-                @Vehicle.ModificationCount modifications | @Vehicle.ProjectCount projects
+                @Vehicle.ModificationCount modification@(Vehicle.ModificationCount == 1 ? "" : "s"), @Vehicle.ProjectCount project@(Vehicle.ProjectCount == 1 ? "" : "s")
             </div>
         </div>
     </div>
