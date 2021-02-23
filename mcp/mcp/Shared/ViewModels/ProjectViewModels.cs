@@ -8,7 +8,12 @@ namespace mcp.Shared.ViewModels
 {
     class ProjectListItemViewModel
     {
-
+        public int ProjectID { get; set; }
+        public int VehicleID { get; set; }
+        public string VehicleName { get; set; }
+        public string Name { get; set; }
+        public int? UserCategoryID { get; set; }
+        public string UserCategory { get; set; }
     }
 
     public class ProjectViewModel
