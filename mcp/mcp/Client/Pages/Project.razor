@@ -1,0 +1,33 @@
+﻿@page "/project/{ProjectID:int}"
+@using mcp.Shared.ViewModels
+@inject HttpClient Http
+
+<h3>@ProjectViewModel?.Name</h3>
+
+
+@code {
+
+
+    [Parameter]
+    public int ProjectID { get; set; }
+
+
+    private ProjectViewModel ProjectViewModel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            ProjectViewModel = await Http.GetFromJsonAsync<ProjectViewModel>("api/project/" + ProjectID.ToString());
+        }
+        catch
+        {
+            //todo
+        }
+        //catch (AccessTokenNotAvailableException exception)
+        //{
+        //    exception.Redirect();
+        //}
+    }
+
+}
