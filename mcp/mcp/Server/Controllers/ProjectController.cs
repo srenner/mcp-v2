@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using mcp.Server.Data;
 using mcp.Server.Models;
+using System.Security.Claims;
+using mcp.Shared.ViewModels;
+using mcp.Server.ModelExtensions;
+
 
 namespace mcp.Server.Controllers
 {
@@ -30,16 +34,23 @@ namespace mcp.Server.Controllers
 
         // GET: api/Project/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Project>> GetProject(int id)
+        public async Task<ActionResult<ProjectViewModel>> GetProject(int id)
         {
-            var project = await _context.Project.FindAsync(id);
+            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+
+            var project = await _context.Project
+                .Include(i => i.Vehicle)
+                .Where(w => w.ProjectID == id)
+                .Where(w => w.Vehicle.UserID == userID)
+                .FirstOrDefaultAsync();
 
             if (project == null)
             {
                 return NotFound();
             }
 
-            return project;
+            return project.ToViewModel();
         }
 
         // PUT: api/Project/5
