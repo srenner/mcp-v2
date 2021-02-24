@@ -18,12 +18,12 @@
     }
     else
     {
-        <ul>
+        <div>
             @foreach (var part in ProjectViewModel.Parts)
             {
-                <li>@part.Name</li>
+                <ProjectPartListItem Part="@part"></ProjectPartListItem>
             }
-        </ul>
+        </div>
 
     }
 

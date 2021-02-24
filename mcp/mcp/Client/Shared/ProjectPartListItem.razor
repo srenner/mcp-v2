@@ -1,0 +1,13 @@
+﻿@using mcp.Shared.ViewModels
+
+
+<div class="row">
+    <div class="col-md-12">
+        @Part?.Name
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public ProjectPartViewModel Part { get; set; }
+}
