@@ -19,10 +19,7 @@
     else
     {
         <div>
-            @foreach (var part in ProjectViewModel.Parts)
-            {
-                <ProjectPartListItem Part="@part"></ProjectPartListItem>
-            }
+            <ProjectPartsTable Parts="@ProjectViewModel.Parts"></ProjectPartsTable>
         </div>
 
     }

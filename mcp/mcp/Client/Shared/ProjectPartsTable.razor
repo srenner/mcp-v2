@@ -1,0 +1,32 @@
+﻿@using mcp.Shared.ViewModels
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Part Name</th>
+            <th>Description</th>
+            <th>Link</th>
+            <th>Price</th>
+            <th>Quantity Needed</th>
+            <th>Quantity Purchased</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var part in Parts)
+        {
+            <tr>
+                <td>@part.Name</td>
+                <td>@part.Description</td>
+                <td>@part.Link</td>
+                <td>@part.Price</td>
+                <td>@part.Quantity</td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public List<ProjectPartViewModel> Parts { get; set; }
+}
