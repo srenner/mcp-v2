@@ -36,5 +36,7 @@ namespace mcp.Server.Models
         public bool IsPublic { get; set; }
         public bool IsCostPublic { get; set; }
         public bool IsDeleted { get; set; }
+
+        public List<ProjectPart> Parts { get; set; }
     }
 }
