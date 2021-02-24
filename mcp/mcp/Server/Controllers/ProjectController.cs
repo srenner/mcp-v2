@@ -41,6 +41,7 @@ namespace mcp.Server.Controllers
 
             var project = await _context.Project
                 .Include(i => i.Vehicle)
+                .Include(i => i.Parts)
                 .Where(w => w.ProjectID == id)
                 .Where(w => w.Vehicle.UserID == userID)
                 .FirstOrDefaultAsync();

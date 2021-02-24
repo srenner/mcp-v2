@@ -41,5 +41,7 @@ namespace mcp.Shared.ViewModels
         public bool IsPublic { get; set; }
         public bool IsCostPublic { get; set; }
         public bool IsDeleted { get; set; }
+
+        public List<ProjectPartViewModel> Parts { get; set; }
     }
 }

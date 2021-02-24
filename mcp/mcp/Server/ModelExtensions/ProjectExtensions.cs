@@ -30,6 +30,12 @@ namespace mcp.Server.ModelExtensions
             model.UserCategory = project.UserCategory?.Name;
             model.VehicleID = project.VehicleID;
             model.VehicleName = project.Vehicle?.Name;
+
+            if(project.Parts?.Count > 0)
+            {
+                model.Parts = project.Parts.ToViewModel();
+            }
+
             return model;
         }
 

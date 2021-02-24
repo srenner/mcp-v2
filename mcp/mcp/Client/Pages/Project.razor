@@ -4,6 +4,31 @@
 
 <h3>@ProjectViewModel?.VehicleName: @ProjectViewModel?.Name</h3>
 
+<p>@ProjectViewModel?.Description</p>
+
+<h4>Parts</h4>
+
+@if (ProjectViewModel?.Parts != null)
+{
+    @if (ProjectViewModel.Parts.Count == 0)
+    {
+        <div class="alert alert-info" role="alert">
+            No parts to y our project :(
+        </div>
+    }
+    else
+    {
+        <ul>
+            @foreach (var part in ProjectViewModel.Parts)
+            {
+                <li>@part.Name</li>
+            }
+        </ul>
+
+    }
+
+
+}
 
 @code {
 
