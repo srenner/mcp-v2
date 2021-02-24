@@ -52,6 +52,7 @@ namespace mcp.Server.Data
                 builder.Entity<Project>().Property(o => o.ActualCost).HasColumnType(currencyFormat);
 
                 builder.Entity<ProjectPart>().Property(o => o.Price).HasColumnType(currencyFormat);
+                builder.Entity<ProjectPart>().Property(o => o.Quantity).HasDefaultValue(1);
 
                 //TODO not sure if this is correct, but Projects will not normally be deleted, so this is ok for now
                 builder.Entity<ProjectDependency>().HasOne(o => o.Project).WithMany().OnDelete(DeleteBehavior.Restrict);
