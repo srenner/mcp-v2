@@ -17,7 +17,13 @@
                 <td>@part.Name</td>
                 <td>@part.Description</td>
                 <td><a href="@part.Link" target="_blank">@part.LinkText</a></td>
-                <td>@part.Price</td>
+                <td>
+                    @if(part.Price.HasValue)
+                    {
+                        <span>$</span>
+                    }
+                    @part.Price
+                </td>
                 <td>@part.QuantityPurchased/@part.Quantity</td>
             </tr>
         }
