@@ -15,5 +15,6 @@ namespace mcp.Shared.ViewModels
         public double? Price { get; set; }
         public string Link { get; set; }
         public int Quantity { get; set; }
+        public int QuantityPurchased { get; set; }
     }
 }

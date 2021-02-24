@@ -21,5 +21,6 @@ namespace mcp.Server.Models
         public string Link { get; set; }
 
         public int Quantity { get; set; }
+        public int QuantityPurchased { get; set; }
     }
 }
