@@ -16,5 +16,29 @@ namespace mcp.Shared.ViewModels
         public string Link { get; set; }
         public int Quantity { get; set; }
         public int QuantityPurchased { get; set; }
+
+        public string LinkText
+        {
+            get
+            {
+                if(this.Link == null)
+                {
+                    return "";
+                }
+                else
+                {
+                    string text = this.Link.ToLower();
+                    if (text.StartsWith("http"))
+                    {
+                        text = text.Substring(text.IndexOf("//") + 2);
+                        if(text.Contains('/'))
+                        {
+                            text = text.Substring(0, text.IndexOf('/'));
+                        }
+                    }
+                    return text;
+                }
+            }
+        }
     }
 }
