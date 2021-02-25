@@ -19,9 +19,22 @@ namespace mcp.Shared.ViewModels
     public class ProjectViewModel
     {
         public int ProjectID { get; set; }
-
+        public string ProjectLink
+        {
+            get
+            {
+                return "/project/" + this.ProjectID;
+            }
+        }
         public int VehicleID { get; set; }
         public string VehicleName { get; set; }
+        public string VehicleLink
+        {
+            get
+            {
+                return "/vehicle/" + this.VehicleID;
+            }
+        }
 
         public string Name { get; set; }
         public string Description { get; set; }

@@ -6,6 +6,18 @@
 
 <h4>Active Projects</h4>
 
+@if(ActiveProjects != null)
+{
+    <ul>
+        @foreach(var project in ActiveProjects)
+        {
+            <li>
+                <NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink>
+            </li>
+        }
+    </ul>
+}
+
 <h4>Project Backlog</h4>
 
 <h4>Completed Projects</h4>
@@ -20,11 +32,14 @@
 
     private VehicleViewModel VehicleViewModel;
 
+    private List<ProjectViewModel> ActiveProjects;
+
     protected override async Task OnInitializedAsync()
     {
         try
         {
             VehicleViewModel = await Http.GetFromJsonAsync<VehicleViewModel>("api/vehicle/" + VehicleID.ToString());
+            ActiveProjects = await Http.GetFromJsonAsync<List<ProjectViewModel>>("api/project/active");
         }
         catch
         {

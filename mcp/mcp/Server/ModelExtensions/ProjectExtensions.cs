@@ -39,6 +39,13 @@ namespace mcp.Server.ModelExtensions
             return model;
         }
 
+        public static List<ProjectViewModel> ToViewModel(this List<Project> projects)
+        {
+            var list = new List<ProjectViewModel>();
+            projects.ForEach(x => list.Add(x.ToViewModel()));
+            return list;
+        }
+
         #endregion
     }
 }
