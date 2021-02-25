@@ -15,7 +15,7 @@
     @if (ProjectViewModel.Parts.Count == 0)
     {
         <div class="alert alert-info" role="alert">
-            No parts to y our project :(
+            No parts to your project :(
         </div>
     }
     else
@@ -25,8 +25,12 @@
         </div>
 
     }
-
-
+}
+else if(ProjectViewModel != null && ProjectViewModel.Parts == null)
+{
+    <div class="alert alert-info" role="alert">
+        No parts to your project :(
+    </div>
 }
 
 @code {
