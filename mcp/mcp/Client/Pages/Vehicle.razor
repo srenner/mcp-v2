@@ -39,7 +39,7 @@
         try
         {
             VehicleViewModel = await Http.GetFromJsonAsync<VehicleViewModel>("api/vehicle/" + VehicleID.ToString());
-            ActiveProjects = await Http.GetFromJsonAsync<List<ProjectViewModel>>("api/project/active");
+            ActiveProjects = await Http.GetFromJsonAsync<List<ProjectViewModel>>("api/project/active/" + VehicleID.ToString());
         }
         catch
         {

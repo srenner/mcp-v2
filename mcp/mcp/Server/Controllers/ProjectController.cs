@@ -32,22 +32,28 @@ namespace mcp.Server.Controllers
             return await _context.Project.ToListAsync();
         }
 
-        [HttpGet("active")]
-        public async Task<ActionResult<List<ProjectViewModel>>> GetActiveProjects()
+        /// <summary>
+        /// Gets active projects (based on StartDate or items purchased)
+        /// </summary>
+        /// <param name="id">VehicleID</param>
+        /// <returns></returns>
+        [HttpGet("active/{id}")]
+        public async Task<ActionResult<List<ProjectViewModel>>> GetActiveProjects(int id)
         {
             var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var now = DateTime.Now;
-
             var projects = await _context.Project
                 .Include(i => i.Vehicle)
                 .Include(i => i.Parts)
+                .Where(w => w.VehicleID == id)
                 .Where(w => w.Vehicle.UserID == userID)
                 .Where(w => w.StartDate <= now)
                 .Where(w => w.IsComplete == false)
                 .ToListAsync();
-
             return projects.ToViewModel();
         }
+
+
 
         // GET: api/Project/5
         [HttpGet("{id}")]
