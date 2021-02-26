@@ -53,7 +53,46 @@ namespace mcp.Server.Controllers
             return projects.ToViewModel();
         }
 
+        /// <summary>
+        /// Gets backlog projects (based on StartDate)
+        /// </summary>
+        /// <param name="id">VehicleID</param>
+        /// <returns></returns>
+        [HttpGet("backlog/{id}")]
+        public async Task<ActionResult<List<ProjectViewModel>>> GetBacklogProjects(int id)
+        {
+            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var now = DateTime.Now;
+            var projects = await _context.Project
+                .Include(i => i.Vehicle)
+                .Include(i => i.Parts)
+                .Where(w => w.VehicleID == id)
+                .Where(w => w.Vehicle.UserID == userID)
+                .Where(w => w.StartDate >= now || w.StartDate == null)
+                .Where(w => w.IsComplete == false)
+                .ToListAsync();
+            return projects.ToViewModel();
+        }
 
+        /// <summary>
+        /// Gets complete projects (based on StartDate or items purchased)
+        /// </summary>
+        /// <param name="id">VehicleID</param>
+        /// <returns></returns>
+        [HttpGet("complete/{id}")]
+        public async Task<ActionResult<List<ProjectViewModel>>> GetCompleteProjects(int id)
+        {
+            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var now = DateTime.Now;
+            var projects = await _context.Project
+                .Include(i => i.Vehicle)
+                .Include(i => i.Parts)
+                .Where(w => w.VehicleID == id)
+                .Where(w => w.Vehicle.UserID == userID)
+                .Where(w => w.IsComplete == true)
+                .ToListAsync();
+            return projects.ToViewModel();
+        }
 
         // GET: api/Project/5
         [HttpGet("{id}")]
