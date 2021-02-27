@@ -9,13 +9,52 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+            <EditForm Model="@EditPart" OnValidSubmit="@SubmitPart">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Part Name</label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Extended Description</label>
+                                <textarea class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Price</label>
+                                <input type="number" step=".01" min="0.00" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Link</label>
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label>Quantity Needed</label>
+                                <input type="number" step="1" min="1" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label>Quantity Purchased</label>
+                                <input type="number" step="1" min="0" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </EditForm>
         </div>
     </div>
 </div>
@@ -24,6 +63,25 @@
 @code {
     [Parameter]
     public ProjectPartViewModel Part { get; set; }
+
+    private ProjectPartViewModel EditPart { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if(this.Part != null)
+        {
+            EditPart = Part;
+        }
+        else
+        {
+            EditPart = new ProjectPartViewModel();
+        }
+    }
+
+    private void SubmitPart()
+    {
+
+    }
 
 
 }
