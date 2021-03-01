@@ -14,7 +14,9 @@ namespace mcp.Server.ModelExtensions
             var model = new ProjectPartViewModel();
             model.Description = part.Description;
             model.Link = part.Link;
+            model.Manufacturer = part.Manufacturer;
             model.Name = part.Name;
+            model.PartNumber = part.PartNumber;
             model.Price = part.Price;
             model.ProjectID = part.ProjectID;
             model.ProjectPartID = part.ProjectPartID;

@@ -12,6 +12,8 @@ namespace mcp.Shared.ViewModels
         public int ProjectID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Manufacturer { get; set; }
+        public string PartNumber { get; set; }
         public double? Price { get; set; }
         public string Link { get; set; }
         public int Quantity { get; set; }
