@@ -1,4 +1,5 @@
 ﻿@using mcp.Shared.ViewModels
+@inject HttpClient Http
 
 <div class="modal fade" id="modalPart" tabindex="-1" role="dialog" aria-labelledby="modalPartLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -73,26 +74,31 @@
 
 
 @code {
-        [Parameter]
-        public ProjectPartViewModel Part { get; set; }
+
+    [Parameter]
+    public int ProjectID { get; set; }
+
+    [Parameter]
+    public ProjectPartViewModel Part { get; set; }
 
     private ProjectPartViewModel EditPart { get; set; }
 
     protected override void OnInitialized()
     {
-        if(this.Part != null)
+        if (this.Part != null)
         {
             EditPart = Part;
         }
         else
         {
-            EditPart = new ProjectPartViewModel { Quantity = 1 };
+            EditPart = new ProjectPartViewModel { Quantity = 1, ProjectID = ProjectID };
         }
     }
 
-    private void SubmitPart()
+    private async void SubmitPart()
     {
-
+        //ProjectViewModel = await Http.GetFromJsonAsync<ProjectViewModel>("api/project/" + ProjectID.ToString());
+        await Http.PostAsJsonAsync<ProjectPartViewModel>("api/projectpart", EditPart);
     }
 
 
