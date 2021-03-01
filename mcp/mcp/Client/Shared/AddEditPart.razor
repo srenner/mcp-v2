@@ -15,37 +15,49 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Part Name</label>
-                                <input type="text" class="form-control" />
+                                <InputText @bind-Value="EditPart.Name" class="form-control" />
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Extended Description</label>
-                                <textarea class="form-control" rows="3"></textarea>
+                                <InputTextArea @bind-Value="EditPart.Description" class="form-control" rows="3"></InputTextArea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Part Manufacturer</label>
+                                <InputText @bind-Value="EditPart.Manufacturer" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Part Number</label>
+                                <InputText @bind-Value="EditPart.PartNumber" class="form-control" />
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Price</label>
-                                <input type="number" step=".01" min="0.00" class="form-control" />
+                                <InputNumber @bind-Value="EditPart.Price" class="form-control" step="0.01" min="0.00" />
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Link</label>
-                                <input type="text" class="form-control" />
+                                <InputText @bind-Value="EditPart.Link" class="form-control" />
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label>Quantity Needed</label>
-                                <input type="number" step="1" min="1" class="form-control" />
+                                <InputNumber @bind-Value="EditPart.Quantity" step="1" min="1" class="form-control" />
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label>Quantity Purchased</label>
-                                <input type="number" step="1" min="0" class="form-control" />
+                                <InputNumber @bind-Value="EditPart.QuantityPurchased" step="1" min="0" class="form-control" />
                             </div>
                         </div>
                     </div>
@@ -61,8 +73,8 @@
 
 
 @code {
-    [Parameter]
-    public ProjectPartViewModel Part { get; set; }
+        [Parameter]
+        public ProjectPartViewModel Part { get; set; }
 
     private ProjectPartViewModel EditPart { get; set; }
 
@@ -74,7 +86,7 @@
         }
         else
         {
-            EditPart = new ProjectPartViewModel();
+            EditPart = new ProjectPartViewModel { Quantity = 1 };
         }
     }
 
