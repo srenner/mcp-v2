@@ -38,5 +38,7 @@ namespace mcp.Server.Models
         public bool IsDeleted { get; set; }
 
         public List<ProjectPart> Parts { get; set; }
+        public List<ProjectDependency> Dependencies { get; set; }
+        public List<ProjectDependency> DependenciesOf { get; set; }
     }
 }

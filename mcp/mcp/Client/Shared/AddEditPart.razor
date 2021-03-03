@@ -65,7 +65,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Save changes</button>
                 </div>
             </EditForm>
         </div>
@@ -97,8 +97,12 @@
 
     private async void SubmitPart()
     {
-        //ProjectViewModel = await Http.GetFromJsonAsync<ProjectViewModel>("api/project/" + ProjectID.ToString());
-        await Http.PostAsJsonAsync<ProjectPartViewModel>("api/projectpart", EditPart);
+        var result = await Http.PostAsJsonAsync<ProjectPartViewModel>("api/projectpart", EditPart);
+
+        if(result.IsSuccessStatusCode)
+        {
+
+        }
     }
 
 

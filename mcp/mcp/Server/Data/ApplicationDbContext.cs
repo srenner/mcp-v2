@@ -51,11 +51,11 @@ namespace mcp.Server.Data
                 builder.Entity<Project>().Property(o => o.TargetCost).HasColumnType(currencyFormat);
                 builder.Entity<Project>().Property(o => o.ActualCost).HasColumnType(currencyFormat);
 
+                builder.Entity<ProjectDependency>().HasOne(o => o.DependsOnProject).WithMany(m => m.DependenciesOf).HasForeignKey(k => k.DependsOnProjectID).OnDelete(DeleteBehavior.Restrict);
+                builder.Entity<ProjectDependency>().HasOne(o => o.Project).WithMany(m => m.Dependencies).HasForeignKey(k => k.ProjectID).OnDelete(DeleteBehavior.Restrict);
+
                 builder.Entity<ProjectPart>().Property(o => o.Price).HasColumnType(currencyFormat);
                 builder.Entity<ProjectPart>().Property(o => o.Quantity).HasDefaultValue(1);
-
-                //TODO not sure if this is correct, but Projects will not normally be deleted, so this is ok for now
-                builder.Entity<ProjectDependency>().HasOne(o => o.Project).WithMany().OnDelete(DeleteBehavior.Restrict);
 
                 builder.Entity<Tag>().HasData(new Tag { TagID = 1, Name = "Restoration", Description = "A vehicle being restored to a like-new state" });
                 builder.Entity<Tag>().HasData(new Tag { TagID = 2, Name = "Restomod", Description = "A vehicle being restored while making modifications along the way" });
@@ -83,21 +83,6 @@ namespace mcp.Server.Data
                 builder.Entity<Vehicle>().Property(o => o.EstimatedValue).HasColumnType(currencyFormat);
                 builder.Entity<Vehicle>().Property(o => o.ForSaleAskingPrice).HasColumnType(currencyFormat);
                 builder.Entity<Vehicle>().Property(o => o.ForSaleTransactionPrice).HasColumnType(currencyFormat);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             }
         }

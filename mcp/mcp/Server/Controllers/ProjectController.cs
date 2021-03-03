@@ -40,17 +40,26 @@ namespace mcp.Server.Controllers
         [HttpGet("active/{id}")]
         public async Task<ActionResult<List<ProjectViewModel>>> GetActiveProjects(int id)
         {
-            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var now = DateTime.Now;
-            var projects = await _context.Project
-                .Include(i => i.Vehicle)
-                .Include(i => i.Parts)
-                .Where(w => w.VehicleID == id)
-                .Where(w => w.Vehicle.UserID == userID)
-                .Where(w => w.StartDate <= now)
-                .Where(w => w.IsComplete == false)
-                .ToListAsync();
-            return projects.ToViewModel();
+            try
+            {
+                var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var now = DateTime.Now;
+                var projects = await _context.Project
+                    .Include(i => i.Vehicle)
+                    .Include(i => i.Parts)
+                    //.Include(i => i.Dependencies)
+                    .Where(w => w.VehicleID == id)
+                    .Where(w => w.Vehicle.UserID == userID)
+                    .Where(w => w.StartDate <= now)
+                    .Where(w => w.IsComplete == false)
+                    .ToListAsync();
+                return projects.ToViewModel();
+            }
+
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -61,17 +70,26 @@ namespace mcp.Server.Controllers
         [HttpGet("backlog/{id}")]
         public async Task<ActionResult<List<ProjectViewModel>>> GetBacklogProjects(int id)
         {
-            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var now = DateTime.Now;
-            var projects = await _context.Project
-                .Include(i => i.Vehicle)
-                .Include(i => i.Parts)
-                .Where(w => w.VehicleID == id)
-                .Where(w => w.Vehicle.UserID == userID)
-                .Where(w => w.StartDate >= now || w.StartDate == null)
-                .Where(w => w.IsComplete == false)
-                .ToListAsync();
-            return projects.ToViewModel();
+            try
+            {
+                var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var now = DateTime.Now;
+                var projects = await _context.Project
+                    .Include(i => i.Vehicle)
+                    .Include(i => i.Parts)
+                    .Include(i => i.Dependencies)
+                    .Where(w => w.VehicleID == id)
+                    .Where(w => w.Vehicle.UserID == userID)
+                    .Where(w => w.StartDate >= now || w.StartDate == null)
+                    .Where(w => w.IsComplete == false)
+                    .ToListAsync();
+                return projects.ToViewModel();
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+            
         }
 
         /// <summary>
@@ -98,22 +116,31 @@ namespace mcp.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ProjectViewModel>> GetProject(int id)
         {
-            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-
-            var project = await _context.Project
-                .Include(i => i.Vehicle)
-                .Include(i => i.Parts)
-                .Where(w => w.ProjectID == id)
-                .Where(w => w.Vehicle.UserID == userID)
-                .FirstOrDefaultAsync();
-
-            if (project == null)
+            try
             {
-                return NotFound();
+                var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var project = await _context.Project
+                    .Include(i => i.Vehicle)
+                    .Include(i => i.Parts)
+                    .Include(i => i.Dependencies)
+                    .ThenInclude(i => i.DependsOnProject)
+                    .Where(w => w.ProjectID == id)
+                    .Where(w => w.Vehicle.UserID == userID)
+                    .FirstOrDefaultAsync();
+
+                if (project == null)
+                {
+                    return NotFound();
+                }
+
+                return project.ToViewModel();
+            }
+            catch(Exception ex)
+            {
+                throw;
             }
 
-            return project.ToViewModel();
         }
 
         // PUT: api/Project/5

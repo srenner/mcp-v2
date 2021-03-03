@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mcp.Shared.ViewModels
 {
-    class ProjectListItemViewModel
+    public class ProjectListItemViewModel
     {
         public int ProjectID { get; set; }
         public int VehicleID { get; set; }
@@ -56,5 +56,7 @@ namespace mcp.Shared.ViewModels
         public bool IsDeleted { get; set; }
 
         public List<ProjectPartViewModel> Parts { get; set; }
+
+        public List<ProjectListItemViewModel> Dependencies { get; set; }
     }
 }

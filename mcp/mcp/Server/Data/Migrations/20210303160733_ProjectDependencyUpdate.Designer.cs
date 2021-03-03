@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using mcp.Server.Data;
 
 namespace mcp.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210303160733_ProjectDependencyUpdate")]
+    partial class ProjectDependencyUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,6 +259,21 @@ namespace mcp.Server.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ProjectProjectDependency", b =>
+                {
+                    b.Property<int>("DependenciesProjectDependencyID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectsProjectID")
+                        .HasColumnType("int");
+
+                    b.HasKey("DependenciesProjectDependencyID", "ProjectsProjectID");
+
+                    b.HasIndex("ProjectsProjectID");
+
+                    b.ToTable("ProjectProjectDependency");
+                });
+
             modelBuilder.Entity("mcp.Server.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -460,17 +477,7 @@ namespace mcp.Server.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("DependsOnProjectID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProjectID")
-                        .HasColumnType("int");
-
                     b.HasKey("ProjectDependencyID");
-
-                    b.HasIndex("DependsOnProjectID");
-
-                    b.HasIndex("ProjectID");
 
                     b.ToTable("ProjectDependency");
                 });
@@ -868,6 +875,21 @@ namespace mcp.Server.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ProjectProjectDependency", b =>
+                {
+                    b.HasOne("mcp.Server.Models.ProjectDependency", null)
+                        .WithMany()
+                        .HasForeignKey("DependenciesProjectDependencyID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("mcp.Server.Models.Project", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectsProjectID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("mcp.Server.Models.Project", b =>
                 {
                     b.HasOne("mcp.Server.Models.UserCategory", "UserCategory")
@@ -883,25 +905,6 @@ namespace mcp.Server.Data.Migrations
                     b.Navigation("UserCategory");
 
                     b.Navigation("Vehicle");
-                });
-
-            modelBuilder.Entity("mcp.Server.Models.ProjectDependency", b =>
-                {
-                    b.HasOne("mcp.Server.Models.Project", "DependsOnProject")
-                        .WithMany("DependenciesOf")
-                        .HasForeignKey("DependsOnProjectID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("mcp.Server.Models.Project", "Project")
-                        .WithMany("Dependencies")
-                        .HasForeignKey("ProjectID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("DependsOnProject");
-
-                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("mcp.Server.Models.ProjectPart", b =>
@@ -958,10 +961,6 @@ namespace mcp.Server.Data.Migrations
 
             modelBuilder.Entity("mcp.Server.Models.Project", b =>
                 {
-                    b.Navigation("Dependencies");
-
-                    b.Navigation("DependenciesOf");
-
                     b.Navigation("Parts");
                 });
 

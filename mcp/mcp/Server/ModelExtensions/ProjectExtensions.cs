@@ -36,6 +36,12 @@ namespace mcp.Server.ModelExtensions
                 model.Parts = project.Parts.ToViewModel();
             }
 
+            if(project.Dependencies?.Count > 0)
+            {
+                model.Dependencies = project.Dependencies.Select(s => s.DependsOnProject).ToList().ToListItemViewModel();
+                //model.Dependencies = project.Dependencies.Select(s => s.Project).ToList().ToListItemViewModel();
+            }
+
             return model;
         }
 
@@ -43,6 +49,29 @@ namespace mcp.Server.ModelExtensions
         {
             var list = new List<ProjectViewModel>();
             projects.ForEach(x => list.Add(x.ToViewModel()));
+            return list;
+        }
+
+        #endregion
+
+        #region ProjectListItemViewModel
+
+        public static ProjectListItemViewModel ToListItemViewModel(this Project project)
+        {
+            var model = new ProjectListItemViewModel();
+            model.Name = project.Name;
+            model.ProjectID = project.ProjectID;
+            model.UserCategory = project.UserCategory != null ? project.UserCategory.Name : "";
+            model.UserCategoryID = project.UserCategoryID;
+            model.VehicleID = project.VehicleID;
+            model.VehicleName = project.Vehicle != null ? project.Vehicle.Name : "";
+            return model;
+        }
+
+        public static List<ProjectListItemViewModel> ToListItemViewModel(this List<Project> projects)
+        {
+            var list = new List<ProjectListItemViewModel>();
+            projects.ForEach(x => list.Add(x.ToListItemViewModel()));
             return list;
         }
 
