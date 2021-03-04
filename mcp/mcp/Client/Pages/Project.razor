@@ -14,7 +14,7 @@
 {
     @if (ProjectViewModel.Dependencies.Count == 0)
     {
-        <div class="alert alert-info" role="alert">
+        <div class="alert alert-success" role="alert">
             This project can be completed on its own with no dependencies.
         </div>
     }
@@ -22,9 +22,9 @@
     {
         <div>
             <ul>
-                @foreach(var project in ProjectViewModel.Dependencies)
+                @foreach (var project in ProjectViewModel.Dependencies)
                 {
-                    <li>@project.Name</li>
+                    <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
                 }
             </ul>
         </div>
@@ -33,7 +33,7 @@
 }
 else if (ProjectViewModel != null && ProjectViewModel.Dependencies == null)
 {
-    <div class="alert alert-info" role="alert">
+    <div class="alert alert-success" role="alert">
         This project can be completed on its own with no dependencies.
     </div>
 }
@@ -85,10 +85,18 @@ else if (ProjectViewModel != null && ProjectViewModel.Parts == null)
         {
             //todo
         }
-        //catch (AccessTokenNotAvailableException exception)
-        //{
-        //    exception.Redirect();
-        //}
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            ProjectViewModel = await Http.GetFromJsonAsync<ProjectViewModel>("api/project/" + ProjectID.ToString());
+        }
+        catch
+        {
+            //todo
+        }
     }
 
 }

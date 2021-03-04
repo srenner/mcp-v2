@@ -14,6 +14,13 @@ namespace mcp.Shared.ViewModels
         public string Name { get; set; }
         public int? UserCategoryID { get; set; }
         public string UserCategory { get; set; }
+        public string ProjectLink
+        {
+            get
+            {
+                return "/project/" + this.ProjectID;
+            }
+        }
     }
 
     public class ProjectViewModel
