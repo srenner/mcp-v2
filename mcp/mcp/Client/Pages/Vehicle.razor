@@ -4,61 +4,81 @@
 
 <h3>@VehicleViewModel?.Name</h3>
 
-<h4>Active Projects</h4>
+<h4>Projects</h4>
+<div class="row">
+    <div class="col-md-4 col-sm-12">
+        <div class="card">
+            <div class="card-header">Backlog</div>
+            <div class="card-body">
+                @if (BacklogProjects == null || BacklogProjects.Count == 0)
+                {
+                    <div class="alert alert-info">No Projects in Backlog</div>
 
-@if (ActiveProjects == null || ActiveProjects.Count == 0)
-{
-    <div class="alert alert-info">No Active Projects</div>
-}
-else
-{
-    <ul>
-        @foreach (var project in ActiveProjects)
-        {
-            <li>
-                <NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink>
-            </li>
-        }
-    </ul>
-}
+                }
+                else
+                {
+                    <ul>
+                        @foreach (var project in BacklogProjects)
+                        {
+                            <li>
+                                <NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink>
 
-<h4>Project Backlog</h4>
-@if (BacklogProjects == null || BacklogProjects.Count == 0)
-{
-    <div class="alert alert-info">No Projects in Backlog</div>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div class="card">
+            <div class="card-header">Active</div>
+            <div class="card-body">
+                @if (ActiveProjects == null || ActiveProjects.Count == 0)
+                {
+                    <div class="alert alert-info">No Active Projects</div>
+                }
+                else
+                {
+                    <ul>
+                        @foreach (var project in ActiveProjects)
+                        {
+                            <li>
+                                <NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div class="card">
+            <div class="card-header">Complete</div>
+            <div class="card-body">
+                @if (CompleteProjects == null || CompleteProjects.Count == 0)
+                {
+                    <div class="alert alert-info">No Completed Projects</div>
 
-}
-else
-{
-    <ul>
-        @foreach (var project in BacklogProjects)
-        {
-            <li>
-                <NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink>
+                }
+                else
+                {
+                    <ul>
+                        @foreach (var project in CompleteProjects)
+                        {
+                            <li>
+                                <NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink>
 
-            </li>
-        }
-    </ul>
-}
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+    </div>
+</div>
 
-<h4>Completed Projects</h4>
-@if (CompleteProjects == null || CompleteProjects.Count == 0)
-{
-    <div class="alert alert-info">No Completed Projects</div>
 
-}
-else
-{
-    <ul>
-        @foreach (var project in CompleteProjects)
-        {
-            <li>
-                <NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink>
-
-            </li>
-        }
-    </ul>
-}
 
 @code {
 
