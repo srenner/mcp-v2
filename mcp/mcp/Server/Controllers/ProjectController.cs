@@ -78,6 +78,7 @@ namespace mcp.Server.Controllers
                     .Include(i => i.Vehicle)
                     .Include(i => i.Parts)
                     .Include(i => i.Dependencies)
+                    .ThenInclude(i => i.DependsOnProject)
                     .Where(w => w.VehicleID == id)
                     .Where(w => w.Vehicle.UserID == userID)
                     .Where(w => w.StartDate >= now || w.StartDate == null)
