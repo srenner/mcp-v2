@@ -6,10 +6,14 @@
 
 <h4>Active Projects</h4>
 
-@if(ActiveProjects != null)
+@if (ActiveProjects == null || ActiveProjects.Count == 0)
+{
+    <div class="alert alert-info">No Active Projects</div>
+}
+else
 {
     <ul>
-        @foreach(var project in ActiveProjects)
+        @foreach (var project in ActiveProjects)
         {
             <li>
                 <NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink>
@@ -19,10 +23,15 @@
 }
 
 <h4>Project Backlog</h4>
-@if(BacklogProjects != null)
+@if (BacklogProjects == null || BacklogProjects.Count == 0)
+{
+    <div class="alert alert-info">No Projects in Backlog</div>
+
+}
+else
 {
     <ul>
-        @foreach(var project in BacklogProjects)
+        @foreach (var project in BacklogProjects)
         {
             <li>
                 <NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink>
@@ -33,7 +42,23 @@
 }
 
 <h4>Completed Projects</h4>
+@if (CompleteProjects == null || CompleteProjects.Count == 0)
+{
+    <div class="alert alert-info">No Completed Projects</div>
 
+}
+else
+{
+    <ul>
+        @foreach (var project in CompleteProjects)
+        {
+            <li>
+                <NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink>
+
+            </li>
+        }
+    </ul>
+}
 
 @code {
 
@@ -46,6 +71,7 @@
 
     private List<ProjectViewModel> ActiveProjects;
     private List<ProjectViewModel> BacklogProjects;
+    private List<ProjectViewModel> CompleteProjects;
 
     protected override async Task OnInitializedAsync()
     {
@@ -54,6 +80,7 @@
             VehicleViewModel = await Http.GetFromJsonAsync<VehicleViewModel>("api/vehicle/" + VehicleID.ToString());
             ActiveProjects = await Http.GetFromJsonAsync<List<ProjectViewModel>>("api/project/active/" + VehicleID.ToString());
             BacklogProjects = await Http.GetFromJsonAsync<List<ProjectViewModel>>("api/project/backlog/" + VehicleID.ToString());
+            CompleteProjects = await Http.GetFromJsonAsync<List<ProjectViewModel>>("api/project/complete/" + VehicleID.ToString());
         }
         catch
         {
