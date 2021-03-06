@@ -64,7 +64,7 @@ else if (ProjectViewModel != null && ProjectViewModel.Parts == null)
 }
 
 <button class="btn btn-primary" data-target="#modalPart" data-toggle="modal">Add Part</button>
-<AddEditPart Part="null" ProjectID="ProjectID"></AddEditPart>
+<AddEditPart Part="null" ProjectID="ProjectID" OnRefreshCallback="@RefreshParts"></AddEditPart>
 
 @code {
 
@@ -97,6 +97,12 @@ else if (ProjectViewModel != null && ProjectViewModel.Parts == null)
         {
             //todo
         }
+    }
+
+    private async Task RefreshParts()
+    {
+        //todo get parts only, not the whole project
+        ProjectViewModel = await Http.GetFromJsonAsync<ProjectViewModel>("api/project/" + ProjectID.ToString());
     }
 
 }
