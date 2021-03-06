@@ -86,8 +86,9 @@
 
     private ProjectPartViewModel EditPart { get; set; }
 
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
     {
+        base.OnParametersSet();
         if (this.Part != null)
         {
             EditPart = Part;
