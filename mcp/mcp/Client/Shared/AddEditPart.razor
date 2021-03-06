@@ -1,5 +1,6 @@
 ﻿@using mcp.Shared.ViewModels
 @inject HttpClient Http
+@inject IJSRuntime JSRuntime
 
 <div class="modal fade" id="modalPart" tabindex="-1" role="dialog" aria-labelledby="modalPartLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -10,7 +11,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <EditForm Model="@EditPart" OnValidSubmit="@SubmitPart">
+            <EditForm Model="@EditPart" OnSubmit="@SubmitPart">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -65,13 +66,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </EditForm>
         </div>
     </div>
 </div>
-
 
 @code {
 
@@ -99,11 +99,11 @@
     {
         var result = await Http.PostAsJsonAsync<ProjectPartViewModel>("api/projectpart", EditPart);
 
-        if(result.IsSuccessStatusCode)
+        if (result.IsSuccessStatusCode)
         {
+            await JSRuntime.InvokeVoidAsync("hideModal", "#modalPart");
 
         }
     }
-
 
 }
