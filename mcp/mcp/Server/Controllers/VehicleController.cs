@@ -42,7 +42,7 @@ namespace mcp.Server.Controllers
             var vehicle = await _context.Vehicle.FindAsync(id);
 
 
-            if (vehicle == null)
+            if (vehicle == null || vehicle.IsDeleted)
             {
                 return NotFound();
             }
@@ -59,6 +59,7 @@ namespace mcp.Server.Controllers
                 .Include(e => e.Projects)
                 .Include(e => e.Modifications)
                 .Where(w => w.UserID == userID)
+                .Where(w => w.IsDeleted == false)
                 .ToListAsync();
 
             if (vehicles == null)
@@ -79,6 +80,7 @@ namespace mcp.Server.Controllers
             var vehicle = await _context.Vehicle
                 .Include(e => e.Projects)
                 .Include(e => e.Modifications)
+                .Where(w => w.IsDeleted == false)
                 .FirstOrDefaultAsync(e => e.VehicleID == id);
 
             if(vehicle == null)

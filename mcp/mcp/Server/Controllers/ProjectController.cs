@@ -47,11 +47,11 @@ namespace mcp.Server.Controllers
                 var projects = await _context.Project
                     .Include(i => i.Vehicle)
                     .Include(i => i.Parts)
-                    //.Include(i => i.Dependencies)
                     .Where(w => w.VehicleID == id)
                     .Where(w => w.Vehicle.UserID == userID)
                     .Where(w => w.StartDate <= now)
                     .Where(w => w.IsComplete == false)
+                    .Where(w => w.IsDeleted == false)
                     .ToListAsync();
                 return projects.ToViewModel();
             }
@@ -83,6 +83,7 @@ namespace mcp.Server.Controllers
                     .Where(w => w.Vehicle.UserID == userID)
                     .Where(w => w.StartDate >= now || w.StartDate == null)
                     .Where(w => w.IsComplete == false)
+                    .Where(w => w.IsDeleted == false)
                     .ToListAsync();
                 return projects.ToViewModel();
             }
@@ -109,6 +110,7 @@ namespace mcp.Server.Controllers
                 .Where(w => w.VehicleID == id)
                 .Where(w => w.Vehicle.UserID == userID)
                 .Where(w => w.IsComplete == true)
+                .Where(w => w.IsDeleted == true)
                 .ToListAsync();
             return projects.ToViewModel();
         }
@@ -128,6 +130,7 @@ namespace mcp.Server.Controllers
                     .ThenInclude(i => i.DependsOnProject)
                     .Where(w => w.ProjectID == id)
                     .Where(w => w.Vehicle.UserID == userID)
+                    .Where(w => w.IsDeleted == false)
                     .FirstOrDefaultAsync();
 
                 if (project == null)
