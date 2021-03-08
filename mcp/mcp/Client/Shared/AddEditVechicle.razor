@@ -1,21 +1,56 @@
-﻿@using mcp.Shared.ViewModels 
+﻿@using mcp.Shared.ViewModels
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Vehicle @Vehicle?.Name</h5>
+                <h5 class="modal-title">Vehicle @EditVehicle?.Name</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+            <EditForm Model="@EditVehicle" OnSubmit="@SubmitVehicle">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="vehicleName">Vehicle Name</label>
+                            <InputText @bind-Value="EditVehicle.Name" class="form-control" id="vehicleName" placeholder="Make/model or nickname" />
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="vehiclePurchaseDate">Purchase Date</label>
+                            <InputDate @bind-Value="EditVehicle.PurchaseDate" class="form-control" id="vehiclePurchaseDate" />
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="vehiclePurchasePrice">Purchase Price</label>
+                            <InputNumber @bind-Value="EditVehicle.PurchasePrice" class="form-control" id="vehiclePurchasePrice" />
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="vehicleEstimatedValue">Estimated Value</label>
+                            <InputNumber @bind-Value="EditVehicle.EstimatedValue" class="form-control" id="vehicleEstimatedValue" />
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="custom-control custom-checkbox">
+                                <InputCheckbox @bind-Value="EditVehicle.IsForSale" class="custom-control-input" id="vehicleIsForSale" />
+                                <label class="custom-control-label" for="vehicleIsForSale">Is For Sale</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label for="vehicleAskingPrice">Asking Price</label>
+                            <InputNumber @bind-Value="EditVehicle.ForSaleAskingPrice" class="form-control" id="vehicleAskingPrice" />
+                        </div>
+                        <div class="col-md-12">
+                            <label for="vehicleSaleLink">Sale Link</label>
+                            <InputText @bind-Value="EditVehicle.ForSaleLink" class="form-control" id="vehicleSaleLink" placeholder="https://..." />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </EditForm>
         </div>
     </div>
 </div>
@@ -23,7 +58,38 @@
 
 @code {
     [Parameter]
-    public VehicleListItemViewModel Vehicle { get; set; }
+    public int? VehicleID { get; set; }
 
+    [Parameter]
+    public EventCallback OnRefreshCallback { get; set; }
+
+    private VehicleViewModel EditVehicle { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if (VehicleID.HasValue && VehicleID.Value > 0)
+        {
+            //fetch for edit
+        }
+        else
+        {
+            EditVehicle = new VehicleViewModel { };
+        }
+
+    }
+
+    private async void SubmitVehicle()
+    {
+        var result = await Http.PostAsJsonAsync<VehicleViewModel>("api/vehicle", EditVehicle);
+
+        if (result.IsSuccessStatusCode)
+        {
+            await JSRuntime.InvokeVoidAsync("hideModal", "#modalPart");
+            await OnRefreshCallback.InvokeAsync();
+
+        }
+    }
 
 }
