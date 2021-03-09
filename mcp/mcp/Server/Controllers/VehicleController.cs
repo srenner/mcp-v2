@@ -127,6 +127,9 @@ namespace mcp.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Vehicle>> PostVehicle(Vehicle vehicle)
         {
+            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            vehicle.UserID = userID;
+
             _context.Vehicle.Add(vehicle);
             await _context.SaveChangesAsync();
 

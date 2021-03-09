@@ -17,8 +17,8 @@
 }
 else
 {
-    <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#exampleModal">Add Vehicle</button>
-    <AddEditVechicle VehicleID="null"></AddEditVechicle>
+    <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#modalVehicle">Add Vehicle</button>
+    <AddEditVechicle VehicleID="null" OnRefreshCallback="@RefreshVehicles"></AddEditVechicle>
 
     @if (vehicles != null)
     {
@@ -57,6 +57,11 @@ else
         {
             exception.Redirect();
         }
+    }
+
+    private async Task RefreshVehicles()
+    {
+        vehicles = await Http.GetFromJsonAsync<List<VehicleListItemViewModel>>("/api/Vehicle/listitems");
     }
 
 }
