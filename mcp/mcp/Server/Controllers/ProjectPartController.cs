@@ -97,15 +97,17 @@ namespace mcp.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProjectPart(int id)
         {
-            var projectPart = await _context.ProjectPart.FindAsync(id);
-            if (projectPart == null)
+            if(DoesUserOwnPart(id))
             {
-                return NotFound();
+                var projectPart = await _context.ProjectPart.FindAsync(id);
+                if (projectPart == null)
+                {
+                    return NotFound();
+                }
+
+                _context.ProjectPart.Remove(projectPart);
+                await _context.SaveChangesAsync();
             }
-
-            _context.ProjectPart.Remove(projectPart);
-            await _context.SaveChangesAsync();
-
             return NoContent();
         }
 

@@ -1,9 +1,11 @@
 ﻿@using mcp.Shared.ViewModels
+@inject HttpClient Http
+
 
 <table class="table table-striped">
     <thead>
         <tr>
-            @if(!this.IsLocked)
+            @if (!this.IsLocked)
             {
                 <th></th>
             }
@@ -18,13 +20,13 @@
         @foreach (var part in Parts)
         {
             <tr>
-                @if(!this.IsLocked)
+                @if (!this.IsLocked)
                 {
                     <td>
                         <button class="btn btn-sm btn-outline-info mr-1">
                             <span class="oi oi-pencil"></span>
                         </button>
-                        <button class="btn btn-sm btn-outline-danger">
+                        <button class="btn btn-sm btn-outline-danger" @onclick="() => DeletePart(part.ProjectPartID)">
                             <span class="oi oi-delete"></span>
                         </button>
                     </td>
@@ -33,7 +35,7 @@
                 <td>@part.Description</td>
                 <td><a href="@part.Link" target="_blank">@part.LinkText</a></td>
                 <td>
-                    @if(part.Price.HasValue)
+                    @if (part.Price.HasValue)
                     {
                         <span>$</span>
                     }
@@ -51,4 +53,20 @@
 
     [Parameter]
     public bool IsLocked { get; set; }
+
+
+    private async void DeletePart(int id)
+    {
+        var result = await Http.DeleteAsync("api/projectpart/" + id);
+
+        if(result.IsSuccessStatusCode)
+        {
+            int partsRemovedCount = Parts.RemoveAll(r => r.ProjectPartID == id);
+            if(partsRemovedCount == 1)
+            {
+                StateHasChanged();
+            }
+        }
+    }
+
 }
