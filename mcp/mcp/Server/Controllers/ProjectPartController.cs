@@ -48,29 +48,32 @@ namespace mcp.Server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProjectPart(int id, [FromBody] ProjectPart projectPart)
         {
-            if (id != projectPart.ProjectPartID)
+            if(DoesUserOwnPart(projectPart.ProjectPartID))
             {
-                return BadRequest();
-            }
-
-            _context.Entry(projectPart).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProjectPartExists(id))
+                if (id != projectPart.ProjectPartID)
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
-                else
+
+                _context.Entry(projectPart).State = EntityState.Modified;
+
+                try
                 {
-                    throw;
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProjectPartExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
-
+            
             return NoContent();
         }
 
