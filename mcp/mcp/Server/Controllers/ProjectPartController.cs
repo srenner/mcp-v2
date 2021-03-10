@@ -46,7 +46,7 @@ namespace mcp.Server.Controllers
         // PUT: api/ProjectPart/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProjectPart(int id, ProjectPart projectPart)
+        public async Task<IActionResult> PutProjectPart(int id, [FromBody] ProjectPart projectPart)
         {
             if (id != projectPart.ProjectPartID)
             {
