@@ -51,7 +51,7 @@ else if (ProjectViewModel != null && ProjectViewModel.Dependencies == null)
     else
     {
         <div>
-            <ProjectPartsTable Parts="@ProjectViewModel.Parts"></ProjectPartsTable>
+            <ProjectPartsTable Parts="@ProjectViewModel.Parts" IsLocked="IsPartsLocked"></ProjectPartsTable>
         </div>
 
     }
@@ -66,6 +66,20 @@ else if (ProjectViewModel != null && ProjectViewModel.Parts == null)
 <button class="btn btn-primary" data-target="#modalPart" data-toggle="modal">Add Part</button>
 <AddEditPart Part="null" ProjectID="ProjectID" OnRefreshCallback="@RefreshParts"></AddEditPart>
 
+@if (this.IsPartsLocked)
+{
+    <button class="btn btn-outline-danger" @onmouseover="() => iconClass = iconUnlockedClass" @onmouseout="() => iconClass = iconLockedClass" @onclick="(() => this.IsPartsLocked = false)">
+        <span class="@iconClass" aria-hidden="true"></span>
+    </button>
+}
+else
+{
+    <button class="btn btn-outline-success" @onclick="(() => this.IsPartsLocked = true)"  @onmouseover="() => iconClass = iconLockedClass" @onmouseout="() => iconClass = iconUnlockedClass">
+        <span class="@iconClass" aria-hidden="true"></span>
+    </button>
+}
+
+
 @code {
 
 
@@ -74,6 +88,33 @@ else if (ProjectViewModel != null && ProjectViewModel.Parts == null)
 
 
     private ProjectViewModel ProjectViewModel;
+    private bool IsPartsLocked = true; //I like using 'Is' for bools, grammar be damned
+
+    private static string iconLockedClass = "oi oi-lock-locked";
+    private static string iconUnlockedClass = "oi oi-lock-unlocked";
+    private string iconClass = iconLockedClass;
+
+    private void SetIconLocked()
+    {
+
+    }
+
+    private void SetIconUnlocked()
+    {
+
+    }
+
+    private void SetPartsUnlocked()
+    {
+
+    }
+
+    private void SetPartsLocked()
+    { 
+    
+    }
+
+
 
     protected override async Task OnInitializedAsync()
     {
