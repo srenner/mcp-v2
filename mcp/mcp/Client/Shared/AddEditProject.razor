@@ -30,9 +30,12 @@
                         <div class="col-md-12">
                             <label for="projectCategory">Category</label>
                             <InputSelect id="projectCategory" class="form-control" @bind-Value="EditProject.UserCategoryID">
-                                @foreach (var uc in UserCategories)
+                                @if (UserCategories != null)
                                 {
-                                    <option>@uc.Name</option>
+                                    @foreach (var uc in UserCategories)
+                                    {
+                                        <option>@uc.Name</option>
+                                    }
                                 }
                             </InputSelect>
                         </div>
@@ -53,7 +56,7 @@
     [Parameter]
     public int? ProjectID { get; set; }
 
-    private ProjectViewModel EditProject { get; set; }
+    private ProjectViewModel EditProject { get; set; } = new ProjectViewModel();
     private List<UserCategoryViewModel> UserCategories { get; set; }
 
     protected override void OnParametersSet()
@@ -75,6 +78,6 @@
     {
         UserCategories = await Http.GetFromJsonAsync<List<UserCategoryViewModel>>("api/usercategory");
 
-    //vehicles = await Http.GetFromJsonAsync<List<VehicleListItemViewModel>>("/api/Vehicle/listitems");
+        //vehicles = await Http.GetFromJsonAsync<List<VehicleListItemViewModel>>("/api/Vehicle/listitems");
     }
 }
