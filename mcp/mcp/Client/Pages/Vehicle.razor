@@ -7,7 +7,7 @@
 
 <h4>Projects</h4>
 <button class="btn btn-primary mb-1" data-target="#modalProject" data-toggle="modal">Add Project</button>
-<AddEditProject ProjectID="null"></AddEditProject>
+<AddEditProject ProjectID="null" VehicleID="@VehicleID" OnRefreshCallback="@RefreshProjects"></AddEditProject>
 <div class="row">
     <div class="col-md-4 col-sm-12">
         <div class="card">
@@ -100,10 +100,7 @@
     {
         try
         {
-            VehicleViewModel = await Http.GetFromJsonAsync<VehicleViewModel>("api/vehicle/" + VehicleID.ToString());
-            ActiveProjects = await Http.GetFromJsonAsync<List<ProjectViewModel>>("api/project/active/" + VehicleID.ToString());
-            BacklogProjects = await Http.GetFromJsonAsync<List<ProjectViewModel>>("api/project/backlog/" + VehicleID.ToString());
-            CompleteProjects = await Http.GetFromJsonAsync<List<ProjectViewModel>>("api/project/complete/" + VehicleID.ToString());
+            await RefreshProjects();
         }
         catch
         {
@@ -113,6 +110,14 @@
         //{
         //    exception.Redirect();
         //}
+    }
+
+    private async Task RefreshProjects()
+    {
+        VehicleViewModel = await Http.GetFromJsonAsync<VehicleViewModel>("api/vehicle/" + VehicleID.ToString());
+        ActiveProjects = await Http.GetFromJsonAsync<List<ProjectViewModel>>("api/project/active/" + VehicleID.ToString());
+        BacklogProjects = await Http.GetFromJsonAsync<List<ProjectViewModel>>("api/project/backlog/" + VehicleID.ToString());
+        CompleteProjects = await Http.GetFromJsonAsync<List<ProjectViewModel>>("api/project/complete/" + VehicleID.ToString());
     }
 
 }

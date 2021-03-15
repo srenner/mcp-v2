@@ -1,5 +1,7 @@
 ﻿@using mcp.Shared.ViewModels
 @inject HttpClient Http
+@inject IJSRuntime JSRuntime
+
 
 <div class="modal fade" id="modalProject" tabindex="-1" role="dialog" aria-labelledby="modalProjectLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -10,7 +12,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <EditForm Model="@EditProject">
+            <EditForm Model="@EditProject" OnSubmit="SubmitProject">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -41,7 +43,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </EditForm>
         </div>
@@ -51,6 +53,12 @@
 @code {
     [Parameter]
     public int? ProjectID { get; set; }
+
+    [Parameter]
+    public int VehicleID { get; set; }
+
+    [Parameter]
+    public EventCallback OnRefreshCallback { get; set; }
 
     private ProjectViewModel EditProject { get; set; } = new ProjectViewModel();
     private List<UserCategoryViewModel> UserCategories { get; set; }
@@ -73,5 +81,18 @@
     protected override async Task OnInitializedAsync()
     {
         UserCategories = await Http.GetFromJsonAsync<List<UserCategoryViewModel>>("api/usercategory");
+    }
+
+    private async Task SubmitProject()
+    {
+        EditProject.VehicleID = this.VehicleID;
+        var result = await Http.PostAsJsonAsync<ProjectViewModel>("api/project", EditProject);
+
+        if (result.IsSuccessStatusCode)
+        {
+            await JSRuntime.InvokeVoidAsync("hideModal", "#modalProject");
+            await OnRefreshCallback.InvokeAsync();
+
+        }
     }
 }
