@@ -22,6 +22,7 @@ namespace mcp.Server.ModelExtensions
             model.ProjectPartID = part.ProjectPartID;
             model.Quantity = part.Quantity;
             model.QuantityPurchased = part.QuantityPurchased;
+            model.QuantityInstalled = part.QuantityInstalled;
             return model;
         }
 

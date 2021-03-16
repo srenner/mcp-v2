@@ -18,6 +18,7 @@ namespace mcp.Shared.ViewModels
         public string Link { get; set; }
         public int Quantity { get; set; }
         public int QuantityPurchased { get; set; }
+        public int QuantityInstalled { get; set; }
 
         public string LinkText
         {

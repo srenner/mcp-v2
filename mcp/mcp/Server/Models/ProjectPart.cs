@@ -25,5 +25,6 @@ namespace mcp.Server.Models
 
         public int Quantity { get; set; }
         public int QuantityPurchased { get; set; }
+        public int QuantityInstalled { get; set; }
     }
 }
