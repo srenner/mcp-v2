@@ -8,35 +8,69 @@
 
 <p>@ProjectViewModel?.Description</p>
 
-<h4>Project Dependencies</h4>
 
-@if (ProjectViewModel?.Dependencies != null)
-{
-    @if (ProjectViewModel.Dependencies.Count == 0)
-    {
-        <div class="alert alert-success" role="alert">
-            This project can be completed on its own with no dependencies.
-        </div>
-    }
-    else
-    {
-        <div>
-            <ul>
-                @foreach (var project in ProjectViewModel.Dependencies)
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h4>Project Dependencies</h4>
+            </div>
+            <div class="card-body">
+                @if (ProjectViewModel?.Dependencies != null)
                 {
-                    <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
-                }
-            </ul>
-        </div>
+                    @if (ProjectViewModel.Dependencies.Count == 0)
+                    {
+                        <div class="alert alert-success" role="alert">
+                            This project can be completed on its own with no dependencies.
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <ul>
+                                @foreach (var project in ProjectViewModel.Dependencies)
+                                {
+                                    <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
+                                }
+                            </ul>
+                        </div>
 
-    }
-}
-else if (ProjectViewModel != null && ProjectViewModel.Dependencies == null)
-{
-    <div class="alert alert-success" role="alert">
-        This project can be completed on its own with no dependencies.
+                    }
+                }
+                else if (ProjectViewModel != null && ProjectViewModel.Dependencies == null)
+                {
+                    <div class="alert alert-success" role="alert">
+                        This project can be completed on its own with no dependencies.
+                    </div>
+                }
+            </div>
+        </div>
     </div>
-}
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h4>Budget</h4>
+            </div>
+            <div class="card-body">
+                oh no
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h4>Progress</h4>
+            </div>
+            <div class="card-body">
+                oh no
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 
 <h4>Parts</h4>
 
