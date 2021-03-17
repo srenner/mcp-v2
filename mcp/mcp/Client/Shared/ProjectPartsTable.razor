@@ -56,7 +56,7 @@
                 </td>
                 <td>
                     <span class="mr-1">@part.QuantityInstalled/@part.Quantity</span>
-                    @if (part.QuantityInstalled < part.Quantity)
+                    @if (part.QuantityInstalled < part.QuantityPurchased)
                     {
                         <button class="btn btn-sm btn-outline-success" @onclick="() => InstallPart(part)">
                             <span class="oi oi-wrench"></span>
