@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -40,5 +41,25 @@ namespace mcp.Server.Models
         public List<ProjectPart> Parts { get; set; }
         public List<ProjectDependency> Dependencies { get; set; }
         public List<ProjectDependency> DependenciesOf { get; set; }
+
+        [NotMapped]
+        public int Progress
+        {
+            get
+            {
+                if (this.Parts?.Count == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    int partCount = this.Parts.Count;
+                    int partsPurchased = this.Parts.Sum(s => s.QuantityPurchased);
+                    int partsInstalled = this.Parts.Sum(s => s.QuantityInstalled);
+                    return ((partsPurchased + partsInstalled) / (partCount * 2)) * 100;
+                }
+            }
+        }
+
     }
 }
