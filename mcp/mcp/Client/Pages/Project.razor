@@ -2,11 +2,22 @@
 @using mcp.Shared.ViewModels
 @inject HttpClient Http
 
-<h3>
-    <NavLink href="@ProjectViewModel?.VehicleLink" Match="NavLinkMatch.All">@ProjectViewModel?.VehicleName</NavLink> @ProjectViewModel?.Name
-</h3>
+<div class="alert alert-primary">
+    <h3>
+        <NavLink href="@ProjectViewModel?.VehicleLink" Match="NavLinkMatch.All">@ProjectViewModel?.VehicleName</NavLink> @ProjectViewModel?.Name
+    </h3>
+    <hr>
+    @if (ProjectViewModel?.Description?.Length > 0)
+    {
+        <p>@ProjectViewModel?.Description</p>
+    }
+    else
+            {
+                <p><em>No description available</em></p>
+            }
 
-<p>@ProjectViewModel?.Description</p>
+</div>
+
 
 
 <div class="row mb-4">
@@ -155,7 +166,6 @@ else
 
     private async Task RefreshParts()
     {
-        //todo get parts only, not the whole project
         ProjectViewModel = await Http.GetFromJsonAsync<ProjectViewModel>("api/project/" + ProjectID.ToString());
     }
 
