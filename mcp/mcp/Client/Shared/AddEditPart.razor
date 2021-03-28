@@ -3,7 +3,7 @@
 @inject IJSRuntime JSRuntime
 
 <div class="modal fade" id="modalPart" tabindex="-1" role="dialog" aria-labelledby="modalPartLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalPartLabel">Part @Part?.Name</h5>
@@ -14,53 +14,38 @@
             <EditForm Model="@EditPart" OnSubmit="@SubmitPart">
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Part Name</label>
-                                <InputText @bind-Value="EditPart.Name" class="form-control" />
-                            </div>
+                        <div class="col-md-12 form-group">
+                            <label>Part Name</label>
+                            <InputText @bind-Value="EditPart.Name" class="form-control" />
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Extended Description</label>
-                                <InputTextArea @bind-Value="EditPart.Description" class="form-control" rows="3"></InputTextArea>
-                            </div>
+                        <div class="col-md-12 form-group">
+                            <label>Extended Description</label>
+                            <InputTextArea @bind-Value="EditPart.Description" class="form-control" rows="3"></InputTextArea>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Part Manufacturer</label>
-                                <InputText @bind-Value="EditPart.Manufacturer" class="form-control" />
-                            </div>
+                        <div class="col-xl-6 col-lg-12 form-group">
+                            <label>Part Manufacturer</label>
+                            <InputText @bind-Value="EditPart.Manufacturer" class="form-control" />
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Part Number</label>
-                                <InputText @bind-Value="EditPart.PartNumber" class="form-control" />
-                            </div>
+                        <div class="col-xl-6 col-lg-12 form-group">
+                            <label>Part Number</label>
+                            <InputText @bind-Value="EditPart.PartNumber" class="form-control" />
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Price</label>
-                                <InputNumber @bind-Value="EditPart.Price" class="form-control" step="0.01" min="0.00" />
-                            </div>
+
+                        <div class="col-md-12 form-group">
+                            <label>Link</label>
+                            <InputText @bind-Value="EditPart.Link" class="form-control" />
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Link</label>
-                                <InputText @bind-Value="EditPart.Link" class="form-control" />
-                            </div>
+                        <div class="col-xl-4 col-lg-6 col-sm-12 form-group">
+                            <label>Price</label>
+                            <InputNumber @bind-Value="EditPart.Price" class="form-control" step="0.01" min="0.00" />
                         </div>
-                        <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
-                                <label>Quantity Needed</label>
-                                <InputNumber @bind-Value="EditPart.Quantity" step="1" min="1" class="form-control" />
-                            </div>
+                        <div class="col-xl-4 col-lg-6 col-sm-12 form-group">
+                            <label>Quantity Needed</label>
+                            <InputNumber @bind-Value="EditPart.Quantity" step="1" min="1" class="form-control" />
                         </div>
-                        <div class="col-md-6 col-sm-12">
-                            <div class="form-group">
-                                <label>Quantity Purchased</label>
-                                <InputNumber @bind-Value="EditPart.QuantityPurchased" step="1" min="0" class="form-control" />
-                            </div>
+                        <div class="col-xl-4 col-lg-6 col-sm-12 form-group">
+                            <label>Quantity Purchased</label>
+                            <InputNumber @bind-Value="EditPart.QuantityPurchased" step="1" min="0" class="form-control" />
                         </div>
                     </div>
                 </div>

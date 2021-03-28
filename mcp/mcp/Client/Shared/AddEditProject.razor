@@ -4,7 +4,7 @@
 
 
 <div class="modal fade" id="modalProject" tabindex="-1" role="dialog" aria-labelledby="modalProjectLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalProjectLabel">Project @EditProject?.Name</h5>
@@ -15,19 +15,19 @@
             <EditForm Model="@EditProject" OnSubmit="SubmitProject">
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 form-group">
                             <label for="projectName">Name</label>
                             <InputText id="projectName" @bind-Value="EditProject.Name" class="form-control" />
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 form-group">
                             <label for="projectDescription">Description</label>
                             <InputTextArea id="projectDescription" class="form-control" rows="3" @bind-Value="EditProject.Description"></InputTextArea>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 form-group">
                             <label for="projectCategory">Category</label>
                             <InputSelect id="projectCategory" class="form-control" @bind-Value="EditProject.UserCategoryID">
                                 @if (UserCategories != null)
@@ -38,6 +38,20 @@
                                     }
                                 }
                             </InputSelect>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-6 col-md-12 form-group">
+                            <label for="projectTargetCost">Target Cost</label>
+                            <InputNumber id="projectTargetCost" class="form-control" @bind-Value="EditProject.TargetCost" />
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-12 form-group">
+                            <label for="projectStartDate">Start Date</label>
+                            <InputDate id="projectStartDate" class="form-control" @bind-Value="EditProject.StartDate" />
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-12 form-group">
+                            <label for="projectTargetEndDate">Target End Date</label>
+                            <InputDate id="projectTargetEndDate" class="form-control" @bind-Value="EditProject.TargetEndDate" />
                         </div>
                     </div>
                 </div>
@@ -73,7 +87,7 @@
         }
         else
         {
-            EditProject = new ProjectViewModel { };
+            EditProject = new ProjectViewModel { StartDate = DateTime.Today };
         }
 
     }
