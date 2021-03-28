@@ -139,19 +139,6 @@ else
     private static string iconUnlockedClass = "oi oi-lock-unlocked";
     private string iconClass = iconLockedClass;
 
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            ProjectViewModel = await Http.GetFromJsonAsync<ProjectViewModel>("api/project/" + ProjectID.ToString());
-        }
-        catch
-        {
-            //todo
-        }
-    }
-
     protected override async Task OnParametersSetAsync()
     {
         try
