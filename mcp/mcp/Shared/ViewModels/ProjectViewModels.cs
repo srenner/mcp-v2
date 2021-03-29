@@ -33,6 +33,21 @@ namespace mcp.Shared.ViewModels
                 return "/project/" + this.ProjectID;
             }
         }
+
+        public int? ParentProjectID { get; set; }
+        public string ParentProjectName { get; set; }
+        public string ParentProjectLink
+        {
+            get
+            {
+                if (this.ParentProjectID.HasValue)
+                {
+                    return "/project/" + this.ParentProjectID;
+                }
+                else return null;
+            }
+        }
+
         public int VehicleID { get; set; }
         public string VehicleName { get; set; }
         public string VehicleLink

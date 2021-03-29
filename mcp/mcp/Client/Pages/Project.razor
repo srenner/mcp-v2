@@ -4,7 +4,16 @@
 
 <div class="alert alert-primary">
     <h3>
-        <NavLink href="@ProjectViewModel?.VehicleLink" Match="NavLinkMatch.All">@ProjectViewModel?.VehicleName</NavLink> @ProjectViewModel?.Name
+        <NavLink href="@ProjectViewModel?.VehicleLink" Match="NavLinkMatch.All">@ProjectViewModel?.VehicleName</NavLink>
+
+        @if (ProjectViewModel != null && ProjectViewModel.ParentProjectID.HasValue)
+        {
+            <span> > </span>
+            <NavLink href="@ProjectViewModel.ParentProjectLink" Match="NavLinkMatch.All">@ProjectViewModel.ParentProjectName</NavLink>
+        }
+
+        <span> > </span>
+        @ProjectViewModel?.Name
     </h3>
     <hr>
     @if (ProjectViewModel?.Description?.Length > 0)
@@ -17,8 +26,6 @@
             }
 
 </div>
-
-
 
 <div class="row mb-4">
     <div class="col-lg-4 col-md-6 mb-2">
@@ -79,21 +86,23 @@
     </div>
 </div>
 
-
-<h4>Sub-Projects</h4>
-
-@if(ProjectViewModel?.SubProjects != null && ProjectViewModel.SubProjects.Count > 0)
+@if(ProjectViewModel != null && !ProjectViewModel.ParentProjectID.HasValue)
 {
     <div>
-        <ul>
-            @foreach(var project in ProjectViewModel.SubProjects)
-            {
-                <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
-            }
-        </ul>
+        <h4>Sub-Projects</h4>
+        @if (ProjectViewModel?.SubProjects != null && ProjectViewModel.SubProjects.Count > 0)
+        {
+            <div>
+                <ul>
+                    @foreach (var project in ProjectViewModel.SubProjects)
+                    {
+                        <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
+                    }
+                </ul>
+            </div>
+        }
     </div>
 }
-
 
 <h4>Parts</h4>
 

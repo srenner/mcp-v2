@@ -132,6 +132,7 @@ namespace mcp.Server.Controllers
                     .Include(i => i.Dependencies)
                     .ThenInclude(i => i.DependsOnProject)
                     .Include(i => i.SubProjects)
+                    .Include(i => i.ParentProject)
                     .Where(w => w.ProjectID == id)
                     .Where(w => w.Vehicle.UserID == userID)
                     .Where(w => w.IsDeleted == false)

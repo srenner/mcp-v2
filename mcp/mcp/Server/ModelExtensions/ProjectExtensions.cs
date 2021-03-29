@@ -47,6 +47,12 @@ namespace mcp.Server.ModelExtensions
                 model.SubProjects = project.SubProjects.ToListItemViewModel();
             }
 
+            if(project.ParentProjectID.HasValue)
+            {
+                model.ParentProjectID = project.ParentProjectID;
+                model.ParentProjectName = project.ParentProject != null ? project.ParentProject.Name : null;
+            }    
+
             return model;
         }
 
