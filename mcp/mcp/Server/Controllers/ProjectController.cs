@@ -52,6 +52,7 @@ namespace mcp.Server.Controllers
                     .Where(w => w.StartDate <= now)
                     .Where(w => w.IsComplete == false)
                     .Where(w => w.IsDeleted == false)
+                    .Where(w => w.ParentProjectID == null)
                     .ToListAsync();
                 return projects.ToViewModel();
             }
@@ -84,6 +85,7 @@ namespace mcp.Server.Controllers
                     .Where(w => w.StartDate >= now || w.StartDate == null)
                     .Where(w => w.IsComplete == false)
                     .Where(w => w.IsDeleted == false)
+                    .Where(w => w.ParentProjectID == null)
                     .ToListAsync();
                 return projects.ToViewModel();
             }
@@ -110,7 +112,8 @@ namespace mcp.Server.Controllers
                 .Where(w => w.VehicleID == id)
                 .Where(w => w.Vehicle.UserID == userID)
                 .Where(w => w.IsComplete == true)
-                .Where(w => w.IsDeleted == true)
+                .Where(w => w.IsDeleted == false)
+                .Where(w => w.ParentProjectID == null)
                 .ToListAsync();
             return projects.ToViewModel();
         }
@@ -128,6 +131,7 @@ namespace mcp.Server.Controllers
                     .Include(i => i.Parts)
                     .Include(i => i.Dependencies)
                     .ThenInclude(i => i.DependsOnProject)
+                    .Include(i => i.SubProjects)
                     .Where(w => w.ProjectID == id)
                     .Where(w => w.Vehicle.UserID == userID)
                     .Where(w => w.IsDeleted == false)

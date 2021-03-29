@@ -14,6 +14,9 @@ namespace mcp.Server.Models
     {
         public int ProjectID { get; set; }
 
+        public int? ParentProjectID { get; set; }
+        public Project ParentProject { get; set; }
+
         public int VehicleID { get; set; }
         public Vehicle Vehicle { get; set; }
 
@@ -41,6 +44,8 @@ namespace mcp.Server.Models
         public List<ProjectPart> Parts { get; set; }
         public List<ProjectDependency> Dependencies { get; set; }
         public List<ProjectDependency> DependenciesOf { get; set; }
+
+        public List<Project> SubProjects { get; set; }
 
         [NotMapped]
         public int Progress

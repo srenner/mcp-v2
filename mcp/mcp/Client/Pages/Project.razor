@@ -80,7 +80,19 @@
 </div>
 
 
+<h4>Sub-Projects</h4>
 
+@if(ProjectViewModel?.SubProjects != null && ProjectViewModel.SubProjects.Count > 0)
+{
+    <div>
+        <ul>
+            @foreach(var project in ProjectViewModel.SubProjects)
+            {
+                <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
+            }
+        </ul>
+    </div>
+}
 
 
 <h4>Parts</h4>

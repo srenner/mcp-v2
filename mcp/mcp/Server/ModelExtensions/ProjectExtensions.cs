@@ -40,7 +40,11 @@ namespace mcp.Server.ModelExtensions
             if(project.Dependencies?.Count > 0)
             {
                 model.Dependencies = project.Dependencies.Select(s => s.DependsOnProject).ToList().ToListItemViewModel();
-                //model.Dependencies = project.Dependencies.Select(s => s.Project).ToList().ToListItemViewModel();
+            }
+
+            if(project.SubProjects?.Count > 0)
+            {
+                model.SubProjects = project.SubProjects.ToListItemViewModel();
             }
 
             return model;

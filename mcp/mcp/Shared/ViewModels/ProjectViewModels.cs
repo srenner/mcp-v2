@@ -66,5 +66,7 @@ namespace mcp.Shared.ViewModels
         public List<ProjectPartViewModel> Parts { get; set; }
 
         public List<ProjectListItemViewModel> Dependencies { get; set; }
+
+        public List<ProjectListItemViewModel> SubProjects { get; set; }
     }
 }
