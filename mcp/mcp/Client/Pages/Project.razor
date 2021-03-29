@@ -28,42 +28,46 @@
 </div>
 
 <div class="row mb-4">
-    <div class="col-lg-4 col-md-6 mb-2">
-        <div class="card">
-            <div class="card-header">
-                <h4>Project Dependencies</h4>
-            </div>
-            <div class="card-body">
-                @if (ProjectViewModel?.Dependencies != null)
-                {
-                    @if (ProjectViewModel.Dependencies.Count == 0)
+
+    @if (ProjectViewModel != null && !ProjectViewModel.ParentProjectID.HasValue)
+    {
+        <div class="col-lg-4 col-md-6 mb-2">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Project Dependencies</h4>
+                </div>
+                <div class="card-body">
+                    @if (ProjectViewModel?.Dependencies != null)
+                    {
+                        @if (ProjectViewModel.Dependencies.Count == 0)
+                        {
+                            <div class="alert alert-success" role="alert">
+                                This project can be completed on its own with no dependencies.
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <ul>
+                                    @foreach (var project in ProjectViewModel.Dependencies)
+                                    {
+                                        <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
+                                    }
+                                </ul>
+                            </div>
+
+                        }
+                    }
+                    else if (ProjectViewModel != null && ProjectViewModel.Dependencies == null)
                     {
                         <div class="alert alert-success" role="alert">
                             This project can be completed on its own with no dependencies.
                         </div>
                     }
-                    else
-                    {
-                        <div>
-                            <ul>
-                                @foreach (var project in ProjectViewModel.Dependencies)
-                                {
-                                    <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
-                                }
-                            </ul>
-                        </div>
-
-                    }
-                }
-                else if (ProjectViewModel != null && ProjectViewModel.Dependencies == null)
-                {
-                    <div class="alert alert-success" role="alert">
-                        This project can be completed on its own with no dependencies.
-                    </div>
-                }
+                </div>
             </div>
         </div>
-    </div>
+    }
     <div class="col-lg-4 col-md-6 mb-2">
         <div class="card">
             <div class="card-header">
@@ -80,7 +84,7 @@
                 <h4>Progress</h4>
             </div>
             <div class="card-body">
-                
+
             </div>
         </div>
     </div>
