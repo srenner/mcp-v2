@@ -21,44 +21,36 @@
         <p>@ProjectViewModel?.Description</p>
     }
     else
-            {
-                <p><em>No description available</em></p>
-            }
+    {
+        <p><em>No description available</em></p>
+    }
 
 </div>
 
 <div class="row mb-4">
 
+    <!--dependencies-->
     @if (ProjectViewModel != null && !ProjectViewModel.ParentProjectID.HasValue)
     {
-        <div class="col-lg-4 col-md-6 mb-2">
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
             <div class="card">
                 <div class="card-header">
                     <h4>Project Dependencies</h4>
                 </div>
                 <div class="card-body">
-                    @if (ProjectViewModel?.Dependencies != null)
+                    @if (ProjectViewModel?.Dependencies != null && ProjectViewModel.Dependencies.Count > 0)
                     {
-                        @if (ProjectViewModel.Dependencies.Count == 0)
-                        {
-                            <div class="alert alert-success" role="alert">
-                                This project can be completed on its own with no dependencies.
-                            </div>
-                        }
-                        else
-                        {
-                            <div>
-                                <ul>
-                                    @foreach (var project in ProjectViewModel.Dependencies)
-                                    {
-                                        <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
-                                    }
-                                </ul>
-                            </div>
-
-                        }
+                        <div>
+                            <p>The following projects must be completed before this project can be completed:</p>
+                            <ul>
+                                @foreach (var project in ProjectViewModel.Dependencies)
+                                {
+                                    <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
+                                }
+                            </ul>
+                        </div>
                     }
-                    else if (ProjectViewModel != null && ProjectViewModel.Dependencies == null)
+                    else
                     {
                         <div class="alert alert-success" role="alert">
                             This project can be completed on its own with no dependencies.
@@ -68,29 +60,49 @@
             </div>
         </div>
     }
-    <div class="col-lg-4 col-md-6 mb-2">
+
+    <!--blocked-->
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
         <div class="card">
             <div class="card-header">
-                <h4>Budget</h4>
+                <h4>Blocked Projects</h4>
             </div>
             <div class="card-body">
                 oh no
             </div>
         </div>
     </div>
-    <div class="col-lg-4 col-md-6 mb-2">
+
+    <!--budget-->
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
+        <div class="card">
+            <div class="card-header">
+                <h4>Budget</h4>
+            </div>
+            <div class="card-body">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--progress-->
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
         <div class="card">
             <div class="card-header">
                 <h4>Progress</h4>
             </div>
             <div class="card-body">
-
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-@if(ProjectViewModel != null && !ProjectViewModel.ParentProjectID.HasValue)
+@if (ProjectViewModel != null && !ProjectViewModel.ParentProjectID.HasValue)
 {
     <div>
         <h4>Sub-Projects</h4>
@@ -105,28 +117,22 @@
                 </ul>
             </div>
         }
+        else
+        {
+            <div class="alert alert-info">No sub-projects</div>
+        }
     </div>
 }
 
 <h4>Parts</h4>
 
-@if (ProjectViewModel?.Parts != null)
+@if (ProjectViewModel?.Parts != null && ProjectViewModel.Parts.Count > 0)
 {
-    @if (ProjectViewModel.Parts.Count == 0)
-    {
-        <div class="alert alert-info" role="alert">
-            No parts to your project :(
-        </div>
-    }
-    else
-    {
-        <div>
-            <ProjectPartsTable Parts="@ProjectViewModel.Parts" IsLocked="IsPartsLocked"></ProjectPartsTable>
-        </div>
-
-    }
+    <div>
+        <ProjectPartsTable Parts="@ProjectViewModel.Parts" IsLocked="IsPartsLocked"></ProjectPartsTable>
+    </div>
 }
-else if (ProjectViewModel != null && ProjectViewModel.Parts == null)
+else
 {
     <div class="alert alert-info" role="alert">
         No parts to your project :(
@@ -144,7 +150,7 @@ else if (ProjectViewModel != null && ProjectViewModel.Parts == null)
 }
 else
 {
-    <button class="btn btn-outline-success" @onclick="(() => this.IsPartsLocked = true)"  @onmouseover="() => iconClass = iconLockedClass" @onmouseout="() => iconClass = iconUnlockedClass">
+    <button class="btn btn-outline-success" @onclick="(() => this.IsPartsLocked = true)" @onmouseover="() => iconClass = iconLockedClass" @onmouseout="() => iconClass = iconUnlockedClass">
         <span class="@iconClass" aria-hidden="true"></span>
     </button>
 }
