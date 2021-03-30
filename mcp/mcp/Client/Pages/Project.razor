@@ -4,6 +4,10 @@
 
 <div class="alert alert-primary">
     <h1 class="d-inline">
+
+        <NavLink href="/garage" Match="NavLinkMatch.All">Garage</NavLink>
+        <span> > </span>
+
         <NavLink href="@ProjectViewModel?.VehicleLink" Match="NavLinkMatch.All">@ProjectViewModel?.VehicleName</NavLink>
 
         @if (ProjectViewModel != null && ProjectViewModel.ParentProjectID.HasValue)

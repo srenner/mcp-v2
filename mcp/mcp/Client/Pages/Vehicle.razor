@@ -2,8 +2,13 @@
 @using mcp.Shared.ViewModels
 @inject HttpClient Http
 
-<h3>@VehicleViewModel?.Name</h3>
-
+<div class="alert alert-primary">
+    <h1>
+        <NavLink href="/garage" Match="NavLinkMatch.All">Garage</NavLink>
+        <span> > </span>
+        <span>@VehicleViewModel?.Name</span>
+    </h1>
+</div>
 
 <h4>Projects</h4>
 <button class="btn btn-primary mb-2" data-target="#modalProject" data-toggle="modal">Add Project</button>

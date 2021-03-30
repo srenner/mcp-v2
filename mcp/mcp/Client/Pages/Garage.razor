@@ -7,9 +7,11 @@
 @attribute [Authorize]
 @inject HttpClient Http
 
-<h1>Garage</h1>
-
-<p>Welcome home, bucko</p>
+<div class="alert alert-primary">
+    <h1>Garage</h1>
+    <hr>
+    <p>Welcome home, bucko</p>
+</div>
 
 @if (vehicles == null)
 {
