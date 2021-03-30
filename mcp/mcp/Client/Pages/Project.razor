@@ -68,7 +68,24 @@
                 <h4>Blocked Projects</h4>
             </div>
             <div class="card-body">
-                oh no
+                @if (ProjectViewModel?.BlockedProjects != null && ProjectViewModel.BlockedProjects.Count > 0)
+                {
+                    <div>
+                        <p>The following projects can't be completed until this project is completed:</p>
+                        <ul>
+                            @foreach (var project in ProjectViewModel.BlockedProjects)
+                            {
+                                <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
+                            }
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-success" role="alert">
+                        This project isn't blocking any other projects.
+                    </div>
+                }
             </div>
         </div>
     </div>

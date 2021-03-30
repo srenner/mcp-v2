@@ -47,6 +47,11 @@ namespace mcp.Server.ModelExtensions
                 model.SubProjects = project.SubProjects.ToListItemViewModel();
             }
 
+            if(project.DependenciesOf?.Count > 0)
+            {
+                model.BlockedProjects = project.DependenciesOf.Select(s => s.Project).ToList().ToListItemViewModel();
+            }
+
             if(project.ParentProjectID.HasValue)
             {
                 model.ParentProjectID = project.ParentProjectID;
