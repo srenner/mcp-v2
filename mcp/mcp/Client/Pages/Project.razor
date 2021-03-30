@@ -62,33 +62,36 @@
     }
 
     <!--blocked-->
-    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
-        <div class="card">
-            <div class="card-header">
-                <h4>Blocked Projects</h4>
-            </div>
-            <div class="card-body">
-                @if (ProjectViewModel?.BlockedProjects != null && ProjectViewModel.BlockedProjects.Count > 0)
-                {
-                    <div>
-                        <p>The following projects can't be completed until this project is completed:</p>
-                        <ul>
-                            @foreach (var project in ProjectViewModel.BlockedProjects)
-                            {
-                                <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
-                            }
-                        </ul>
-                    </div>
-                }
-                else
-                {
-                    <div class="alert alert-success" role="alert">
-                        This project isn't blocking any other projects.
-                    </div>
-                }
+    @if (ProjectViewModel != null && !ProjectViewModel.ParentProjectID.HasValue)
+    {
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Blocked Projects</h4>
+                </div>
+                <div class="card-body">
+                    @if (ProjectViewModel?.BlockedProjects != null && ProjectViewModel.BlockedProjects.Count > 0)
+                    {
+                        <div>
+                            <p>The following projects can't be completed until this project is completed:</p>
+                            <ul>
+                                @foreach (var project in ProjectViewModel.BlockedProjects)
+                                {
+                                    <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-success" role="alert">
+                            This project isn't blocking any other projects.
+                        </div>
+                    }
+                </div>
             </div>
         </div>
-    </div>
+    }
 
     <!--budget-->
     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
@@ -103,7 +106,7 @@
             </div>
         </div>
     </div>
-    
+
     <!--progress-->
     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
         <div class="card">
