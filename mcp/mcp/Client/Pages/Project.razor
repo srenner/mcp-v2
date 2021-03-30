@@ -3,7 +3,7 @@
 @inject HttpClient Http
 
 <div class="alert alert-primary">
-    <h3>
+    <h1 class="d-inline">
         <NavLink href="@ProjectViewModel?.VehicleLink" Match="NavLinkMatch.All">@ProjectViewModel?.VehicleName</NavLink>
 
         @if (ProjectViewModel != null && ProjectViewModel.ParentProjectID.HasValue)
@@ -13,8 +13,22 @@
         }
 
         <span> > </span>
-        @ProjectViewModel?.Name
-    </h3>
+        @if (ProjectViewModel != null)
+        {
+            <span>@ProjectViewModel.Name</span>
+
+
+        }
+
+
+        @if (ProjectViewModel != null && ProjectViewModel.UserCategory != null)
+        {
+            <span class="badge badge-primary badge-pill ml-4 align-middle float-right">@ProjectViewModel.UserCategory</span>
+        }
+
+
+    </h1>
+
     <hr>
     @if (ProjectViewModel?.Description?.Length > 0)
     {
