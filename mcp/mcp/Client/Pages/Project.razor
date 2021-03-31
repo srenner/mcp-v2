@@ -142,24 +142,25 @@
 
 @if (ProjectViewModel != null && !ProjectViewModel.ParentProjectID.HasValue)
 {
-    <div>
-        <h2>Sub-Projects</h2>
-        @if (ProjectViewModel?.SubProjects != null && ProjectViewModel.SubProjects.Count > 0)
-        {
-            <div>
-                <ul>
-                    @foreach (var project in ProjectViewModel.SubProjects)
-                    {
-                        <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
-                    }
-                </ul>
-            </div>
-        }
-        else
-        {
-            <div class="alert alert-info">No sub-projects</div>
-        }
-    </div>
+<div>
+    <h2>Sub-Projects</h2>
+    @if (ProjectViewModel?.SubProjects != null && ProjectViewModel.SubProjects.Count > 0)
+    {
+        <div>
+            <ul>
+                @foreach (var project in ProjectViewModel.SubProjects)
+                {
+                    <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
+                }
+            </ul>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">No sub-projects</div>
+    }
+    <button class="btn btn-primary mb-2" data-target="#modalProject" data-toggle="modal">Add Sub-Project</button>
+</div>
 }
 
 <h2>Parts</h2>
@@ -210,19 +211,18 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
-        try
-        {
-            ProjectViewModel = await Http.GetFromJsonAsync<ProjectViewModel>("api/project/" + ProjectID.ToString());
-        }
-        catch
-        {
-            //todo
-        }
+        await RefreshProject();
+    }
+
+    private async Task RefreshProject()
+    {
+        ProjectViewModel = await Http.GetFromJsonAsync<ProjectViewModel>("api/project/" + ProjectID.ToString());
+
     }
 
     private async Task RefreshParts()
     {
-        ProjectViewModel = await Http.GetFromJsonAsync<ProjectViewModel>("api/project/" + ProjectID.ToString());
+        await RefreshProject();
     }
 
 }
