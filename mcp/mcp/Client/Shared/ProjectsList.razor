@@ -1,0 +1,16 @@
+﻿@using mcp.Shared.ViewModels
+
+<ul class="list-group">
+
+    @foreach (var project in Projects)
+    {
+        <li class="list-group-item"><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
+    }
+
+</ul>
+
+
+@code {
+    [Parameter]
+    public List<ProjectListItemViewModel> Projects { get; set; }
+}

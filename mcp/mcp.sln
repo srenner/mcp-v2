@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mcp.Client", "mcp\Client\mc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mcp.Shared", "mcp\Shared\mcp.Shared.csproj", "{976BE860-CEFD-47D8-919D-C5F8B94C9752}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcp.Test", "mcp.Test\mcp.Test.csproj", "{E6E6CC69-11AA-4680-AAD8-D6DAE650750E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mcp.Test", "mcp.Test\mcp.Test.csproj", "{E6E6CC69-11AA-4680-AAD8-D6DAE650750E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

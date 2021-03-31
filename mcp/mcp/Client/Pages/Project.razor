@@ -58,15 +58,12 @@
                 <div class="card-body">
                     @if (ProjectViewModel?.Dependencies != null && ProjectViewModel.Dependencies.Count > 0)
                     {
+                    <div>
+                        <p>The following projects must be completed before this project can be completed:</p>
                         <div>
-                            <p>The following projects must be completed before this project can be completed:</p>
-                            <ul>
-                                @foreach (var project in ProjectViewModel.Dependencies)
-                                {
-                                    <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
-                                }
-                            </ul>
+                            <ProjectsList Projects="ProjectViewModel.Dependencies"></ProjectsList>
                         </div>
+                    </div>
                     }
                     else
                     {
@@ -90,15 +87,12 @@
                 <div class="card-body">
                     @if (ProjectViewModel?.BlockedProjects != null && ProjectViewModel.BlockedProjects.Count > 0)
                     {
+                    <div>
+                        <p>The following projects can't be completed until this project is completed:</p>
                         <div>
-                            <p>The following projects can't be completed until this project is completed:</p>
-                            <ul>
-                                @foreach (var project in ProjectViewModel.BlockedProjects)
-                                {
-                                    <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
-                                }
-                            </ul>
+                            <ProjectsList Projects="ProjectViewModel.BlockedProjects"></ProjectsList>
                         </div>
+                    </div>
                     }
                     else
                     {
@@ -146,13 +140,8 @@
     <h2>Sub-Projects</h2>
     @if (ProjectViewModel?.SubProjects != null && ProjectViewModel.SubProjects.Count > 0)
     {
-        <div>
-            <ul>
-                @foreach (var project in ProjectViewModel.SubProjects)
-                {
-                    <li><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
-                }
-            </ul>
+        <div class="mb-2">
+            <ProjectsList Projects="ProjectViewModel.SubProjects"></ProjectsList>
         </div>
     }
     else
