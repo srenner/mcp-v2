@@ -70,7 +70,7 @@ namespace mcp.Server.Data
                 builder.Entity<Tag>().HasData(new Tag { TagID = 5, Name = "Drag", Description = "A vehicle used on the drag strip that is rarely, if ever, street driven" });
                 builder.Entity<Tag>().HasData(new Tag { TagID = 6, Name = "Autocross", Description = "A vehicle that competes in autocross competitions" });
                 builder.Entity<Tag>().HasData(new Tag { TagID = 7, Name = "Road Race", Description = "A vehicle that competes in road race competitions" });
-                builder.Entity<Tag>().HasData(new Tag { TagID = 8, Name = "Drift", Description = "A vehicle built for road race events" });
+                builder.Entity<Tag>().HasData(new Tag { TagID = 8, Name = "Drift", Description = "A vehicle built for drift events" });
                 builder.Entity<Tag>().HasData(new Tag { TagID = 9, Name = "Rat Rod", Description = "A vehicle modified to deliberately look worn or unfinished" });
                 builder.Entity<Tag>().HasData(new Tag { TagID = 10, Name = "Show", Description = "A vehicle that is entered into car shows" });
                 builder.Entity<Tag>().HasData(new Tag { TagID = 11, Name = "Lowrider", Description = "A vehicle with airbags or hydraulics modified in the lowrider style" });
