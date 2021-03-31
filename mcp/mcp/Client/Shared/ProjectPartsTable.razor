@@ -65,7 +65,10 @@
                             <span>Purchase</span>
                         </button>
                     }
-
+                    else
+                    {
+                        <span class="oi oi-check"></span>
+                    }
                 </td>
                 <td>
                     <span class="mr-1">@part.QuantityInstalled/@part.Quantity</span>
@@ -75,6 +78,10 @@
                             <span class="oi oi-wrench"></span>
                             <span>Install</span>
                         </button>
+                    }
+                    else if (part.QuantityInstalled == part.Quantity)
+                    {
+                        <span class="oi oi-check"></span>
                     }
                 </td>
             </tr>
