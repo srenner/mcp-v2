@@ -36,7 +36,7 @@
     <hr>
     @if (IsSubProject)
     {
-        <span class="badge badge-primary badge-pill align-middle">Sub-Project</span>
+        <span class="badge badge-primary badge-pill align-middle">Sub-Project of @ProjectViewModel.ParentProjectName</span>
     }
 
     @if (ProjectViewModel?.Description?.Length > 0)
