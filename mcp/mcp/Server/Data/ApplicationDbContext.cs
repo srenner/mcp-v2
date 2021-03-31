@@ -22,6 +22,8 @@ namespace mcp.Server.Data
         public DbSet<Project> Project { get; set; }
         public DbSet<ProjectDependency> ProjectDependency { get; set; }
         public DbSet<ProjectPart> ProjectPart { get; set; }
+
+        public DbSet<ProjectTool> ProjectTool { get; set; }
         public DbSet<UserCategory> UserCategory { get; set; }
         public DbSet<Vehicle> Vehicle { get; set; }
         public DbSet<VehicleModification> VehicleModification { get; set; }
@@ -56,6 +58,10 @@ namespace mcp.Server.Data
 
                 builder.Entity<ProjectPart>().Property(o => o.Price).HasColumnType(currencyFormat);
                 builder.Entity<ProjectPart>().Property(o => o.Quantity).HasDefaultValue(1);
+
+                builder.Entity<ProjectTool>().Property(p => p.Price).HasColumnType(currencyFormat);
+                builder.Entity<ProjectTool>().Property(p => p.AppliedPrice).HasColumnType(currencyFormat);
+                builder.Entity<ProjectTool>().Property(p => p.Quantity).HasDefaultValue(1);
 
                 builder.Entity<Tag>().HasData(new Tag { TagID = 1, Name = "Restoration", Description = "A vehicle being restored to a like-new state" });
                 builder.Entity<Tag>().HasData(new Tag { TagID = 2, Name = "Restomod", Description = "A vehicle being restored while making modifications along the way" });
