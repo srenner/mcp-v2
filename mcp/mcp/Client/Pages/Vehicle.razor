@@ -25,15 +25,9 @@
                 }
                 else
                 {
-                    <ul>
-                        @foreach (var project in BacklogProjects)
-                        {
-                            <li>
-                                <NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink>
-
-                            </li>
-                        }
-                    </ul>
+                    <div>
+                        <ProjectsList Projects="BacklogProjects"></ProjectsList>
+                    </div>
                 }
             </div>
         </div>
@@ -48,14 +42,9 @@
                 }
                 else
                 {
-                    <ul>
-                        @foreach (var project in ActiveProjects)
-                        {
-                            <li>
-                                <NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink>
-                            </li>
-                        }
-                    </ul>
+                    <div>
+                        <ProjectsList Projects="ActiveProjects"></ProjectsList>
+                    </div>
                 }
             </div>
         </div>
@@ -71,15 +60,9 @@
                 }
                 else
                 {
-                    <ul>
-                        @foreach (var project in CompleteProjects)
-                        {
-                            <li>
-                                <NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink>
-
-                            </li>
-                        }
-                    </ul>
+                    <div>
+                        <ProjectsList Projects="CompleteProjects"></ProjectsList>
+                    </div>
                 }
             </div>
         </div>
@@ -97,9 +80,9 @@
 
     private VehicleViewModel VehicleViewModel;
 
-    private List<ProjectViewModel> ActiveProjects;
-    private List<ProjectViewModel> BacklogProjects;
-    private List<ProjectViewModel> CompleteProjects;
+    private List<ProjectListItemViewModel> ActiveProjects;
+    private List<ProjectListItemViewModel> BacklogProjects;
+    private List<ProjectListItemViewModel> CompleteProjects;
 
     protected override async Task OnInitializedAsync()
     {
@@ -120,9 +103,9 @@
     private async Task RefreshProjects()
     {
         VehicleViewModel = await Http.GetFromJsonAsync<VehicleViewModel>("api/vehicle/" + VehicleID.ToString());
-        ActiveProjects = await Http.GetFromJsonAsync<List<ProjectViewModel>>("api/project/active/" + VehicleID.ToString());
-        BacklogProjects = await Http.GetFromJsonAsync<List<ProjectViewModel>>("api/project/backlog/" + VehicleID.ToString());
-        CompleteProjects = await Http.GetFromJsonAsync<List<ProjectViewModel>>("api/project/complete/" + VehicleID.ToString());
+        ActiveProjects = await Http.GetFromJsonAsync<List<ProjectListItemViewModel>>("api/project/active/" + VehicleID.ToString());
+        BacklogProjects = await Http.GetFromJsonAsync<List<ProjectListItemViewModel>>("api/project/backlog/" + VehicleID.ToString());
+        CompleteProjects = await Http.GetFromJsonAsync<List<ProjectListItemViewModel>>("api/project/complete/" + VehicleID.ToString());
     }
 
 }

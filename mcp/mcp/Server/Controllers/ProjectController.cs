@@ -38,7 +38,7 @@ namespace mcp.Server.Controllers
         /// <param name="id">VehicleID</param>
         /// <returns></returns>
         [HttpGet("active/{id}")]
-        public async Task<ActionResult<List<ProjectViewModel>>> GetActiveProjects(int id)
+        public async Task<ActionResult<List<ProjectListItemViewModel>>> GetActiveProjects(int id)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace mcp.Server.Controllers
                     .Where(w => w.IsDeleted == false)
                     .Where(w => w.ParentProjectID == null)
                     .ToListAsync();
-                return projects.ToViewModel();
+                return projects.ToListItemViewModel();
             }
 
             catch(Exception ex)
@@ -69,7 +69,7 @@ namespace mcp.Server.Controllers
         /// <param name="id">VehicleID</param>
         /// <returns></returns>
         [HttpGet("backlog/{id}")]
-        public async Task<ActionResult<List<ProjectViewModel>>> GetBacklogProjects(int id)
+        public async Task<ActionResult<List<ProjectListItemViewModel>>> GetBacklogProjects(int id)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace mcp.Server.Controllers
                     .Where(w => w.IsDeleted == false)
                     .Where(w => w.ParentProjectID == null)
                     .ToListAsync();
-                return projects.ToViewModel();
+                return projects.ToListItemViewModel();
             }
             catch(Exception ex)
             {
@@ -102,7 +102,7 @@ namespace mcp.Server.Controllers
         /// <param name="id">VehicleID</param>
         /// <returns></returns>
         [HttpGet("complete/{id}")]
-        public async Task<ActionResult<List<ProjectViewModel>>> GetCompleteProjects(int id)
+        public async Task<ActionResult<List<ProjectListItemViewModel>>> GetCompleteProjects(int id)
         {
             var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var now = DateTime.Now;
@@ -115,7 +115,7 @@ namespace mcp.Server.Controllers
                 .Where(w => w.IsDeleted == false)
                 .Where(w => w.ParentProjectID == null)
                 .ToListAsync();
-            return projects.ToViewModel();
+            return projects.ToListItemViewModel();;
         }
 
         // GET: api/Project/5
