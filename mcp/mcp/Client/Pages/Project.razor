@@ -10,7 +10,7 @@
 
         <NavLink href="@ProjectViewModel?.VehicleLink" Match="NavLinkMatch.All">@ProjectViewModel?.VehicleName</NavLink>
 
-        @if (ProjectViewModel != null && ProjectViewModel.ParentProjectID.HasValue)
+        @if (IsSubProject)
         {
             <span> > </span>
             <NavLink href="@ProjectViewModel.ParentProjectLink" Match="NavLinkMatch.All">@ProjectViewModel.ParentProjectName</NavLink>
@@ -48,7 +48,7 @@
 <div class="row mb-4">
 
     <!--dependencies-->
-    @if (ProjectViewModel != null && !ProjectViewModel.ParentProjectID.HasValue)
+    @if (!IsSubProject)
     {
         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
             <div class="card">
@@ -77,7 +77,7 @@
     }
 
     <!--blocked-->
-    @if (ProjectViewModel != null && !ProjectViewModel.ParentProjectID.HasValue)
+    @if (!IsSubProject)
     {
         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
             <div class="card">
@@ -134,7 +134,7 @@
     </div>
 </div>
 
-@if (ProjectViewModel != null && !ProjectViewModel.ParentProjectID.HasValue)
+@if (!IsSubProject)
 {
 <div>
     <h2>Sub-Projects</h2>
@@ -192,6 +192,7 @@ else
 
 
     private ProjectViewModel ProjectViewModel;
+    private bool IsSubProject = false;
     private bool IsPartsLocked = true; //I like using 'Is' for bools, grammar be damned
 
     private static string iconLockedClass = "oi oi-lock-locked";
@@ -206,7 +207,14 @@ else
     private async Task RefreshProject()
     {
         ProjectViewModel = await Http.GetFromJsonAsync<ProjectViewModel>("api/project/" + ProjectID.ToString());
-
+        if(ProjectViewModel != null && ProjectViewModel.ParentProjectID.HasValue)
+        {
+            IsSubProject = true;
+        }
+        else
+        {
+            IsSubProject = false;
+        }
     }
 
     private async Task RefreshParts()
