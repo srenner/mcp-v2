@@ -34,6 +34,11 @@
     </h1>
 
     <hr>
+    @if (IsSubProject)
+    {
+        <span class="badge badge-primary badge-pill align-middle">Sub-Project</span>
+    }
+
     @if (ProjectViewModel?.Description?.Length > 0)
     {
         <p>@ProjectViewModel?.Description</p>
