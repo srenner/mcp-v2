@@ -26,20 +26,24 @@
                             <InputTextArea id="projectDescription" class="form-control" rows="3" @bind-Value="EditProject.Description"></InputTextArea>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 form-group">
-                            <label for="projectCategory">Category</label>
-                            <InputSelect id="projectCategory" class="form-control" @bind-Value="EditProject.UserCategoryID">
-                                @if (UserCategories != null)
-                                {
-                                    @foreach (var uc in UserCategories)
-                                    {
-                                        <option>@uc.Name</option>
-                                    }
-                                }
-                            </InputSelect>
+                    @if (this.ParentProjectID == null)
+                    {
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label for="projectCategory">Category</label>
+                                <InputSelect id="projectCategory" class="form-control" @bind-Value="EditProject.UserCategoryID">
+                                    @if (UserCategories != null)
+                                        {
+                                        @foreach (var uc in UserCategories)
+                                            {
+                                            <option>@uc.Name</option>
+                                            }
+                                        }
+                                </InputSelect>
+                            </div>
                         </div>
-                    </div>
+                    }
+
                     <div class="row">
                         <div class="col-xl-4 col-lg-6 col-md-12 form-group">
                             <label for="projectTargetCost">Target Cost</label>
@@ -69,6 +73,12 @@
     public int? ProjectID { get; set; }
 
     [Parameter]
+    public int? ParentProjectID { get; set; }
+
+    [Parameter]
+    public int? UserCategoryID { get; set; }
+
+    [Parameter]
     public int VehicleID { get; set; }
 
     [Parameter]
@@ -87,7 +97,7 @@
         }
         else
         {
-            EditProject = new ProjectViewModel { StartDate = DateTime.Today };
+            EditProject = new ProjectViewModel { StartDate = DateTime.Today, ParentProjectID = ParentProjectID, UserCategoryID = UserCategoryID };
         }
 
     }
@@ -100,6 +110,7 @@
     private async Task SubmitProject()
     {
         EditProject.VehicleID = this.VehicleID;
+        EditProject.UserCategoryID = this.UserCategoryID;
         var result = await Http.PostAsJsonAsync<ProjectViewModel>("api/project", EditProject);
 
         if (result.IsSuccessStatusCode)

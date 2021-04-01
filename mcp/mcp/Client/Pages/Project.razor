@@ -1,5 +1,6 @@
 ﻿@page "/project/{ProjectID:int}"
 @using mcp.Shared.ViewModels
+@using mcp.Client.Shared
 @inject HttpClient Http
 
 <div class="alert alert-primary">
@@ -153,7 +154,12 @@
     {
         <div class="alert alert-info">No sub-projects</div>
     }
-    <button class="btn btn-primary mb-2" data-target="#modalProject" data-toggle="modal">Add Sub-Project</button>
+    @if (ProjectViewModel != null)
+    {
+        <button class="btn btn-primary mb-2" data-target="#modalProject" data-toggle="modal">Add Sub-Project</button>
+        <AddEditProject ProjectID="null" ParentProjectID="@ProjectID" UserCategoryID="@ProjectViewModel.UserCategoryID" VehicleID="@ProjectViewModel.VehicleID" OnRefreshCallback="@RefreshProject"></AddEditProject>
+    }
+
 </div>
 }
 

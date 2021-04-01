@@ -52,17 +52,25 @@ namespace mcp.Server.Models
         {
             get
             {
-                if (this.Parts?.Count == 0)
+                if(this.Parts != null)
                 {
-                    return 0;
+                    if (this.Parts.Count == 0)
+                    {
+                        return 0;
+                    }
+                    else
+                    {
+                        int partCount = this.Parts.Count;
+                        int partsPurchased = this.Parts.Sum(s => s.QuantityPurchased);
+                        int partsInstalled = this.Parts.Sum(s => s.QuantityInstalled);
+                        return ((partsPurchased + partsInstalled) / (partCount * 2)) * 100;
+                    }
                 }
                 else
                 {
-                    int partCount = this.Parts.Count;
-                    int partsPurchased = this.Parts.Sum(s => s.QuantityPurchased);
-                    int partsInstalled = this.Parts.Sum(s => s.QuantityInstalled);
-                    return ((partsPurchased + partsInstalled) / (partCount * 2)) * 100;
+                    return 0;
                 }
+
             }
         }
 
