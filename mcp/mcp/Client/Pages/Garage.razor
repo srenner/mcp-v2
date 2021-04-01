@@ -38,12 +38,8 @@ else
                     <VehicleListItem Vehicle=@vehicle></VehicleListItem>
                 }
             </div>
-            
         }
-
-
     }
-
 }
 
 @code {
@@ -65,5 +61,4 @@ else
     {
         vehicles = await Http.GetFromJsonAsync<List<VehicleListItemViewModel>>("/api/Vehicle/listitems");
     }
-
 }
