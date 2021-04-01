@@ -28,28 +28,30 @@
 
         @if (ProjectViewModel != null && ProjectViewModel.UserCategory != null)
         {
-            <span class="badge badge-primary badge-pill ml-4 align-middle float-right">@ProjectViewModel.UserCategory</span>
+            <span class="badge badge-primary badge-pill ml-4 float-right"><span class="">@ProjectViewModel.UserCategory</span></span>
         }
 
 
     </h1>
 
     <hr>
-    @if (IsSubProject)
-    {
-        <span class="badge badge-primary badge-pill align-middle">Sub-Project of @ProjectViewModel.ParentProjectName</span>
-    }
+    <p>
+        @if (IsSubProject)
+        {
+            <span class="badge badge-primary badge-pill mr-2"><span class="">Sub-Project of @ProjectViewModel.ParentProjectName</span></span>
+        }
 
-    @if (ProjectViewModel?.Description?.Length > 0)
-    {
-        <p>@ProjectViewModel?.Description</p>
-    }
-    else
-    {
-        <p><em>No description available</em></p>
-    }
+        @if (ProjectViewModel?.Description?.Length > 0)
+        {
+            <span>@ProjectViewModel?.Description</span>
+        }
+        else
+        {
+            <span><em>No description available</em></span>
+        }
+    </p>
 
-</div>
+    </div>
 
 <div class="row mb-4">
 
