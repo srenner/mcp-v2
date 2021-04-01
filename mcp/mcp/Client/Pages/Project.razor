@@ -180,6 +180,11 @@ else
     </div>
 }
 
+@if(IsSubProject)
+{
+    <button class="btn btn-primary" data-target="#modalImportPart" data-toggle="modal">Move Parts From Main Project</button><span>&nbsp;</span>
+}
+
 <button class="btn btn-primary" data-target="#modalPart" data-toggle="modal">Add Part</button>
 <AddEditPart Part="null" ProjectID="ProjectID" OnRefreshCallback="@RefreshParts"></AddEditPart>
 
