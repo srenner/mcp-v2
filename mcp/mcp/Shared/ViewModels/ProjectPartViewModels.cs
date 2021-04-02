@@ -43,5 +43,7 @@ namespace mcp.Shared.ViewModels
                 }
             }
         }
+    
+        public bool IsSelected { get; set; }
     }
 }

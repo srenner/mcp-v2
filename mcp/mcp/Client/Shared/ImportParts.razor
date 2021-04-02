@@ -1,0 +1,70 @@
+﻿@using mcp.Shared.ViewModels
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+
+<div class="modal fade" id="modalImportPart" tabindex="-1" role="dialog" aria-labelledby="modalImportPartLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalImportPartLabel">Move Parts</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <EditForm Model="@ParentParts" OnSubmit="@SubmitImports">
+                <div class="modal-body">
+                    @foreach(var part in ParentParts)
+                    {
+                        <div class="row col-md-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" @bind-value="part.IsSelected" id="chk_@part.ProjectPartID">
+                                <label class="form-check-label" for="chk_@part.ProjectPartID">@part.Name</label>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Move Parts</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public int ParentProjectID { get; set; }
+
+    [Parameter]
+    public int ProjectID { get; set; }
+
+    [Parameter]
+    public EventCallback OnRefreshCallback { get; set; }
+
+    private List<ProjectPartViewModel> ParentParts = new List<ProjectPartViewModel>();
+
+    private ProjectViewModel ParentProject;
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        base.OnParametersSet();
+        ParentParts = await Http.GetFromJsonAsync<List<ProjectPartViewModel>>("api/projectpart/project/" + ParentProjectID);
+    }
+
+    private async void SubmitImports()
+    {
+        //todo
+        var result = await Http.PutAsJsonAsync<List<ProjectPartViewModel>>("api/projectpart/move/" + ProjectID.ToString(), ParentParts);
+
+        if (result.IsSuccessStatusCode)
+        {
+            await JSRuntime.InvokeVoidAsync("hideModal", "#modalImportPart");
+            await OnRefreshCallback.InvokeAsync();
+
+        }
+    }
+
+}

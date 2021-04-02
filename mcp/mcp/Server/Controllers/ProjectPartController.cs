@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using mcp.Server.Data;
 using mcp.Server.Models;
 using System.Security.Claims;
+using mcp.Shared.ViewModels;
+using mcp.Server.ModelExtensions;
 
 namespace mcp.Server.Controllers
 {
@@ -43,6 +45,20 @@ namespace mcp.Server.Controllers
             return projectPart;
         }
 
+        [HttpGet("project/{projectID}")]
+        public async Task<ActionResult<IEnumerable<ProjectPartViewModel>>> GetPartsForProject(int projectID)
+        {
+            if(DoesUserOwnProject(projectID))
+            {
+                var parts = await _context.ProjectPart.Where(w => w.ProjectID == projectID).ToListAsync();
+                return parts.ToViewModel();
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
         // PUT: api/ProjectPart/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -74,6 +90,36 @@ namespace mcp.Server.Controllers
                 }
             }
             
+            return NoContent();
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">id of project that parts are moving to</param>
+        /// <param name="parts">list of parts (only move when IsSelected == true)</param>
+        /// <returns></returns>
+        [HttpPut("move/{id}")]
+        public async Task<IActionResult> MoveParts(int id, [FromBody] List<ProjectPartViewModel> parts)
+        {
+            if(DoesUserOwnProject(id))
+            {
+                foreach(var partViewModel in parts)
+                {
+                    if(partViewModel.IsSelected && DoesUserOwnPart(partViewModel.ProjectPartID))
+                    {
+                        var part = await _context.ProjectPart.FindAsync(partViewModel.ProjectPartID);
+                        part.ProjectID = id;
+                        _context.Entry(part).State = EntityState.Modified;
+                        await _context.SaveChangesAsync();
+                    }
+                }
+            }
+            else
+            {
+                return Unauthorized();
+            }
             return NoContent();
         }
 
