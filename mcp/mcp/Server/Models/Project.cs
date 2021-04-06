@@ -47,30 +47,25 @@ namespace mcp.Server.Models
 
         public List<Project> SubProjects { get; set; }
 
-        [NotMapped]
-        public int Progress
+        public int GetProgress()
         {
-            get
+            if (this.Parts != null)
             {
-                if(this.Parts != null)
-                {
-                    if (this.Parts.Count == 0)
-                    {
-                        return 0;
-                    }
-                    else
-                    {
-                        int partCount = this.Parts.Count;
-                        int partsPurchased = this.Parts.Sum(s => s.QuantityPurchased);
-                        int partsInstalled = this.Parts.Sum(s => s.QuantityInstalled);
-                        return ((partsPurchased + partsInstalled) / (partCount * 2)) * 100;
-                    }
-                }
-                else
+                if (this.Parts.Count == 0)
                 {
                     return 0;
                 }
-
+                else
+                {
+                    int partCount = this.Parts.Count;
+                    int partsPurchased = this.Parts.Sum(s => s.QuantityPurchased);
+                    int partsInstalled = this.Parts.Sum(s => s.QuantityInstalled);
+                    return ((partsPurchased + partsInstalled) / (partCount * 2)) * 100;
+                }
+            }
+            else
+            {
+                return 0;
             }
         }
 

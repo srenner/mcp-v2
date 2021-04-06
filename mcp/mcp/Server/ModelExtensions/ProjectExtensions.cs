@@ -30,7 +30,7 @@ namespace mcp.Server.ModelExtensions
             model.UserCategory = project.UserCategory?.Name;
             model.VehicleID = project.VehicleID;
             model.VehicleName = project.Vehicle?.Name;
-            model.Progress = project.Progress;
+            model.Progress = project.GetProgress();
 
             if(project.Parts?.Count > 0)
             {
