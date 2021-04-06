@@ -158,10 +158,12 @@
     }
     @if (ProjectViewModel != null)
     {
-        <button class="btn btn-primary mb-2" data-target="#modalProject" data-toggle="modal">Add Sub-Project</button>
+        <button class="btn btn-primary mb-2" data-target="#modalProject" data-toggle="modal">
+            <span class="oi oi-wrench"></span>
+            <span>Add Sub-Project</span>
+        </button>
         <AddEditProject ProjectID="null" ParentProjectID="@ProjectID" UserCategoryID="@ProjectViewModel.UserCategoryID" VehicleID="@ProjectViewModel.VehicleID" OnRefreshCallback="@RefreshProject"></AddEditProject>
     }
-
 </div>
 }
 
@@ -186,7 +188,10 @@ else
     <ImportParts ProjectID="@ProjectViewModel.ProjectID" ParentProjectID="@ProjectViewModel.ParentProjectID.Value" OnRefreshCallback="@RefreshProject"></ImportParts>
 }
 
-<button class="btn btn-primary" data-target="#modalPart" data-toggle="modal">Add Part</button>
+<button class="btn btn-primary" data-target="#modalPart" data-toggle="modal">
+    <span class="oi oi-box"></span>
+    <span>Add Part</span>
+</button>
 <AddEditPart Part="null" ProjectID="ProjectID" OnRefreshCallback="@RefreshParts"></AddEditPart>
 
 @if (this.IsPartsLocked)
