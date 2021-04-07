@@ -1,10 +1,36 @@
 ﻿@using mcp.Shared.ViewModels
+@using mcp.Shared.Enum
+@inject HttpClient Http
 
 <ul class="list-group">
 
     @foreach (var project in Projects)
     {
-        <li class="list-group-item"><NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">@project.Name</NavLink></li>
+        <li class="list-group-item">
+            <NavLink href="@project.ProjectLink" Match="NavLinkMatch.All">
+                <span>@project.Name</span>
+            </NavLink>
+
+            @if (ProjectStatusID.HasValue)
+            {
+                <div class="float-right">
+                    @if (ProjectStatusID.Value == (int)ProjectStatusEnum.Backlog)
+                    {
+                        <button class="btn btn-sm btn-outline-success" @onclick="() => ChangeStatus(project.ProjectID, (int)ProjectStatusEnum.Active)">
+                            <span>Make Active</span>
+                            <span class="oi oi-arrow-right"></span>
+                        </button>
+                    }
+                    else if (ProjectStatusID.Value == (int)ProjectStatusEnum.Active)
+                    {
+                        <button class="btn btn-sm btn-outline-warning" @onclick="() => ChangeStatus(project.ProjectID, (int)ProjectStatusEnum.Backlog)">
+                            <span class="oi oi-arrow-left"></span>
+                            <span>Send to Backlog</span>
+                        </button>
+                    }
+                </div>
+            }
+        </li>
     }
 
 </ul>
@@ -13,4 +39,34 @@
 @code {
     [Parameter]
     public List<ProjectListItemViewModel> Projects { get; set; }
+
+    /// <summary>
+    /// If not null, provides action buttons
+    /// </summary>
+    [Parameter]
+    public int? ProjectStatusID { get; set; }
+
+    [Parameter]
+    public EventCallback OnRefreshCallback { get; set; }
+
+    public async Task ChangeStatus(int projectID, int newStatusID)
+    {
+        //var result = await Http.PostAsJsonAsync<ProjectViewModel>("api/project", EditProject);
+
+        HttpResponseMessage result = null;
+
+        if(newStatusID == (int)ProjectStatusEnum.Active)
+        {
+            result = await Http.PutAsync("api/projectstatus/makeactive/" + projectID, null);
+        }
+        else if(newStatusID == (int)ProjectStatusEnum.Backlog)
+        {
+            result = await Http.PutAsync("api/projectstatus/sendtobacklog/" + projectID, null);
+        }
+
+        if (result.IsSuccessStatusCode)
+        {
+            await OnRefreshCallback.InvokeAsync();
+        }
+    }
 }

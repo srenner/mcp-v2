@@ -1,5 +1,6 @@
 ﻿@page "/vehicle/{VehicleID:int}"
 @using mcp.Shared.ViewModels
+@using mcp.Shared.Enum 
 @inject HttpClient Http
 
 <div class="alert alert-primary">
@@ -29,7 +30,7 @@
                 else
                 {
                     <div>
-                        <ProjectsList Projects="BacklogProjects"></ProjectsList>
+                        <ProjectsList Projects="BacklogProjects" ProjectStatusID="(int)ProjectStatusEnum.Backlog" OnRefreshCallback="@RefreshProjects"></ProjectsList>
                     </div>
                 }
             </div>
@@ -46,7 +47,7 @@
                 else
                 {
                     <div>
-                        <ProjectsList Projects="ActiveProjects"></ProjectsList>
+                        <ProjectsList Projects="ActiveProjects" ProjectStatusID="(int)ProjectStatusEnum.Active" OnRefreshCallback="@RefreshProjects"></ProjectsList>
                     </div>
                 }
             </div>
