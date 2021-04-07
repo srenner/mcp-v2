@@ -41,6 +41,9 @@ namespace mcp.Server.Models
         public bool IsCostPublic { get; set; }
         public bool IsDeleted { get; set; }
 
+        public int ProjectStatusID { get; set; }
+        public ProjectStatus ProjectStatus { get; set; }
+
         public List<ProjectPart> Parts { get; set; }
         public List<ProjectDependency> Dependencies { get; set; }
         public List<ProjectDependency> DependenciesOf { get; set; }

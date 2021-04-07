@@ -1,5 +1,6 @@
 ﻿using IdentityServer4.EntityFramework.Options;
 using mcp.Server.Models;
+using mcp.Shared.Enum;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -22,7 +23,7 @@ namespace mcp.Server.Data
         public DbSet<Project> Project { get; set; }
         public DbSet<ProjectDependency> ProjectDependency { get; set; }
         public DbSet<ProjectPart> ProjectPart { get; set; }
-
+        public DbSet<ProjectStatus> ProjectStatus { get; set; }
         public DbSet<ProjectTool> ProjectTool { get; set; }
         public DbSet<UserCategory> UserCategory { get; set; }
         public DbSet<Vehicle> Vehicle { get; set; }
@@ -52,12 +53,18 @@ namespace mcp.Server.Data
 
                 builder.Entity<Project>().Property(o => o.TargetCost).HasColumnType(currencyFormat);
                 builder.Entity<Project>().Property(o => o.ActualCost).HasColumnType(currencyFormat);
+                builder.Entity<Project>().Property(p => p.ProjectStatusID).HasDefaultValue(1);
 
                 builder.Entity<ProjectDependency>().HasOne(o => o.DependsOnProject).WithMany(m => m.DependenciesOf).HasForeignKey(k => k.DependsOnProjectID).OnDelete(DeleteBehavior.Restrict);
                 builder.Entity<ProjectDependency>().HasOne(o => o.Project).WithMany(m => m.Dependencies).HasForeignKey(k => k.ProjectID).OnDelete(DeleteBehavior.Restrict);
 
                 builder.Entity<ProjectPart>().Property(o => o.Price).HasColumnType(currencyFormat);
                 builder.Entity<ProjectPart>().Property(o => o.Quantity).HasDefaultValue(1);
+
+                foreach (ProjectStatusEnum status in Enum.GetValues(typeof(ProjectStatusEnum)))
+                {
+                    builder.Entity<ProjectStatus>().HasData(new ProjectStatus { ProjectStatusID = (int)status, Name = status.ToString() });
+                }
 
                 builder.Entity<ProjectTool>().Property(p => p.Price).HasColumnType(currencyFormat);
                 builder.Entity<ProjectTool>().Property(p => p.AppliedPrice).HasColumnType(currencyFormat);

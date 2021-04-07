@@ -10,7 +10,7 @@ using mcp.Server.Models;
 using System.Security.Claims;
 using mcp.Shared.ViewModels;
 using mcp.Server.ModelExtensions;
-
+using mcp.Shared.Enum;
 
 namespace mcp.Server.Controllers
 {
@@ -32,11 +32,6 @@ namespace mcp.Server.Controllers
             return await _context.Project.ToListAsync();
         }
 
-        /// <summary>
-        /// Gets active projects (based on StartDate or items purchased)
-        /// </summary>
-        /// <param name="id">VehicleID</param>
-        /// <returns></returns>
         [HttpGet("active/{id}")]
         public async Task<ActionResult<List<ProjectListItemViewModel>>> GetActiveProjects(int id)
         {
@@ -53,6 +48,7 @@ namespace mcp.Server.Controllers
                     .Where(w => w.IsComplete == false)
                     .Where(w => w.IsDeleted == false)
                     .Where(w => w.ParentProjectID == null)
+                    .Where(w => w.ProjectStatusID == (int)ProjectStatusEnum.Active)
                     .ToListAsync();
                 return projects.ToListItemViewModel();
             }
@@ -63,11 +59,6 @@ namespace mcp.Server.Controllers
             }
         }
 
-        /// <summary>
-        /// Gets backlog projects (based on StartDate)
-        /// </summary>
-        /// <param name="id">VehicleID</param>
-        /// <returns></returns>
         [HttpGet("backlog/{id}")]
         public async Task<ActionResult<List<ProjectListItemViewModel>>> GetBacklogProjects(int id)
         {
@@ -86,6 +77,7 @@ namespace mcp.Server.Controllers
                     .Where(w => w.IsComplete == false)
                     .Where(w => w.IsDeleted == false)
                     .Where(w => w.ParentProjectID == null)
+                    .Where(w => w.ProjectStatusID == (int)ProjectStatusEnum.Backlog)
                     .ToListAsync();
                 return projects.ToListItemViewModel();
             }
@@ -96,11 +88,6 @@ namespace mcp.Server.Controllers
             
         }
 
-        /// <summary>
-        /// Gets complete projects (based on StartDate or items purchased)
-        /// </summary>
-        /// <param name="id">VehicleID</param>
-        /// <returns></returns>
         [HttpGet("complete/{id}")]
         public async Task<ActionResult<List<ProjectListItemViewModel>>> GetCompleteProjects(int id)
         {
