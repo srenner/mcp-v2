@@ -14,7 +14,8 @@ namespace mcp.Shared.ViewModels
         public string Description { get; set; }
         public string Manufacturer { get; set; }
         public string PartNumber { get; set; }
-        public double? Price { get; set; }
+        public decimal? Price { get; set; }
+        public decimal MoneySpent { get; set; }
         public string Link { get; set; }
         public int Quantity { get; set; }
         public int QuantityPurchased { get; set; }

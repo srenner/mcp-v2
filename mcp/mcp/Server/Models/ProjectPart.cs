@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,11 +21,27 @@ namespace mcp.Server.Models
         public string PartNumber { get; set; }
 
         [DataType(DataType.Currency)]
-        public double? Price { get; set; }
+        public decimal? Price { get; set; }
         public string Link { get; set; }
 
         public int Quantity { get; set; }
         public int QuantityPurchased { get; set; }
         public int QuantityInstalled { get; set; }
+
+        [NotMapped]
+        public decimal MoneySpent
+        {
+            get
+            {
+                if(this.Price.HasValue)
+                {
+                    return this.Price.Value * this.QuantityPurchased;
+                }
+                else
+                {
+                    return 0.0M;
+                }
+            }
+        }
     }
 }
