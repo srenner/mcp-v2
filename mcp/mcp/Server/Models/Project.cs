@@ -36,7 +36,6 @@ namespace mcp.Server.Models
         public DateTime? TargetEndDate { get; set; }
         public DateTime? ActualEndDate { get; set; }
 
-        public bool IsComplete { get; set; }
         public bool IsPublic { get; set; }
         public bool IsCostPublic { get; set; }
         public bool IsDeleted { get; set; }
