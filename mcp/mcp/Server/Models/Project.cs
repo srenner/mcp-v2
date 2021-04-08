@@ -22,6 +22,7 @@ namespace mcp.Server.Models
 
         public string Name { get; set; }
         public string Description { get; set; }
+        public string InstallationNotes { get; set; }
 
         public int? UserCategoryID { get; set; }
         public UserCategory UserCategory { get; set; }

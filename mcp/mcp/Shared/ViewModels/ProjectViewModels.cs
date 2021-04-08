@@ -60,6 +60,7 @@ namespace mcp.Shared.ViewModels
 
         public string Name { get; set; }
         public string Description { get; set; }
+        public string InstallationNotes { get; set; }
 
         public int? UserCategoryID { get; set; }
         public string UserCategory { get; set; }

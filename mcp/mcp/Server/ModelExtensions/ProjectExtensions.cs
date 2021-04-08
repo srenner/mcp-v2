@@ -18,6 +18,7 @@ namespace mcp.Server.ModelExtensions
             model.ActualCost = project.ActualCost;
             model.ActualEndDate = project.ActualEndDate;
             model.Description = project.Description;
+            model.InstallationNotes = project.InstallationNotes;
             model.IsCostPublic = project.IsCostPublic;
             model.IsDeleted = project.IsDeleted;
             model.IsPublic = project.IsPublic;
