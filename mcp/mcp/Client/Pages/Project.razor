@@ -59,7 +59,7 @@
     <!--dependencies-->
     @if (!IsSubProject)
     {
-        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
+        <section class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
             <div class="card">
                 <div class="card-header">
                     <h2>Project Dependencies</h2>
@@ -67,12 +67,12 @@
                 <div class="card-body">
                     @if (ProjectViewModel?.Dependencies != null && ProjectViewModel.Dependencies.Count > 0)
                     {
-                    <div>
-                        <p>The following projects must be completed before this project can be completed:</p>
                         <div>
-                            <ProjectsList Projects="ProjectViewModel.Dependencies"></ProjectsList>
+                            <p>The following projects must be completed before this project can be completed:</p>
+                            <div>
+                                <ProjectsList Projects="ProjectViewModel.Dependencies"></ProjectsList>
+                            </div>
                         </div>
-                    </div>
                     }
                     else
                     {
@@ -82,13 +82,13 @@
                     }
                 </div>
             </div>
-        </div>
+        </section>
     }
 
     <!--blocked-->
     @if (!IsSubProject)
     {
-        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
+        <section class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
             <div class="card">
                 <div class="card-header">
                     <h2>Blocked Projects</h2>
@@ -96,12 +96,12 @@
                 <div class="card-body">
                     @if (ProjectViewModel?.BlockedProjects != null && ProjectViewModel.BlockedProjects.Count > 0)
                     {
-                    <div>
-                        <p>The following projects can't be completed until this project is completed:</p>
                         <div>
-                            <ProjectsList Projects="ProjectViewModel.BlockedProjects"></ProjectsList>
+                            <p>The following projects can't be completed until this project is completed:</p>
+                            <div>
+                                <ProjectsList Projects="ProjectViewModel.BlockedProjects"></ProjectsList>
+                            </div>
                         </div>
-                    </div>
                     }
                     else
                     {
@@ -111,11 +111,11 @@
                     }
                 </div>
             </div>
-        </div>
+        </section>
     }
 
     <!--budget-->
-    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
+    <section class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
         <div class="card">
             <div class="card-header">
                 <h2>Budget</h2>
@@ -126,10 +126,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!--progress-->
-    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
+    <section class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-2">
         <div class="card">
             <div class="card-header">
                 <h2>Progress</h2>
@@ -140,91 +140,143 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </div>
 
+<!--sub-projects-->
 @if (!IsSubProject)
 {
-    <div>
-        <h2>Sub-Projects</h2>
-        @if (ProjectViewModel?.SubProjects != null && ProjectViewModel.SubProjects.Count > 0)
-        {
-            <div class="mb-2">
-                <ProjectsList Projects="ProjectViewModel.SubProjects"></ProjectsList>
+    <div class="row mb-4">
+        <section class="col-md-12">
+            <div class="card mb-2">
+                <div class="card-header">
+                    <h2>
+                        <span>Sub-Projects</span>
+                        @if (ProjectViewModel != null)
+                        {
+                            <button class="btn btn-primary btn-sm ml-2" data-target="#modalProject" data-toggle="modal">
+                                <span class="oi oi-wrench"></span>
+                                <span>Add</span>
+                            </button>
+                        }
+                    </h2>
+                </div>
+                <div class="card-body">
+                    @if (ProjectViewModel != null)
+                    {
+                        <AddEditProject ProjectID="null" ParentProjectID="@ProjectID" UserCategoryID="@ProjectViewModel.UserCategoryID" VehicleID="@ProjectViewModel.VehicleID" OnRefreshCallback="@RefreshProject"></AddEditProject>
+                    }
+                    @if (ProjectViewModel?.SubProjects != null && ProjectViewModel.SubProjects.Count > 0)
+                    {
+                        <div class="mb-2">
+                            <ProjectsList Projects="ProjectViewModel.SubProjects"></ProjectsList>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">No sub-projects</div>
+                    }
+                </div>
             </div>
-        }
-        else
-        {
-            <div class="alert alert-info">No sub-projects</div>
-        }
-        @if (ProjectViewModel != null)
-        {
-            <button class="btn btn-primary mb-2" data-target="#modalProject" data-toggle="modal">
-                <span class="oi oi-wrench"></span>
-                <span>Add Sub-Project</span>
-            </button>
-            <AddEditProject ProjectID="null" ParentProjectID="@ProjectID" UserCategoryID="@ProjectViewModel.UserCategoryID" VehicleID="@ProjectViewModel.VehicleID" OnRefreshCallback="@RefreshProject"></AddEditProject>
-        }
+        </section>
     </div>
 }
 
-<div>
-    @if (ProjectViewModel?.Parts != null && ProjectViewModel.Parts.Count > 0)
-    {
-        @if (ProjectViewModel.Parts.Any(a => a.QuantityInstalled < a.Quantity))
-        {
-            <span class="badge badge-pill badge-primary d-inline-block">In Progress</span>
-        }
-        else
-        {
-            <span class="badge badge-pill badge-success d-inline-block">Complete</span>
-        }
-    }
+<!--notes-->
+<div class="row mb-4">
+    <section class="col-md-12">
+        <div class="card mb-2">
+            <div class="card-header">
+                <h2 class="d-inline-block">
+                    <span>Installation Notes</span>
+                </h2>
+            </div>
+            <div class="card-body">
+                <p>Rich text editor output to be displayed here</p>
 
-    <h2 class="d-inline-block">
-        <span>Parts to Purchase <span>&amp;</span> Install</span>
-    </h2>
+                <!--rich text editor mockup-->
+                <div id="editor" class="pell"></div>
+
+                <h3>Checklist</h3>
+            </div>
+        </div>
+    </section>
 </div>
 
 
+<!--parts-->
+<div class="row rb-4">
+    <section class="col-md-12">
 
-@if (ProjectViewModel?.Parts != null && ProjectViewModel.Parts.Count > 0)
-{
-    <div>
-        <ProjectPartsTable Parts="@ProjectViewModel.Parts" IsLocked="IsPartsLocked" OnRefreshCallback="@RefreshParts"></ProjectPartsTable>
-    </div>
-}
-else
-{
-    <div class="alert alert-info" role="alert">
-        No parts to your project :(
-    </div>
-}
+        <div class="card mb-2">
+            <div class="card-header">
+                <h2>
+                    <span>Parts to Purchase <span>&amp;</span> Install</span>
 
-@if(IsSubProject)
-{
-    <button class="btn btn-primary" data-target="#modalImportPart" data-toggle="modal">Move Parts From Main Project</button>
-    <ImportParts ProjectID="@ProjectViewModel.ProjectID" ParentProjectID="@ProjectViewModel.ParentProjectID.Value" OnRefreshCallback="@RefreshProject"></ImportParts>
-}
+                    <button class="btn btn-primary btn-sm ml-2" data-target="#modalPart" data-toggle="modal">
+                        <span class="oi oi-box"></span>
+                        <span>Add</span>
+                    </button>
+                </h2>
+            </div>
+            <div class="card-body">
+                <div>
 
-<button class="btn btn-primary" data-target="#modalPart" data-toggle="modal">
-    <span class="oi oi-box"></span>
-    <span>Add Part</span>
-</button>
-<AddEditPart Part="null" ProjectID="ProjectID" OnRefreshCallback="@RefreshParts"></AddEditPart>
+                    <AddEditPart Part="null" ProjectID="ProjectID" OnRefreshCallback="@RefreshParts"></AddEditPart>
 
-@if (this.IsPartsLocked)
-{
-    <button class="btn btn-outline-danger" @onmouseover="() => iconClass = iconUnlockedClass" @onmouseout="() => iconClass = iconLockedClass" @onclick="(() => this.IsPartsLocked = false)">
-        <span class="@iconClass" aria-hidden="true"></span>
-    </button>
-}
-else
-{
-    <button class="btn btn-outline-success" @onclick="(() => this.IsPartsLocked = true)" @onmouseover="() => iconClass = iconLockedClass" @onmouseout="() => iconClass = iconUnlockedClass">
-        <span class="@iconClass" aria-hidden="true"></span>
-    </button>
-}
+                </div>
+
+                @if (ProjectViewModel?.Parts != null && ProjectViewModel.Parts.Count > 0)
+                {
+                    @if (ProjectViewModel.Parts.Any(a => a.QuantityInstalled < a.Quantity))
+                    {
+                        <span class="badge badge-pill badge-primary d-inline-block">In Progress</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-pill badge-success d-inline-block">Complete</span>
+                    }
+                }
+
+                @if (ProjectViewModel?.Parts != null && ProjectViewModel.Parts.Count > 0)
+                {
+                    <div>
+                        <ProjectPartsTable Parts="@ProjectViewModel.Parts" IsLocked="IsPartsLocked" OnRefreshCallback="@RefreshParts"></ProjectPartsTable>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info" role="alert">
+                        No parts to your project :(
+                    </div>
+                }
+
+                @if (IsSubProject)
+                {
+                    <button class="btn btn-primary" data-target="#modalImportPart" data-toggle="modal">Move Parts From Main Project</button>
+                    <ImportParts ProjectID="@ProjectViewModel.ProjectID" ParentProjectID="@ProjectViewModel.ParentProjectID.Value" OnRefreshCallback="@RefreshProject"></ImportParts>
+                }
+
+
+
+                @if (this.IsPartsLocked)
+                {
+                    <button class="btn btn-outline-danger" @onmouseover="() => iconClass = iconUnlockedClass" @onmouseout="() => iconClass = iconLockedClass" @onclick="(() => this.IsPartsLocked = false)">
+                        <span class="@iconClass" aria-hidden="true"></span>
+                    </button>
+                }
+                else
+                {
+                    <button class="btn btn-outline-success" @onclick="(() => this.IsPartsLocked = true)" @onmouseover="() => iconClass = iconLockedClass" @onmouseout="() => iconClass = iconUnlockedClass">
+                        <span class="@iconClass" aria-hidden="true"></span>
+                    </button>
+                }
+            </div>
+        </div>
+
+
+    </section>
+</div>
 
 
 @code {
@@ -250,7 +302,7 @@ else
     private async Task RefreshProject()
     {
         ProjectViewModel = await Http.GetFromJsonAsync<ProjectViewModel>("api/project/" + ProjectID.ToString());
-        if(ProjectViewModel != null && ProjectViewModel.ParentProjectID.HasValue)
+        if (ProjectViewModel != null && ProjectViewModel.ParentProjectID.HasValue)
         {
             IsSubProject = true;
         }
