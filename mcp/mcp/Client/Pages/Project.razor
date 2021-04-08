@@ -258,8 +258,7 @@
                 }
 
 
-
-                @if (this.IsPartsLocked)
+                @*@if (this.IsPartsLocked)
                 {
                     <button class="btn btn-outline-danger" @onmouseover="() => iconClass = iconUnlockedClass" @onmouseout="() => iconClass = iconLockedClass" @onclick="(() => this.IsPartsLocked = false)">
                         <span class="@iconClass" aria-hidden="true"></span>
@@ -270,7 +269,7 @@
                     <button class="btn btn-outline-success" @onclick="(() => this.IsPartsLocked = true)" @onmouseover="() => iconClass = iconLockedClass" @onmouseout="() => iconClass = iconUnlockedClass">
                         <span class="@iconClass" aria-hidden="true"></span>
                     </button>
-                }
+                }*@
             </div>
         </div>
 

@@ -1,15 +1,12 @@
 ﻿@using mcp.Shared.ViewModels
 @using System.Text.Json
 @inject HttpClient Http
-@*@inject IJSRuntime JSRuntime*@
+@inject IJSRuntime JSRuntime
 
 <table class="table">
     <thead>
         <tr>
-            @if (!this.IsLocked)
-            {
-                <th></th>
-            }
+            <th></th>
             <th>Part</th>
             <th>Link</th>
             <th>Price</th>
@@ -21,17 +18,14 @@
         @foreach (var part in Parts)
         {
             <tr class="@(part.QuantityInstalled == part.Quantity ? "alert-success" : "" )">
-                @if (!this.IsLocked)
-                {
-                    <td>
-                        <button class="btn btn-sm btn-outline-info mr-1">
-                            <span class="oi oi-pencil"></span>
-                        </button>
-                        <button class="btn btn-sm btn-outline-danger" @onclick="() => DeletePart(part.ProjectPartID)">
-                            <span class="oi oi-delete"></span>
-                        </button>
-                    </td>
-                }
+                <td>
+                    <button class="btn btn-sm btn-outline-info mr-1">
+                        <span class="oi oi-pencil"></span>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" @onclick="() => DeletePart(part.ProjectPartID)">
+                        <span class="oi oi-delete"></span>
+                    </button>
+                </td>
                 <td>
                     <span class="font-weight-bold">@part.Name</span>
                     @if (part.Description?.Length > 0)
@@ -108,14 +102,19 @@
 
     private async void DeletePart(int id)
     {
-        var result = await Http.DeleteAsync("api/projectpart/" + id);
+        bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Really delete part?");
 
-        if (result.IsSuccessStatusCode)
+        if(confirmed)
         {
-            int partsRemovedCount = Parts.RemoveAll(r => r.ProjectPartID == id);
-            if (partsRemovedCount == 1)
+            var result = await Http.DeleteAsync("api/projectpart/" + id);
+
+            if (result.IsSuccessStatusCode)
             {
-                StateHasChanged();
+                int partsRemovedCount = Parts.RemoveAll(r => r.ProjectPartID == id);
+                if (partsRemovedCount == 1)
+                {
+                    StateHasChanged();
+                }
             }
         }
     }
