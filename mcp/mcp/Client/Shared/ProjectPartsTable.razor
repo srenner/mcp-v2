@@ -103,10 +103,8 @@
     public bool IsLocked { get; set; }
 
 
-    protected override async Task OnInitializedAsync()
-    {
-        //await JSRuntime.InvokeVoidAsync("enableTooltips");
-    }
+    [Parameter]
+    public EventCallback OnRefreshCallback { get; set; }
 
     private async void DeletePart(int id)
     {
@@ -139,6 +137,8 @@
         if (result.IsSuccessStatusCode)
         {
             StateHasChanged();
+
+            await OnRefreshCallback.InvokeAsync();
         }
     }
 

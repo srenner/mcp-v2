@@ -25,15 +25,11 @@
 
         }
 
-
         @if (ProjectViewModel != null && ProjectViewModel.UserCategory != null)
         {
             <span class="badge badge-primary badge-pill ml-4 float-right"><span class="">@ProjectViewModel.UserCategory</span></span>
         }
-
-
     </h1>
-
     <hr>
     <p>
         @if (IsSubProject)
@@ -51,7 +47,7 @@
         }
     </p>
 
-    </div>
+</div>
 
 <div class="row mb-4">
 
@@ -144,35 +140,53 @@
 
 @if (!IsSubProject)
 {
-<div>
-    <h2>Sub-Projects</h2>
-    @if (ProjectViewModel?.SubProjects != null && ProjectViewModel.SubProjects.Count > 0)
-    {
-        <div class="mb-2">
-            <ProjectsList Projects="ProjectViewModel.SubProjects"></ProjectsList>
-        </div>
-    }
-    else
-    {
-        <div class="alert alert-info">No sub-projects</div>
-    }
-    @if (ProjectViewModel != null)
-    {
-        <button class="btn btn-primary mb-2" data-target="#modalProject" data-toggle="modal">
-            <span class="oi oi-wrench"></span>
-            <span>Add Sub-Project</span>
-        </button>
-        <AddEditProject ProjectID="null" ParentProjectID="@ProjectID" UserCategoryID="@ProjectViewModel.UserCategoryID" VehicleID="@ProjectViewModel.VehicleID" OnRefreshCallback="@RefreshProject"></AddEditProject>
-    }
-</div>
+    <div>
+        <h2>Sub-Projects</h2>
+        @if (ProjectViewModel?.SubProjects != null && ProjectViewModel.SubProjects.Count > 0)
+        {
+            <div class="mb-2">
+                <ProjectsList Projects="ProjectViewModel.SubProjects"></ProjectsList>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">No sub-projects</div>
+        }
+        @if (ProjectViewModel != null)
+        {
+            <button class="btn btn-primary mb-2" data-target="#modalProject" data-toggle="modal">
+                <span class="oi oi-wrench"></span>
+                <span>Add Sub-Project</span>
+            </button>
+            <AddEditProject ProjectID="null" ParentProjectID="@ProjectID" UserCategoryID="@ProjectViewModel.UserCategoryID" VehicleID="@ProjectViewModel.VehicleID" OnRefreshCallback="@RefreshProject"></AddEditProject>
+        }
+    </div>
 }
 
-<h2>Parts</h2>
+<div>
+    @if (ProjectViewModel?.Parts != null && ProjectViewModel.Parts.Count > 0)
+    {
+        @if (ProjectViewModel.Parts.Any(a => a.QuantityInstalled < a.Quantity))
+        {
+            <span class="badge badge-pill badge-primary d-inline-block">In Progress</span>
+        }
+        else
+        {
+            <span class="badge badge-pill badge-success d-inline-block">Complete</span>
+        }
+    }
+
+    <h2 class="d-inline-block">
+        <span>Parts to Purchase <span>&amp;</span> Install</span>
+    </h2>
+</div>
+
+
 
 @if (ProjectViewModel?.Parts != null && ProjectViewModel.Parts.Count > 0)
 {
     <div>
-        <ProjectPartsTable Parts="@ProjectViewModel.Parts" IsLocked="IsPartsLocked"></ProjectPartsTable>
+        <ProjectPartsTable Parts="@ProjectViewModel.Parts" IsLocked="IsPartsLocked" OnRefreshCallback="@RefreshParts"></ProjectPartsTable>
     </div>
 }
 else
