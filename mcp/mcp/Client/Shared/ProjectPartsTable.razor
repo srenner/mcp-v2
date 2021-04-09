@@ -3,6 +3,9 @@
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
 
+
+<AddEditPart ID="modalEditPart" Part="ActivePart" ProjectID="ProjectID" OnRefreshCallback="Refresh"></AddEditPart>
+
 <table class="table">
     <thead>
         <tr>
@@ -19,9 +22,10 @@
         {
             <tr class="@(part.QuantityInstalled == part.Quantity ? "alert-success" : "" )">
                 <td>
-                    <button class="btn btn-sm btn-outline-info mr-1">
+                    <button class="btn btn-sm btn-outline-info mr-1" data-toggle="modal" data-target="#modalEditPart" @onclick="() => BeginEditPart(part)">
                         <span class="oi oi-pencil"></span>
                     </button>
+
                     <button class="btn btn-sm btn-outline-danger" @onclick="() => DeletePart(part.ProjectPartID)">
                         <span class="oi oi-delete"></span>
                     </button>
@@ -43,6 +47,7 @@
                             {
                                 <span>&nbsp;</span>
                             }
+
                             <span>@part.PartNumber</span><span>)</span>
                         </div>
                     }
@@ -100,11 +105,14 @@
     [Parameter]
     public EventCallback OnRefreshCallback { get; set; }
 
+    private ProjectPartViewModel ActivePart { get; set; }
+    private int ProjectID { get; set; }
+
     private async void DeletePart(int id)
     {
         bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Really delete part?");
 
-        if(confirmed)
+        if (confirmed)
         {
             var result = await Http.DeleteAsync("api/projectpart/" + id);
 
@@ -119,7 +127,16 @@
         }
     }
 
-    private async void PurchasePart(ProjectPartViewModel part)
+    private async Task BeginEditPart(ProjectPartViewModel part)
+    {
+        ActivePart = part;
+        ProjectID = part.ProjectID;
+        StateHasChanged();
+        await JSRuntime.InvokeVoidAsync("showModal", "#modalEditPart");
+        await OnRefreshCallback.InvokeAsync();
+    }
+
+    private async Task PurchasePart(ProjectPartViewModel part)
     {
         part.QuantityPurchased++;
         var result = await Http.PutAsJsonAsync<ProjectPartViewModel>("api/projectpart/" + part.ProjectPartID, part);
@@ -137,8 +154,13 @@
         {
             StateHasChanged();
 
-            await OnRefreshCallback.InvokeAsync();
         }
     }
+
+    private async Task Refresh()
+    {
+        await OnRefreshCallback.InvokeAsync();
+    }
+
 
 }

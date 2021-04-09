@@ -16,9 +16,13 @@
         //create functions on window object here and inject them with blazor on razor components
 
         window.hideModal = (modalID) => {
-            console.log("hiding modal");
             $(modalID).modal('hide');
         };
+
+        window.showModal = (modalID) => {
+            $(modalID).modal('show');
+        };
+
     </script>
 </head>
 

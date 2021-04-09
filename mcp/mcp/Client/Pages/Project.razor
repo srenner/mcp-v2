@@ -3,7 +3,7 @@
 @using mcp.Client.Shared
 @inject HttpClient Http
 
-<div class="alert alert-primary">
+<header class="alert alert-primary">
     <div>
         <h1 class="d-inline-block">
 
@@ -52,7 +52,7 @@
         }
     </p>
 
-</div>
+</header>
 
 <div class="row mb-4">
 
@@ -155,7 +155,7 @@
                         @if (ProjectViewModel != null)
                         {
                             <button class="btn btn-primary btn-sm ml-2" data-target="#modalProject" data-toggle="modal">
-                                <span class="oi oi-wrench"></span>
+                                <span class="oi oi-plus"></span>
                                 <span>Add</span>
                             </button>
                         }
@@ -203,29 +203,33 @@
     </section>
 </div>
 
-
 <!--parts-->
 <div class="row rb-4">
     <section class="col-md-12">
-
         <div class="card mb-2">
             <div class="card-header">
-                <h2>
+                <h2 class="d-inline-block">
                     <span>Parts to Purchase <span>&amp;</span> Install</span>
 
-                    <button class="btn btn-primary btn-sm ml-2" data-target="#modalPart" data-toggle="modal">
-                        <span class="oi oi-box"></span>
+                    <button class="btn btn-primary btn-sm ml-2 mr-2" data-target="#modalPart" data-toggle="modal">
+                        <span class="oi oi-plus"></span>
                         <span>Add</span>
                     </button>
+
+                    @if (IsSubProject)
+                    {
+                        <button class="btn btn-primary btn-sm ml-2 mr-2" data-target="#modalImportPart" data-toggle="modal">
+                            <span class="oi oi-arrow-right"></span>
+                            <span>Import Parts From Main Project</span>
+                        </button>
+                    }
+
                 </h2>
-            </div>
-            <div class="card-body">
-                <div>
+                @if (IsSubProject)
+                {
+                    <ImportParts ProjectID="@ProjectViewModel.ProjectID" ParentProjectID="@ProjectViewModel.ParentProjectID.Value" OnRefreshCallback="@RefreshProject"></ImportParts>
 
-                    <AddEditPart Part="null" ProjectID="ProjectID" OnRefreshCallback="@RefreshParts"></AddEditPart>
-
-                </div>
-
+                }
                 @if (ProjectViewModel?.Parts != null && ProjectViewModel.Parts.Count > 0)
                 {
                     @if (ProjectViewModel.Parts.Any(a => a.QuantityInstalled < a.Quantity))
@@ -237,6 +241,11 @@
                         <span class="badge badge-pill badge-success d-inline-block">Complete</span>
                     }
                 }
+            </div>
+            <div class="card-body">
+                <div>
+                    <AddEditPart Part="null" ProjectID="ProjectID" OnRefreshCallback="@RefreshParts"></AddEditPart>
+                </div>
 
                 @if (ProjectViewModel?.Parts != null && ProjectViewModel.Parts.Count > 0)
                 {
@@ -250,30 +259,8 @@
                         No parts to your project :(
                     </div>
                 }
-
-                @if (IsSubProject)
-                {
-                    <button class="btn btn-primary" data-target="#modalImportPart" data-toggle="modal">Move Parts From Main Project</button>
-                    <ImportParts ProjectID="@ProjectViewModel.ProjectID" ParentProjectID="@ProjectViewModel.ParentProjectID.Value" OnRefreshCallback="@RefreshProject"></ImportParts>
-                }
-
-
-                @*@if (this.IsPartsLocked)
-                {
-                    <button class="btn btn-outline-danger" @onmouseover="() => iconClass = iconUnlockedClass" @onmouseout="() => iconClass = iconLockedClass" @onclick="(() => this.IsPartsLocked = false)">
-                        <span class="@iconClass" aria-hidden="true"></span>
-                    </button>
-                }
-                else
-                {
-                    <button class="btn btn-outline-success" @onclick="(() => this.IsPartsLocked = true)" @onmouseover="() => iconClass = iconLockedClass" @onmouseout="() => iconClass = iconUnlockedClass">
-                        <span class="@iconClass" aria-hidden="true"></span>
-                    </button>
-                }*@
             </div>
         </div>
-
-
     </section>
 </div>
 

@@ -2,7 +2,7 @@
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
 
-<div class="modal fade" id="modalPart" tabindex="-1" role="dialog" aria-labelledby="modalPartLabel" aria-hidden="true">
+<div class="modal fade" id="@ID" tabindex="-1" role="dialog" aria-labelledby="modalPartLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -61,6 +61,9 @@
 @code {
 
     [Parameter]
+    public string ID { get; set; }
+
+    [Parameter]
     public int ProjectID { get; set; }
 
     [Parameter]
@@ -82,15 +85,34 @@
         {
             EditPart = new ProjectPartViewModel { Quantity = 1, ProjectID = ProjectID };
         }
+
+        if(string.IsNullOrEmpty(ID))
+        {
+            ID = "modalPart";
+        }
     }
 
     private async void SubmitPart()
     {
-        var result = await Http.PostAsJsonAsync<ProjectPartViewModel>("api/projectpart", EditPart);
+        if(EditPart.Link != null && EditPart.Link.Length > 0 && !EditPart.Link.ToLower().StartsWith("http"))
+        {
+            EditPart.Link = "http://" + EditPart.Link;
+        }
+
+        var result = new HttpResponseMessage();
+
+        if(EditPart.ProjectPartID == 0)
+        {
+            result = await Http.PostAsJsonAsync<ProjectPartViewModel>("api/projectpart", EditPart);
+        }
+        else
+        {
+            result = await Http.PutAsJsonAsync<ProjectPartViewModel>("api/projectpart/" + EditPart.ProjectPartID, EditPart);
+        }
 
         if (result.IsSuccessStatusCode)
         {
-            await JSRuntime.InvokeVoidAsync("hideModal", "#modalPart");
+            await JSRuntime.InvokeVoidAsync("hideModal", "#" + ID);
             await OnRefreshCallback.InvokeAsync();
 
         }
