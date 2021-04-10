@@ -24,6 +24,7 @@ namespace mcp.Server.ModelExtensions
             model.IsPublic = project.IsPublic;
             model.Name = project.Name;
             model.ProjectID = project.ProjectID;
+            model.ProjectStatusID = project.ProjectStatusID;
             model.StartDate = project.StartDate;
             model.TargetCost = project.TargetCost;
             model.TargetEndDate = project.TargetEndDate;

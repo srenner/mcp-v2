@@ -3,6 +3,11 @@
 @using mcp.Client.Shared
 @inject HttpClient Http
 
+@if (ProjectViewModel != null)
+{
+    <AddEditProject ProjectID="ProjectID" ParentProjectID="ProjectViewModel.ParentProjectID" UserCategoryID="ProjectViewModel.UserCategoryID" VehicleID="ProjectViewModel.VehicleID" OnRefreshCallback="RefreshProject"></AddEditProject>
+}
+
 <header class="alert alert-primary">
     <div>
         <h1 class="d-inline-block">
@@ -30,7 +35,7 @@
             {
                 <span class="badge badge-primary badge-pill mr-2"><span class="">@ProjectViewModel.UserCategory</span></span>
             }
-            <button class="btn btn-sm btn-outline-primary">
+            <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalProject">
                 <span class="oi oi-cog"></span>
             </button>
         </div>

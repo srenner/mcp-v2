@@ -7,29 +7,29 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalProjectLabel">Project @EditProject?.Name</h5>
+                <h5 class="modal-title" id="modalProjectLabel">Project @CurrentProject?.Name</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <EditForm Model="@EditProject" OnSubmit="SubmitProject">
+            <EditForm Model="@CurrentProject" OnSubmit="SubmitProject">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12 form-group">
                             <label for="projectName">Name</label>
-                            <InputText id="projectName" @bind-Value="EditProject.Name" class="form-control" />
+                            <InputText id="projectName" @bind-Value="CurrentProject.Name" class="form-control" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 form-group">
                             <label for="projectDescription">Description</label>
-                            <InputTextArea id="projectDescription" class="form-control" rows="3" @bind-Value="EditProject.Description"></InputTextArea>
+                            <InputTextArea id="projectDescription" class="form-control" rows="3" @bind-Value="CurrentProject.Description"></InputTextArea>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 form-group">
-                            <label for="projectCategory">Category</label>
-                            <InputSelect id="projectCategory" class="form-control" @bind-Value="EditProject.UserCategoryID">
+                            <label for="projectCategory">Category <span>@CurrentProject.UserCategoryID</span> </label>
+                            <InputSelect id="projectCategory" class="form-control" @bind-Value="CurrentProject.UserCategoryID">
                                 @if (UserCategories != null)
                                     {
                                     <option value="">Select...</option>
@@ -50,17 +50,17 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">$</span>
                                 </div>
-                                <InputNumber id="projectTargetCost" class="form-control" @bind-Value="EditProject.TargetCost" />
+                                <InputNumber id="projectTargetCost" class="form-control" @bind-Value="CurrentProject.TargetCost" />
                             </div>
 
                         </div>
                         <div class="col-xl-4 col-lg-6 col-md-12 form-group">
                             <label for="projectStartDate">Start Date</label>
-                            <InputDate id="projectStartDate" class="form-control" @bind-Value="EditProject.StartDate" />
+                            <InputDate id="projectStartDate" class="form-control" @bind-Value="CurrentProject.StartDate" />
                         </div>
                         <div class="col-xl-4 col-lg-6 col-md-12 form-group">
                             <label for="projectTargetEndDate">Target End Date</label>
-                            <InputDate id="projectTargetEndDate" class="form-control" @bind-Value="EditProject.TargetEndDate" />
+                            <InputDate id="projectTargetEndDate" class="form-control" @bind-Value="CurrentProject.TargetEndDate" />
                         </div>
                     </div>
                 </div>
@@ -89,20 +89,20 @@
     [Parameter]
     public EventCallback OnRefreshCallback { get; set; }
 
-    private ProjectViewModel EditProject { get; set; } = new ProjectViewModel();
+    private ProjectViewModel CurrentProject { get; set; } = new ProjectViewModel();
     private List<UserCategoryViewModel> UserCategories { get; set; }
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
-        base.OnParametersSet();
+        await base.OnParametersSetAsync();
 
         if (ProjectID.HasValue && ProjectID.Value > 0)
         {
-            //fetch for edit
+            CurrentProject = await Http.GetFromJsonAsync<ProjectViewModel>("api/project/basic/" + ProjectID.ToString());
         }
         else
         {
-            EditProject = new ProjectViewModel { StartDate = DateTime.Today, ParentProjectID = ParentProjectID, UserCategoryID = UserCategoryID };
+            CurrentProject = new ProjectViewModel { StartDate = DateTime.Today, ParentProjectID = ParentProjectID, UserCategoryID = UserCategoryID };
         }
 
     }
@@ -114,12 +114,27 @@
 
     private async Task SubmitProject()
     {
-        EditProject.VehicleID = this.VehicleID;
+        CurrentProject.VehicleID = this.VehicleID;
         if(this.UserCategoryID.HasValue)
         {
-            EditProject.UserCategoryID = this.UserCategoryID;
+            CurrentProject.UserCategoryID = this.UserCategoryID;
         }
-        var result = await Http.PostAsJsonAsync<ProjectViewModel>("api/project", EditProject);
+
+        var result = new HttpResponseMessage();
+
+        if(CurrentProject.ProjectID == 0)
+        {
+            result = await Http.PostAsJsonAsync<ProjectViewModel>("api/project", CurrentProject);
+        }
+        else
+        {
+            result = await Http.PutAsJsonAsync<ProjectViewModel>("api/project/" + CurrentProject.ProjectID.ToString(), CurrentProject);
+        }
+
+
+
+
+
 
         if (result.IsSuccessStatusCode)
         {

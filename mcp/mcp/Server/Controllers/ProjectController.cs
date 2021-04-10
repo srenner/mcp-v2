@@ -135,7 +135,32 @@ namespace mcp.Server.Controllers
             {
                 throw;
             }
+        }
 
+        [HttpGet("basic/{id}")]
+        public async Task<ActionResult<ProjectViewModel>> GetProjectBasics(int id)
+        {
+            try
+            {
+                var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var project = await _context.Project
+                    .Where(w => w.ProjectID == id)
+                    .Where(w => w.Vehicle.UserID == userID)
+                    .Where(w => w.IsDeleted == false)
+                    .FirstOrDefaultAsync();
+
+                if (project == null)
+                {
+                    return NotFound();
+                }
+
+                return project.ToViewModel();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         // PUT: api/Project/5

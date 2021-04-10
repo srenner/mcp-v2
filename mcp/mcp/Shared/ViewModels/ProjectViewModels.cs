@@ -73,6 +73,8 @@ namespace mcp.Shared.ViewModels
         public DateTime? TargetEndDate { get; set; }
         public DateTime? ActualEndDate { get; set; }
 
+        public int ProjectStatusID { get; set; }
+
         public bool IsPublic { get; set; }
         public bool IsCostPublic { get; set; }
         public bool IsDeleted { get; set; }
