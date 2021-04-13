@@ -20,8 +20,18 @@ namespace mcp.Server.Models
         public string Manufacturer { get; set; }
         public string PartNumber { get; set; }
 
+        /// <summary>
+        /// Price per part to be multiplied by quantity
+        /// </summary>
         [DataType(DataType.Currency)]
         public decimal? Price { get; set; }
+
+        /// <summary>
+        /// Extra cost for a part independent of part quantity (shipping, tax, etc.)
+        /// </summary>
+        [DataType(DataType.Currency)]
+        public decimal? ExtraCost { get; set; }
+
         public string Link { get; set; }
 
         public int Quantity { get; set; }
@@ -33,15 +43,18 @@ namespace mcp.Server.Models
         {
             get
             {
+                var spent = 0.0M;
                 if(this.Price.HasValue)
                 {
-                    return this.Price.Value * this.QuantityPurchased;
+                    spent += this.Price.Value * this.QuantityPurchased;
                 }
-                else
+                if (this.ExtraCost.HasValue)
                 {
-                    return 0.0M;
+                    spent += this.ExtraCost.Value;
                 }
+                return spent;
             }
         }
+
     }
 }

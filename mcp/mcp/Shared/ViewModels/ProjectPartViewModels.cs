@@ -14,7 +14,14 @@ namespace mcp.Shared.ViewModels
         public string Description { get; set; }
         public string Manufacturer { get; set; }
         public string PartNumber { get; set; }
+        /// <summary>
+        /// Each
+        /// </summary>
         public decimal? Price { get; set; }
+        /// <summary>
+        /// Applied independent of quantity (tax, etc.)
+        /// </summary>
+        public decimal? ExtraCost { get; set; }
         public decimal MoneySpent { get; set; }
         public string Link { get; set; }
         public int Quantity { get; set; }

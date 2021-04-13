@@ -59,6 +59,7 @@ namespace mcp.Server.Data
                 builder.Entity<ProjectDependency>().HasOne(o => o.Project).WithMany(m => m.Dependencies).HasForeignKey(k => k.ProjectID).OnDelete(DeleteBehavior.Restrict);
 
                 builder.Entity<ProjectPart>().Property(o => o.Price).HasColumnType(currencyFormat);
+                builder.Entity<ProjectPart>().Property(o => o.ExtraCost).HasColumnType(currencyFormat);
                 builder.Entity<ProjectPart>().Property(o => o.Quantity).HasDefaultValue(1);
 
                 foreach (ProjectStatusEnum status in Enum.GetValues(typeof(ProjectStatusEnum)))

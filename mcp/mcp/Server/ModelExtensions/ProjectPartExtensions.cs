@@ -18,6 +18,7 @@ namespace mcp.Server.ModelExtensions
             model.Name = part.Name;
             model.PartNumber = part.PartNumber;
             model.Price = part.Price;
+            model.ExtraCost = part.ExtraCost;
             model.MoneySpent = part.MoneySpent;
             model.ProjectID = part.ProjectID;
             model.ProjectPartID = part.ProjectPartID;
