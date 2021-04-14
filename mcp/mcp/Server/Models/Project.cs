@@ -72,15 +72,5 @@ namespace mcp.Server.Models
             }
         }
 
-        public decimal GetMoneySpent()
-        {
-            decimal sum = 0.00M;
-            if(this.Parts != null)
-            {
-                sum += this.Parts.Sum(s => s.MoneySpent);
-            }
-
-            return sum;
-        }
     }
 }

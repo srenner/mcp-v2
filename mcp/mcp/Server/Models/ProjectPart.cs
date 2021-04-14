@@ -38,23 +38,5 @@ namespace mcp.Server.Models
         public int QuantityPurchased { get; set; }
         public int QuantityInstalled { get; set; }
 
-        [NotMapped]
-        public decimal MoneySpent
-        {
-            get
-            {
-                var spent = 0.0M;
-                if(this.Price.HasValue)
-                {
-                    spent += this.Price.Value * this.QuantityPurchased;
-                }
-                if (this.ExtraCost.HasValue)
-                {
-                    spent += this.ExtraCost.Value;
-                }
-                return spent;
-            }
-        }
-
     }
 }

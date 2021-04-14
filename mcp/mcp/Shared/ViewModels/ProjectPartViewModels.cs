@@ -22,7 +22,23 @@ namespace mcp.Shared.ViewModels
         /// Applied independent of quantity (tax, etc.)
         /// </summary>
         public decimal? ExtraCost { get; set; }
-        public decimal MoneySpent { get; set; }
+        public decimal MoneySpent
+        {
+            get
+            {
+                var spent = 0.0M;
+                if (this.Price.HasValue)
+                {
+                    spent += this.Price.Value * this.QuantityPurchased;
+                }
+                if (this.ExtraCost.HasValue)
+                {
+                    spent += this.ExtraCost.Value;
+                }
+
+                return spent;
+            }
+        }
         public string Link { get; set; }
         public int Quantity { get; set; }
         public int QuantityPurchased { get; set; }
