@@ -35,10 +35,27 @@ namespace mcp.Shared.ViewModels
                 {
                     spent += this.ExtraCost.Value;
                 }
-
                 return spent;
             }
         }
+
+        public decimal MoneyAllocated 
+        {
+            get
+            {
+                var allocated = 0.0M;
+                if (this.Price.HasValue)
+                {
+                    allocated += this.Price.Value * this.Quantity;
+                }
+                if (this.ExtraCost.HasValue)
+                {
+                    allocated += this.ExtraCost.Value;
+                }
+                return allocated;
+            }
+        }
+
         public string Link { get; set; }
         public int Quantity { get; set; }
         public int QuantityPurchased { get; set; }
