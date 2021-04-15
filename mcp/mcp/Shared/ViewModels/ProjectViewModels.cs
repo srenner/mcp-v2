@@ -87,5 +87,7 @@ namespace mcp.Shared.ViewModels
         public List<ProjectListItemViewModel> BlockedProjects { get; set; }
 
         public List<ProjectListItemViewModel> SubProjects { get; set; }
+
+        public List<ProjectChecklistItemViewModel> ChecklistItems { get; set; }
     }
 }

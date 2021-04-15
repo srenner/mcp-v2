@@ -112,6 +112,7 @@ namespace mcp.Server.Controllers
                 var project = await _context.Project
                     .Include(i => i.Vehicle)
                     .Include(i => i.Parts)
+                    .Include(i => i.ChecklistItems)
                     .Include(i => i.UserCategory)
                     .Include(i => i.Dependencies)
                         .ThenInclude(i => i.DependsOnProject)

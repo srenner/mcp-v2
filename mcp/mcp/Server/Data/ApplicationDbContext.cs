@@ -21,6 +21,7 @@ namespace mcp.Server.Data
 
         public DbSet<Category> Category { get; set; }
         public DbSet<Project> Project { get; set; }
+        public DbSet<ProjectChecklistItem> ProjectChecklistItem { get; set; }
         public DbSet<ProjectDependency> ProjectDependency { get; set; }
         public DbSet<ProjectPart> ProjectPart { get; set; }
         public DbSet<ProjectStatus> ProjectStatus { get; set; }

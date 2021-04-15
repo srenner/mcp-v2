@@ -38,6 +38,11 @@ namespace mcp.Server.ModelExtensions
                 model.Parts = project.Parts.ToViewModel();
             }
 
+            if(project.ChecklistItems?.Count > 0)
+            {
+                model.ChecklistItems = project.ChecklistItems.ToViewModel();
+            }
+
             if(project.Dependencies?.Count > 0)
             {
                 model.Dependencies = project.Dependencies.Select(s => s.DependsOnProject).ToList().ToListItemViewModel();

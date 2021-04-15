@@ -47,6 +47,7 @@ namespace mcp.Server.Models
         public List<ProjectPart> Parts { get; set; }
         public List<ProjectDependency> Dependencies { get; set; }
         public List<ProjectDependency> DependenciesOf { get; set; }
+        public List<ProjectChecklistItem> ChecklistItems { get; set; }
 
         public List<Project> SubProjects { get; set; }
 
