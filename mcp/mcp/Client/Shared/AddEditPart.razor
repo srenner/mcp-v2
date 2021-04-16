@@ -35,18 +35,61 @@
                             <label>Link</label>
                             <InputText @bind-Value="EditPart.Link" class="form-control" />
                         </div>
-                        <div class="col-xl-4 col-lg-6 col-sm-12 form-group">
-                            <label>Price</label>
-                            <InputNumber @bind-Value="EditPart.Price" class="form-control" step="0.01" min="0.00" />
+
+
+
+                        <div class="col-xl-3 col-lg-6 col-sm-12 form-group">
+                            <label>Price Each</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <InputNumber @bind-Value="EditPart.Price" class="form-control" step="0.01" min="0.00" @onchange="StateHasChanged" />
+                            </div>
                         </div>
-                        <div class="col-xl-4 col-lg-6 col-sm-12 form-group">
+
+                        <div class="col-xl-3 col-lg-6 col-sm-12 form-group">
                             <label>Quantity Needed</label>
-                            <InputNumber @bind-Value="EditPart.Quantity" step="1" min="1" class="form-control" />
+                            <InputNumber @bind-Value="EditPart.Quantity" step="1" min="1" class="form-control" @onchange="StateHasChanged" />
                         </div>
-                        <div class="col-xl-4 col-lg-6 col-sm-12 form-group">
+
+                        <div class="col-xl-3 col-lg-6 col-sm-12 form-group">
+                            <label>
+                                <span class="d-inline-block">Extra Cost</span>
+                                <span class="d-inline-block text-right badge badge-light badge-pill" data-toggle="tooltip" data-placement="top" title="shipping, tax, etc.">
+                                    <span class="oi oi-info"></span>
+                                </span>
+                            </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">$</span></div>
+                                <InputNumber @bind-Value="EditPart.ExtraCost" step="1" min="1" class="form-control" @onchange="StateHasChanged" />
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-lg-6 col-sm-12 form-group">
+                            <label>
+                                <span class="d-inline-block">Total Cost</span>
+                            </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span class="input-group-text">$</span></div>
+                                <input class="form-control" type="number" step="0.00" min="0.00" disabled value="@EditPart.MoneyAllocated" />
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-xl-3 col-lg-6 col-sm-12 form-group">
                             <label>Quantity Purchased</label>
-                            <InputNumber @bind-Value="EditPart.QuantityPurchased" step="1" min="0" class="form-control" />
+                            <InputNumber @bind-Value="EditPart.QuantityPurchased" step="1" min="0" max="@EditPart.Quantity" class="form-control" />
                         </div>
+
+                        <div class="col-xl-3 col-lg-6 col-sm-12 form-group">
+                            <label>Quantity Installed</label>
+                            <InputNumber @bind-Value="EditPart.QuantityInstalled" step="1" min="0" max="@EditPart.QuantityPurchased" class="form-control" />
+                        </div>
+
+
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -72,11 +115,21 @@
     [Parameter]
     public EventCallback OnRefreshCallback { get; set; }
 
-    private ProjectPartViewModel EditPart { get; set; }
+    private ProjectPartViewModel EditPart = new ProjectPartViewModel();
 
-    protected override void OnParametersSet()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        base.OnParametersSet();
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("enableTooltips");
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
         if (this.Part != null)
         {
             EditPart = Part;
