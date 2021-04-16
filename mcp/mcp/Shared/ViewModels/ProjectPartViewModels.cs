@@ -26,7 +26,7 @@ namespace mcp.Shared.ViewModels
         {
             get
             {
-                var spent = 0.0M;
+                var spent = 0.00M;
                 if (this.Price.HasValue)
                 {
                     spent += this.Price.Value * this.QuantityPurchased;
@@ -43,7 +43,7 @@ namespace mcp.Shared.ViewModels
         {
             get
             {
-                var allocated = 0.0M;
+                var allocated = 0.00M;
                 if (this.Price.HasValue)
                 {
                     allocated += this.Price.Value * this.Quantity;
