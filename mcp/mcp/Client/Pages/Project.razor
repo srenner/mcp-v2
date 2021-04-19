@@ -178,17 +178,23 @@ else
 
                     @if (ProjectViewModel.Parts != null && ProjectViewModel.Parts.Count > 0)
                     {
+
+                        @if (ProjectViewModel.TargetCost.HasValue)
+                        {
+                            <hr>
+                        }
                         <div class="mb-1">
-                            <h4>Parts</h4>
-                            <div>@ProjectViewModel.PartPercentSpentString</div>
+                            <h4>
+                                <span class="d-inline-block">Parts</span>
+                                <span class="d-inline-block float-right small">
+                                    <span>$</span><span>@ProjectViewModel.PartCostSpent</span>
+                                    <span> spent of </span>
+                                    <span>$</span><span>@ProjectViewModel.PartCostAllocated</span>
+                                </span>
+                            </h4>
                             <div class="progress">
                                 <div class="progress-bar" role="progressbar" style="width: @ProjectViewModel.PartPercentSpentString" aria-valuenow="@ProjectViewModel.PartCostSpent" aria-valuemin="0" aria-valuemax="@ProjectViewModel.PartCostAllocated">
-                                    <div class="d-inline">
-                                        <span>$</span><span>@ProjectViewModel.PartCostSpent</span>
-                                        <span> spent of </span>
-                                        <span>$</span><span>@ProjectViewModel.PartCostAllocated</span>
-                                    </div>
-                                    
+                                    <span>@ProjectViewModel.PartPercentSpentString</span>
                                 </div>
                             </div>
                         </div>
