@@ -89,5 +89,68 @@ namespace mcp.Shared.ViewModels
         public List<ProjectListItemViewModel> SubProjects { get; set; }
 
         public List<ProjectChecklistItemViewModel> ChecklistItems { get; set; }
+
+
+
+        #region budget calculations
+
+        public decimal PartCostAllocated
+        {
+            get
+            {
+                decimal allocated = 0.00M;
+                if(this.Parts != null && this.Parts.Count > 0 && this.Parts.Any(a => a.Price.HasValue))
+                {
+                    allocated = this.Parts.Sum(s => s.MoneyAllocated);
+                }
+                return allocated;
+            }
+        }
+
+        public decimal PartCostSpent
+        {
+            get
+            {
+                decimal spent = 0.00M;
+                if (this.Parts != null && this.Parts.Count > 0 && this.Parts.Any(a => a.Price.HasValue) && this.Parts.Any(a => a.QuantityPurchased > 0))
+                {
+                    spent = this.Parts.Sum(s => s.MoneySpent);
+                }
+                return spent;
+            }
+        }
+
+        public decimal PartPercentSpent
+        {
+            get
+            {
+                var percent = 0.00M;
+                if(this.Parts != null && this.Parts.Count > 0 && this.Parts.Any(a => a.Price.HasValue))
+                {
+                    var allocated = this.Parts.Sum(s => s.MoneyAllocated);
+                    var spent = this.Parts.Sum(s => s.MoneySpent);
+                    if(allocated > 0)
+                    {
+                        percent = (spent / allocated);
+                    }
+                }
+                return Math.Round(percent * 100);
+            }
+        }
+
+        public string PartPercentSpentString
+        {
+            get
+            {
+                return this.PartPercentSpent.ToString() + "%";
+            }
+        }
+
+
+        #endregion
+
+
+
+
     }
 }
