@@ -163,7 +163,7 @@ else
                                 <h3>
                                     <span class="d-inline-block">Overall Target</span>
                                     <span class="d-inline-block float-right small">
-                                        <span>$</span><span>@ProjectViewModel.PartCostSpent</span>
+                                        <span>$</span><span>@ProjectViewModel.TotalCostSpent</span>
                                         <span>spent of</span>
                                         <span>$</span><span>@ProjectViewModel.TargetCost.Value</span>
                                     </span>
@@ -171,7 +171,9 @@ else
                             </div>
 
                             <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                <div class="progress-bar" role="progressbar" style="width: @ProjectViewModel.TotalPercentSpentString" aria-valuenow="25" aria-valuemin="0" aria-valuemax="@ProjectViewModel.TargetCost.Value">
+                                    <span>@ProjectViewModel.TotalPercentSpentString</span>
+                                </div>
                             </div>
                         </div>
                     }
@@ -275,14 +277,21 @@ else
                     }
                     @if (ProjectViewModel.Parts != null && ProjectViewModel.Parts.Count > 0)
                     {
-                        @if (ProjectViewModel.Parts.Any(a => a.QuantityInstalled < a.Quantity))
+                        @* hiding this badge until we find a better place for it *@
+                        @if (false)
                         {
-                            <span class="badge badge-pill badge-primary d-inline-block">In Progress</span>
+                            <div class="d-inline-block float-right">
+                                @if (ProjectViewModel.Parts.Any(a => a.QuantityInstalled < a.Quantity))
+                                {
+                                    <span class="badge badge-pill badge-primary d-inline-block">In Progress</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-pill badge-success d-inline-block">Complete</span>
+                                }
+                            </div>
                         }
-                        else
-                        {
-                            <span class="badge badge-pill badge-success d-inline-block">Complete</span>
-                        }
+
                     }
                 </div>
                 <div class="card-body">

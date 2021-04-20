@@ -94,6 +94,44 @@ namespace mcp.Shared.ViewModels
 
         #region budget calculations
 
+        public decimal TotalCostSpent
+        {
+            get
+            {
+                decimal spent = 0.00M;
+
+                spent += PartCostSpent;
+
+                return spent;
+            }
+        }
+
+        public decimal TotalPercentSpent
+        {
+            get
+            {
+                decimal percent = 0.00M;
+
+                if(TargetCost.HasValue && TargetCost.Value > 0.00M)
+                {
+                    percent = (TotalCostSpent / TargetCost.Value);
+                }
+                return Math.Round(percent * 100);
+            }
+        }
+
+        public string TotalPercentSpentString
+        {
+            get
+            {
+                return TotalPercentSpent.ToString() + "%";
+            }
+        }
+
+
+
+
+
         public decimal PartCostAllocated
         {
             get
