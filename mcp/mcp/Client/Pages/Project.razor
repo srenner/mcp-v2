@@ -57,94 +57,107 @@ else
 
     <div class="row mb-4">
 
-        <!--dependencies-->
-        @if (!IsSubProject)
-        {
-            <section class="col-lg-4 col-md-6 col-sm-12">
-                <div class="card shadow-sm">
-                    <div class="card-header">
-                        <h2>Project Dependencies</h2>
-                    </div>
-                    <div class="card-body">
-                        @if (ProjectViewModel.Dependencies != null && ProjectViewModel.Dependencies.Count > 0)
+        <section class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h2>
+                        <button class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardRelated" aria-expanded="true" aria-controls="cardRelated">
+                            <span class="oi oi-resize-height"></span>
+                        </button>
+                        <span>Related Projects</span>
+                    </h2>
+                </div>
+                <div id="cardRelated" class="card-body collapse show">
+                    <div class="row">
+                        <!--dependencies-->
+                        @if (!IsSubProject)
                         {
-                            <div>
-                                <p>The following projects must be completed before this project can be completed:</p>
-                                <div>
-                                    <ProjectsList Projects="ProjectViewModel.Dependencies"></ProjectsList>
+                            <section class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Project Dependencies</h3>
+                                        @if (ProjectViewModel.Dependencies != null && ProjectViewModel.Dependencies.Count > 0)
+                                        {
+                                            <div>
+                                                <p>The following projects must be completed before this project can be completed:</p>
+                                                <div>
+                                                    <ProjectsList Projects="ProjectViewModel.Dependencies"></ProjectsList>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="alert alert-success" role="alert">
+                                                This project can be completed on its own with no dependencies.
+                                            </div>
+                                        }
+                                    </div>
                                 </div>
-                            </div>
+                            </section>
                         }
-                        else
-                        {
-                            <div class="alert alert-success" role="alert">
-                                This project can be completed on its own with no dependencies.
-                            </div>
-                        }
-                    </div>
-                </div>
-            </section>
-        }
 
-        <!--blocked-->
-        @if (!IsSubProject)
-        {
-            <section class="col-lg-4 col-md-6 col-sm-12">
-                <div class="card shadow-sm">
-                    <div class="card-header">
-                        <h2>Blocked Projects</h2>
-                    </div>
-                    <div class="card-body">
-                        @if (ProjectViewModel.BlockedProjects != null && ProjectViewModel.BlockedProjects.Count > 0)
+                        <!--blocked-->
+                        @if (!IsSubProject)
                         {
-                            <div>
-                                <p>The following projects can't be completed until this project is completed:</p>
-                                <div>
-                                    <ProjectsList Projects="ProjectViewModel.BlockedProjects"></ProjectsList>
+                            <section class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Blocked Projects</h3>
+                                        @if (ProjectViewModel.BlockedProjects != null && ProjectViewModel.BlockedProjects.Count > 0)
+                                        {
+                                            <div>
+                                                <p>The following projects can't be completed until this project is completed:</p>
+                                                <div>
+                                                    <ProjectsList Projects="ProjectViewModel.BlockedProjects"></ProjectsList>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="alert alert-success" role="alert">
+                                                This project isn't blocking any other projects.
+                                            </div>
+                                        }
+                                    </div>
                                 </div>
-                            </div>
+                            </section>
                         }
-                        else
-                        {
-                            <div class="alert alert-success" role="alert">
-                                This project isn't blocking any other projects.
-                            </div>
-                        }
-                    </div>
-                </div>
-            </section>
-        }
 
-        <!--sub-projects-->
-        @if (!IsSubProject)
-        {
-            <section class="col-lg-4 col-md-6 col-sm-12">
-                <div class="card mb-2 shadow-sm">
-                    <div class="card-header">
-                        <h2>
-                            <span>Sub-Projects</span>
-                            <button class="btn btn-primary btn-sm ml-2" data-target="#modalProject" data-toggle="modal">
-                                <span class="oi oi-plus"></span>
-                                <span>Add</span>
-                            </button>
-                        </h2>
-                    </div>
-                    <div class="card-body">
-                        <AddEditProject ProjectID="null" ParentProjectID="@ProjectID" UserCategoryID="@ProjectViewModel.UserCategoryID" VehicleID="@ProjectViewModel.VehicleID" OnRefreshCallback="@RefreshProject"></AddEditProject>
-                        @if (ProjectViewModel.SubProjects != null && ProjectViewModel.SubProjects.Count > 0)
+                        <!--sub-projects-->
+                        @if (!IsSubProject)
                         {
-                            <div class="mb-2">
-                                <ProjectsList Projects="ProjectViewModel.SubProjects"></ProjectsList>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="alert alert-info">No sub-projects</div>
+                            <section class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="card mb-2">
+                                        
+                                    <div class="card-body">
+                                        <h3 class="card-title">
+                                            <span>Sub-Projects</span>
+                                            <button class="btn btn-primary btn-sm ml-2" data-target="#modalProject" data-toggle="modal">
+                                                <span class="oi oi-plus"></span>
+                                                <span>Add</span>
+                                            </button>
+                                        </h3>
+                                        <AddEditProject ProjectID="null" ParentProjectID="@ProjectID" UserCategoryID="@ProjectViewModel.UserCategoryID" VehicleID="@ProjectViewModel.VehicleID" OnRefreshCallback="@RefreshProject"></AddEditProject>
+                                        @if (ProjectViewModel.SubProjects != null && ProjectViewModel.SubProjects.Count > 0)
+                                        {
+                                            <div class="mb-2">
+                                                <ProjectsList Projects="ProjectViewModel.SubProjects"></ProjectsList>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="alert alert-success">No sub-projects</div>
+                                        }
+                                    </div>
+                                </div>
+                            </section>
                         }
                     </div>
                 </div>
-            </section>
-        }
+            </div>
+        </section>
+
+
     </div>
 
     <div class="row mb-4">
@@ -152,9 +165,16 @@ else
         <section class="col-md-12">
             <div class="card shadow-sm">
                 <div class="card-header">
-                    <h2>Budget &amp; Progress</h2>
+                    <h2>
+
+                        <button class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardBudget" aria-expanded="true" aria-controls="cardBudget">
+                            <span class="oi oi-resize-height"></span>
+                        </button>
+
+                        <span>Budget &amp; Progress</span>
+                    </h2>
                 </div>
-                <div class="card-body">
+                <div id="cardBudget" class="card-body collapse show">
 
                     @if (ProjectViewModel.TargetCost.HasValue)
                     {
@@ -268,6 +288,11 @@ else
             <div class="card shadow-sm">
                 <div class="card-header">
                     <h2 class="d-inline-block">
+
+                        <button class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardParts" aria-expanded="true" aria-controls="cardParts">
+                            <span class="oi oi-resize-height"></span>
+                        </button>
+
                         <span>Parts to Purchase <span>&amp;</span> Install</span>
 
                         <button class="btn btn-primary btn-sm ml-2 mr-2" data-target="#modalPart" data-toggle="modal">
@@ -308,7 +333,7 @@ else
 
                     }
                 </div>
-                <div class="card-body">
+                <div id="cardParts" class="card-body collapse show">
                     <div>
                         <AddEditPart Part="null" ProjectID="ProjectID" OnRefreshCallback="@RefreshParts"></AddEditPart>
                     </div>
