@@ -149,10 +149,10 @@ else
 
     <div class="row mb-4">
         <!--budget-->
-        <section class="col-md-6 col-sm-12">
+        <section class="col-md-12">
             <div class="card shadow-sm">
                 <div class="card-header">
-                    <h2>Budget</h2>
+                    <h2>Budget &amp; Progress</h2>
                 </div>
                 <div class="card-body">
 
@@ -161,7 +161,7 @@ else
                         <div class="mb-1">
                             <div>
                                 <h3>
-                                    <span class="d-inline-block">Overall Target</span>
+                                    <span class="d-inline-block">Overall Target Cost</span>
                                     <span class="d-inline-block float-right small">
                                         <span>$</span><span>@ProjectViewModel.TotalCostSpent</span>
                                         <span>spent of</span>
@@ -187,7 +187,7 @@ else
                         }
                         <div class="mb-1">
                             <h4>
-                                <span class="d-inline-block">Parts</span>
+                                <span class="d-inline-block">Parts Cost</span>
                                 <span class="d-inline-block float-right small">
                                     <span>$</span><span>@ProjectViewModel.PartCostSpent</span>
                                     <span> spent of </span>
@@ -200,13 +200,27 @@ else
                                 </div>
                             </div>
                         </div>
+
+                        @if(ProjectViewModel.TargetCost.HasValue || ProjectViewModel.PartCostAllocated > 0.00M)
+                        {
+                            <hr>
+                        }
+
+                        <div class="mb-1">
+                            <h4>
+                                <span class="d-inline-block">Project Progress</span>
+                            </h4>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                            </div>
+                        </div>
                     }
                 </div>
             </div>
         </section>
 
         <!--progress-->
-        <section class="col-md-6 col-sm-12">
+        <section class="col-md-6 col-sm-12 d-none">
             <div class="card shadow-sm">
                 <div class="card-header">
                     <h2>Progress</h2>
