@@ -27,6 +27,36 @@
             $('[data-toggle="tooltip"]').tooltip()
         };
 
+        window.setItem = (key, value) => {
+            localStorage.setItem(key, value);
+        };
+
+        window.getItem = (key) => {
+            return localStorage.getItem(key);
+        };
+
+        window.tips = {
+
+            dismiss: (key) => {
+                localStorage.setItem("tip_" + key, true);
+            },
+
+            isDismissed: (key) => {
+                let value = localStorage.getItem("tip_" + key);
+
+                if (value == null) {
+                    value = false;
+                }
+                else {
+                    value = true;
+                }
+                return value;
+            }            
+
+        };
+
+
+
     </script>
 </head>
 

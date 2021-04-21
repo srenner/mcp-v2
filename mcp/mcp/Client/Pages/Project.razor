@@ -2,6 +2,7 @@
 @using mcp.Shared.ViewModels
 @using mcp.Client.Shared
 @inject HttpClient Http
+@inject IJSRuntime JSRuntime
 
 @if (ProjectViewModel == null)
 {
@@ -9,6 +10,7 @@
 }
 else
 {
+
     <!--modal to edit existing-->
     <AddEditProject ProjectID="ProjectID" ParentProjectID="ProjectViewModel.ParentProjectID" UserCategoryID="ProjectViewModel.UserCategoryID" VehicleID="ProjectViewModel.VehicleID" OnRefreshCallback="RefreshProject"></AddEditProject>
 
@@ -55,19 +57,37 @@ else
 
     </header>
 
+
+
+    @if (!IsTipDismissed)
+    {
+        <div class="alert alert-light shadow-sm">
+            <div class="d-inline-block mr-1">
+                <span>Tap the</span>
+                <button class="btn btn-sm btn-link" type="button"><span class="oi oi-resize-height"></span></button>
+                <span>icons to expand the different sections</span>
+            </div>
+
+            <button class="btn btn-sm btn-outline-info" @onclick="async () => { await ToggleSectionAsync(); }">Dismiss</button>
+
+        </div>
+    }
+
+
+
     <div class="row mb-4">
 
         <section class="col-md-12">
             <div class="card shadow-sm">
                 <div class="card-header">
                     <h2>
-                        <button class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardRelated" aria-expanded="true" aria-controls="cardRelated">
+                        <button class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardRelated" aria-expanded="false" aria-controls="cardRelated" @onclick="async () => { await ToggleSectionAsync(); }">
                             <span class="oi oi-resize-height"></span>
                         </button>
                         <span>Related Projects</span>
                     </h2>
                 </div>
-                <div id="cardRelated" class="card-body collapse show">
+                <div id="cardRelated" class="card-body collapse hide">
                     <div class="row">
                         <!--dependencies-->
                         @if (!IsSubProject)
@@ -128,7 +148,7 @@ else
                         {
                             <section class="col-lg-4 col-md-6 col-sm-12">
                                 <div class="card mb-2">
-                                        
+
                                     <div class="card-body">
                                         <h3 class="card-title">
                                             <span>Sub-Projects</span>
@@ -167,14 +187,14 @@ else
                 <div class="card-header">
                     <h2>
 
-                        <button class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardBudget" aria-expanded="true" aria-controls="cardBudget">
+                        <button class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardBudget" aria-expanded="false" aria-controls="cardBudget" @onclick="async () => { await ToggleSectionAsync(); }">
                             <span class="oi oi-resize-height"></span>
                         </button>
 
                         <span>Budget &amp; Progress</span>
                     </h2>
                 </div>
-                <div id="cardBudget" class="card-body collapse show">
+                <div id="cardBudget" class="card-body collapse hide">
 
                     @if (ProjectViewModel.TargetCost.HasValue)
                     {
@@ -221,7 +241,7 @@ else
                             </div>
                         </div>
 
-                        @if(ProjectViewModel.TargetCost.HasValue || ProjectViewModel.PartCostAllocated > 0.00M)
+                        @if (ProjectViewModel.TargetCost.HasValue || ProjectViewModel.PartCostAllocated > 0.00M)
                         {
                             <hr>
                         }
@@ -289,7 +309,7 @@ else
                 <div class="card-header">
                     <h2 class="d-inline-block">
 
-                        <button class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardParts" aria-expanded="true" aria-controls="cardParts">
+                        <button class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardParts" aria-expanded="false" aria-controls="cardParts" @onclick="async () => { await ToggleSectionAsync(); }">
                             <span class="oi oi-resize-height"></span>
                         </button>
 
@@ -333,7 +353,7 @@ else
 
                     }
                 </div>
-                <div id="cardParts" class="card-body collapse show">
+                <div id="cardParts" class="card-body collapse hide">
                     <div>
                         <AddEditPart Part="null" ProjectID="ProjectID" OnRefreshCallback="@RefreshParts"></AddEditPart>
                     </div>
@@ -370,6 +390,14 @@ else
     private bool IsSubProject = false;
     private bool IsPartsLocked = true; //I like using 'Is' for bools, grammar be damned
 
+    private bool IsTipDismissed = false;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsTipDismissed = await JSRuntime.InvokeAsync<bool>("tips.isDismissed", "expandProjectSection");
+    }
+
 
     protected override async Task OnParametersSetAsync()
     {
@@ -387,6 +415,12 @@ else
         {
             IsSubProject = false;
         }
+    }
+
+    private async Task ToggleSectionAsync()
+    {
+        IsTipDismissed = true;
+        await JSRuntime.InvokeVoidAsync("tips.dismiss", "expandProjectSection");
     }
 
     private async Task RefreshParts()
