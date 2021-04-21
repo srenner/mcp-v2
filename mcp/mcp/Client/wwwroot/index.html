@@ -36,13 +36,12 @@
         };
 
         window.tips = {
-
             dismiss: (key) => {
-                localStorage.setItem("tip_" + key, true);
+                localStorage.setItem("dismissTip_" + key, true);
             },
 
             isDismissed: (key) => {
-                let value = localStorage.getItem("tip_" + key);
+                let value = localStorage.getItem("dismissTip_" + key);
 
                 if (value == null) {
                     value = false;
@@ -52,10 +51,7 @@
                 }
                 return value;
             }            
-
         };
-
-
 
     </script>
 </head>
