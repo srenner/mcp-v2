@@ -27,14 +27,17 @@
             $('[data-toggle="tooltip"]').tooltip()
         };
 
-        window.setItem = (key, value) => {
-            localStorage.setItem(key, value);
+        window.isCollapsableExpanded = (element) => {
+
+            //return document.getElementById(element).getAttribute("aria-expanded");
+
+            //debugger;
+
+            return $(element).attr("aria-expanded");
         };
 
-        window.getItem = (key) => {
-            return localStorage.getItem(key);
-        };
 
+        //manage state of UI tips on the browser level (localStorage)
         window.tips = {
             dismiss: (key) => {
                 localStorage.setItem("dismissTip_" + key, true);
@@ -52,6 +55,17 @@
                 return value;
             }            
         };
+
+        //manage state of UI on project page on the session level (sessionStorage)
+        window.projectSession = {
+            setExpansionStates: (projectID, json) => {
+                sessionStorage.setItem('projectSectionsExpanded_' + projectID, json);
+            },
+            getExpansionStates: (projectID) => {
+                return sessionStorage.getItem('projectSectionsExpanded_' + projectID);
+            }
+        };
+
 
     </script>
 </head>

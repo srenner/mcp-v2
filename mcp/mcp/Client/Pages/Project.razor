@@ -1,6 +1,8 @@
 ﻿@page "/project/{ProjectID:int}"
 @using mcp.Shared.ViewModels
 @using mcp.Client.Shared
+@using System.Text.Json
+@using System.Text.Json.Serialization 
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
 
@@ -81,7 +83,7 @@ else
             <div class="card shadow-sm">
                 <div class="card-header">
                     <h2>
-                        <button class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardRelated" aria-expanded="false" aria-controls="cardRelated" @onclick="async () => { await ToggleSectionAsync(); }">
+                        <button id="toggleRelated" class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardRelated" aria-expanded="false" aria-controls="cardRelated" @onclick='async () => { await ToggleSectionAsync(); }'>
                             <span class="oi oi-resize-height"></span>
                         </button>
                         <span>Related Projects</span>
@@ -187,7 +189,7 @@ else
                 <div class="card-header">
                     <h2>
 
-                        <button class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardBudget" aria-expanded="false" aria-controls="cardBudget" @onclick="async () => { await ToggleSectionAsync(); }">
+                        <button id="toggleBudget" class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardBudget" aria-expanded="false" aria-controls="cardBudget" @onclick='async () => { await ToggleSectionAsync(); }'>
                             <span class="oi oi-resize-height"></span>
                         </button>
 
@@ -309,7 +311,7 @@ else
                 <div class="card-header">
                     <h2 class="d-inline-block">
 
-                        <button class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardParts" aria-expanded="false" aria-controls="cardParts" @onclick="async () => { await ToggleSectionAsync(); }">
+                        <button id="toggleParts" class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardParts" aria-expanded="false" aria-controls="cardParts" @onclick='async () => { await ToggleSectionAsync(); }'>
                             <span class="oi oi-resize-height"></span>
                         </button>
 
@@ -419,8 +421,18 @@ else
 
     private async Task ToggleSectionAsync()
     {
-        IsTipDismissed = true;
-        await JSRuntime.InvokeVoidAsync("tips.dismiss", "expandProjectSection");
+        bool isRelatedExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsableExpanded", "#toggleRelated"));
+        bool isBudgetExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsableExpanded", "#toggleBudget"));
+        bool isPartsExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsableExpanded", "#toggleParts"));
+        var obj = new { projectID = this.ProjectID, isRelatedExpanded = isRelatedExpanded, isBudgetExpanded = isBudgetExpanded, isPartsExpanded = isPartsExpanded };
+        string jsonString = JsonSerializer.Serialize(obj);
+        await JSRuntime.InvokeVoidAsync("projectSession.setExpansionStates", this.ProjectID, jsonString);
+
+        if (!IsTipDismissed)
+        {
+            IsTipDismissed = true;
+            await JSRuntime.InvokeVoidAsync("tips.dismiss", "expandProjectSection");
+        }
     }
 
     private async Task RefreshParts()
