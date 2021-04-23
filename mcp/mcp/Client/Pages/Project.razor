@@ -398,6 +398,14 @@ else
     protected override async Task OnInitializedAsync()
     {
         IsTipDismissed = await JSRuntime.InvokeAsync<bool>("tips.isDismissed", "expandProjectSection");
+
+        string jsonExpansion = await JSRuntime.InvokeAsync<string>("projectSession.getExpansionStates", this.ProjectID);
+
+        var expansionStates = JsonSerializer.Deserialize<object>(jsonExpansion);
+
+        
+
+        //await JSRuntime.InvokeVoidAsync("alert", jsonExpansion);
     }
 
 

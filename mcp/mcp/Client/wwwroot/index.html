@@ -62,7 +62,13 @@
                 sessionStorage.setItem('projectSectionsExpanded_' + projectID, json);
             },
             getExpansionStates: (projectID) => {
-                return sessionStorage.getItem('projectSectionsExpanded_' + projectID);
+                //let jsonString = sessionStorage.getItem('projectSectionsExpanded_' + projectID);
+                //if (!jsonString) {
+                //    jsonString = "{}";
+                //}
+                //return jsonString;
+
+                return sessionStorage.getItem('projectSectionsExpanded_' + projectID) || "{}";
             }
         };
 
