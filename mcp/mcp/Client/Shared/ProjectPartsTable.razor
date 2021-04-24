@@ -34,9 +34,11 @@
                     <span class="font-weight-bold">@part.Name</span>
                     @if (part.Description?.Length > 0)
                     {
-                        <div class="badge badge-light badge-pill" style="cursor: default" data-toggle="tooltip" data-placement="top" data-trigger="hover focus click" title="@part.Description">
-                            <span>&hellip;</span>
-                        </div>
+                        <InfoDialog ID="@("moreInfo_" + part.ProjectPartID.ToString())" TitleText="@part.Name" BodyText="@part.Description"></InfoDialog>
+
+                        <button class="btn btn-link" data-toggle="modal" data-target="@("#moreInfo_" + part.ProjectPartID.ToString())">
+                            <span class="oi oi-magnifying-glass"></span>
+                        </button>
                     }
 
                     @if (part.Manufacturer?.Length > 0 || part.PartNumber?.Length > 0)
