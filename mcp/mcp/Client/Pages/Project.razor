@@ -2,7 +2,8 @@
 @using mcp.Shared.ViewModels
 @using mcp.Client.Shared
 @using System.Text.Json
-@using System.Text.Json.Serialization 
+@using System.Text.Json.Serialization
+@using mcp.Shared.WebStorage.SessionStorage
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
 
@@ -78,7 +79,7 @@ else
 
 
     <div class="row mb-4">
-
+        <!--related-->
         <section class="col-md-12">
             <div class="card shadow-sm">
                 <div class="card-header">
@@ -260,20 +261,6 @@ else
                 </div>
             </div>
         </section>
-
-        <!--progress-->
-        <section class="col-md-6 col-sm-12 d-none">
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    <h2>Progress</h2>
-                </div>
-                <div class="card-body">
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                    </div>
-                </div>
-            </div>
-        </section>
     </div>
 
     <!--notes-->
@@ -387,10 +374,9 @@ else
     [Parameter]
     public int ProjectID { get; set; }
 
-
     private ProjectViewModel ProjectViewModel;
     private bool IsSubProject = false;
-    private bool IsPartsLocked = true; //I like using 'Is' for bools, grammar be damned
+    private bool IsPartsLocked = true;
 
     private bool IsTipDismissed = false;
 
@@ -398,20 +384,40 @@ else
     protected override async Task OnInitializedAsync()
     {
         IsTipDismissed = await JSRuntime.InvokeAsync<bool>("tips.isDismissed", "expandProjectSection");
-
-        string jsonExpansion = await JSRuntime.InvokeAsync<string>("projectSession.getExpansionStates", this.ProjectID);
-
-        var expansionStates = JsonSerializer.Deserialize<object>(jsonExpansion);
-
-        
-
-        //await JSRuntime.InvokeVoidAsync("alert", jsonExpansion);
     }
 
 
     protected override async Task OnParametersSetAsync()
     {
         await RefreshProject();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        await SetExpandibles();
+    }
+
+    private async Task SetExpandibles()
+    {
+        string jsonExpansion = await JSRuntime.InvokeAsync<string>("projectSession.getExpansionStates", this.ProjectID);
+        var expansionStates = JsonSerializer.Deserialize<ProjectSectionsExpanded>(jsonExpansion);
+        if (expansionStates.ProjectID == this.ProjectID)
+        {
+            //todo room for improvement
+            if (expansionStates.IsBudgetExpanded)
+            {
+                await JSRuntime.InvokeVoidAsync("expandCollapsible", "#cardBudget");
+            }
+            if (expansionStates.IsPartsExpanded)
+            {
+                await JSRuntime.InvokeVoidAsync("expandCollapsible", "#cardParts");
+            }
+            if (expansionStates.IsRelatedExpanded)
+            {
+                await JSRuntime.InvokeVoidAsync("expandCollapsible", "#cardRelated");
+            }
+        }
     }
 
     private async Task RefreshProject()
@@ -429,10 +435,18 @@ else
 
     private async Task ToggleSectionAsync()
     {
-        bool isRelatedExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsableExpanded", "#toggleRelated"));
-        bool isBudgetExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsableExpanded", "#toggleBudget"));
-        bool isPartsExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsableExpanded", "#toggleParts"));
-        var obj = new { projectID = this.ProjectID, isRelatedExpanded = isRelatedExpanded, isBudgetExpanded = isBudgetExpanded, isPartsExpanded = isPartsExpanded };
+        bool isRelatedExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsibleExpanded", "#toggleRelated"));
+        bool isBudgetExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsibleExpanded", "#toggleBudget"));
+        bool isPartsExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsibleExpanded", "#toggleParts"));
+
+        var obj = new ProjectSectionsExpanded
+        {
+            ProjectID = this.ProjectID,
+            IsRelatedExpanded = isRelatedExpanded,
+            IsBudgetExpanded = isBudgetExpanded,
+            IsPartsExpanded = isPartsExpanded
+        };
+
         string jsonString = JsonSerializer.Serialize(obj);
         await JSRuntime.InvokeVoidAsync("projectSession.setExpansionStates", this.ProjectID, jsonString);
 

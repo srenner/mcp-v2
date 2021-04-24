@@ -27,13 +27,15 @@
             $('[data-toggle="tooltip"]').tooltip()
         };
 
-        window.isCollapsableExpanded = (element) => {
-
-            //return document.getElementById(element).getAttribute("aria-expanded");
-
-            //debugger;
-
+        window.isCollapsibleExpanded = (element) => {
             return $(element).attr("aria-expanded");
+        };
+
+        window.expandCollapsible = (element) => {
+
+            console.log('expanding ' + element);
+
+            $(element).collapse('show');
         };
 
 
@@ -62,12 +64,6 @@
                 sessionStorage.setItem('projectSectionsExpanded_' + projectID, json);
             },
             getExpansionStates: (projectID) => {
-                //let jsonString = sessionStorage.getItem('projectSectionsExpanded_' + projectID);
-                //if (!jsonString) {
-                //    jsonString = "{}";
-                //}
-                //return jsonString;
-
                 return sessionStorage.getItem('projectSectionsExpanded_' + projectID) || "{}";
             }
         };
