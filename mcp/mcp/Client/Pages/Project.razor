@@ -77,6 +77,36 @@ else
     }
 
 
+    <div class="mb-4">
+        @if (ProjectViewModel.TargetCost.HasValue)
+        {
+            <div class="mb-2">
+                <h3>
+                    <span class="d-inline-block">Budget</span>
+                    <span class="d-inline-block float-right small">
+                        <span class="@(ProjectViewModel.TotalCostSpent > ProjectViewModel.TargetCost ? "text-danger" : "")">
+                            <span>$</span><span>@ProjectViewModel.TotalCostSpent</span>
+                        </span>
+                        <span>spent of</span>
+                        <span>$</span><span>@ProjectViewModel.TargetCost.Value</span>
+                    </span>
+                </h3>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: @ProjectViewModel.TotalPercentSpentString" aria-valuenow="25" aria-valuemin="0" aria-valuemax="@ProjectViewModel.TargetCost.Value">
+                        <span>@ProjectViewModel.TotalPercentSpentString</span>
+                    </div>
+                </div>
+            </div>
+        }
+        <div>
+            <h3>
+                <span class="d-inline-block">Progress</span>
+            </h3>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+            </div>
+        </div>
+    </div>
 
     <div class="row mb-4">
         <!--related-->
@@ -183,91 +213,6 @@ else
 
     </div>
 
-    <div class="row mb-4">
-        <!--budget-->
-        <section class="col-md-12">
-            <div class="card shadow-sm">
-                <div class="card-header">
-                    <h2>
-
-                        <button id="toggleBudget" class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardBudget" aria-expanded="false" aria-controls="cardBudget" @onclick='async () => { await ToggleSectionAsync(); }'>
-                            <span class="oi oi-resize-height"></span>
-                        </button>
-
-                        <span>Budget &amp; Progress</span>
-                    </h2>
-                </div>
-                <div id="cardBudget" class="card-body collapse hide">
-
-                    @if (ProjectViewModel.TargetCost.HasValue)
-                    {
-                        <div class="mb-1">
-                            <div>
-                                <h3>
-                                    <span class="d-inline-block">Overall Target Cost</span>
-                                    <span class="d-inline-block float-right small">
-                                        <span class="@(ProjectViewModel.TotalCostSpent > ProjectViewModel.TargetCost ? "text-danger" : "")">
-                                            <span>$</span><span>@ProjectViewModel.TotalCostSpent</span>
-                                        </span>
-                                        <span>spent of</span>
-                                        <span>$</span><span>@ProjectViewModel.TargetCost.Value</span>
-                                    </span>
-                                </h3>
-                            </div>
-
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: @ProjectViewModel.TotalPercentSpentString" aria-valuenow="25" aria-valuemin="0" aria-valuemax="@ProjectViewModel.TargetCost.Value">
-                                    <span>@ProjectViewModel.TotalPercentSpentString</span>
-                                </div>
-                            </div>
-                        </div>
-                    }
-
-                    @if (ProjectViewModel.Parts != null && ProjectViewModel.Parts.Count > 0)
-                    {
-
-                        @if (ProjectViewModel.TargetCost.HasValue)
-                        {
-                            <hr>
-                        }
-                        <div class="mb-1">
-                            <h4>
-                                <span class="d-inline-block">Parts Cost</span>
-                                <span class="d-inline-block float-right small">
-                                    <span>$</span><span>@ProjectViewModel.PartCostSpent</span>
-                                    <span> spent of </span>
-                                    <span class="@(ProjectViewModel.PartCostAllocated > ProjectViewModel.TargetCost ? "text-danger" : "")">
-                                        <span>$</span><span>@ProjectViewModel.PartCostAllocated</span>
-                                    </span>
-                                    
-                                </span>
-                            </h4>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: @ProjectViewModel.PartPercentSpentString" aria-valuenow="@ProjectViewModel.PartCostSpent" aria-valuemin="0" aria-valuemax="@ProjectViewModel.PartCostAllocated">
-                                    <span>@ProjectViewModel.PartPercentSpentString</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        @if (ProjectViewModel.TargetCost.HasValue || ProjectViewModel.PartCostAllocated > 0.00M)
-                        {
-                            <hr>
-                        }
-
-                        <div class="mb-1">
-                            <h4>
-                                <span class="d-inline-block">Project Progress</span>
-                            </h4>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-        </section>
-    </div>
-
     <!--notes-->
     <div class="row mb-4 d-none">
         <section class="col-md-12">
@@ -354,6 +299,25 @@ else
 
                     @if (ProjectViewModel.Parts != null && ProjectViewModel.Parts.Count > 0)
                     {
+                        <div class="mb-1">
+                            <h4>
+                                <span class="d-inline-block">Parts Cost</span>
+                                <span class="d-inline-block float-right small">
+                                    <span>$</span><span>@ProjectViewModel.PartCostSpent</span>
+                                    <span> spent of </span>
+                                    <span class="@(ProjectViewModel.PartCostAllocated > ProjectViewModel.TargetCost ? "text-danger" : "")">
+                                        <span>$</span><span>@ProjectViewModel.PartCostAllocated</span>
+                                    </span>
+                                </span>
+                            </h4>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: @ProjectViewModel.PartPercentSpentString" aria-valuenow="@ProjectViewModel.PartCostSpent" aria-valuemin="0" aria-valuemax="@ProjectViewModel.PartCostAllocated">
+                                    <span>@ProjectViewModel.PartPercentSpentString</span>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <div>
                             <ProjectPartsTable Parts="@ProjectViewModel.Parts" IsLocked="IsPartsLocked" OnRefreshCallback="@RefreshParts"></ProjectPartsTable>
                         </div>
@@ -410,10 +374,6 @@ else
         if (expansionStates.ProjectID == this.ProjectID)
         {
             //todo room for improvement
-            if (expansionStates.IsBudgetExpanded)
-            {
-                await JSRuntime.InvokeVoidAsync("expandCollapsible", "#cardBudget");
-            }
             if (expansionStates.IsPartsExpanded)
             {
                 await JSRuntime.InvokeVoidAsync("expandCollapsible", "#cardParts");
@@ -441,14 +401,12 @@ else
     private async Task ToggleSectionAsync()
     {
         bool isRelatedExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsibleExpanded", "#toggleRelated"));
-        bool isBudgetExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsibleExpanded", "#toggleBudget"));
         bool isPartsExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsibleExpanded", "#toggleParts"));
 
         var obj = new ProjectSectionsExpanded
         {
             ProjectID = this.ProjectID,
             IsRelatedExpanded = isRelatedExpanded,
-            IsBudgetExpanded = isBudgetExpanded,
             IsPartsExpanded = isPartsExpanded
         };
 

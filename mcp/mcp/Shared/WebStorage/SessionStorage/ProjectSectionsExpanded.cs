@@ -9,7 +9,6 @@ namespace mcp.Shared.WebStorage.SessionStorage
     public class ProjectSectionsExpanded
     {
         public int ProjectID { get; set; }
-        public bool IsBudgetExpanded { get; set; }
         public bool IsPartsExpanded { get; set; }
         public bool IsRelatedExpanded { get; set; }
     }
