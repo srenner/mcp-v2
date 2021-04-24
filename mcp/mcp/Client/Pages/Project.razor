@@ -206,7 +206,9 @@ else
                                 <h3>
                                     <span class="d-inline-block">Overall Target Cost</span>
                                     <span class="d-inline-block float-right small">
-                                        <span>$</span><span>@ProjectViewModel.TotalCostSpent</span>
+                                        <span class="@(ProjectViewModel.TotalCostSpent > ProjectViewModel.TargetCost ? "text-danger" : "")">
+                                            <span>$</span><span>@ProjectViewModel.TotalCostSpent</span>
+                                        </span>
                                         <span>spent of</span>
                                         <span>$</span><span>@ProjectViewModel.TargetCost.Value</span>
                                     </span>
@@ -234,7 +236,10 @@ else
                                 <span class="d-inline-block float-right small">
                                     <span>$</span><span>@ProjectViewModel.PartCostSpent</span>
                                     <span> spent of </span>
-                                    <span>$</span><span>@ProjectViewModel.PartCostAllocated</span>
+                                    <span class="@(ProjectViewModel.PartCostAllocated > ProjectViewModel.TargetCost ? "text-danger" : "")">
+                                        <span>$</span><span>@ProjectViewModel.PartCostAllocated</span>
+                                    </span>
+                                    
                                 </span>
                             </h4>
                             <div class="progress">
