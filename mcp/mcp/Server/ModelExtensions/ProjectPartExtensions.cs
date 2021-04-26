@@ -24,6 +24,7 @@ namespace mcp.Server.ModelExtensions
             model.Quantity = part.Quantity;
             model.QuantityPurchased = part.QuantityPurchased;
             model.QuantityInstalled = part.QuantityInstalled;
+            model.ExcludeFromTotal = part.ExcludeFromTotal;
             return model;
         }
 

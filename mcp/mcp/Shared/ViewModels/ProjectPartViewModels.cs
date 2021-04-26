@@ -86,5 +86,6 @@ namespace mcp.Shared.ViewModels
         }
     
         public bool IsSelected { get; set; }
+        public bool ExcludeFromTotal { get; set; }
     }
 }

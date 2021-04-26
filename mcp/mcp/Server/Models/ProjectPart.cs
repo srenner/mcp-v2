@@ -38,5 +38,10 @@ namespace mcp.Server.Models
         public int QuantityPurchased { get; set; }
         public int QuantityInstalled { get; set; }
 
+
+        /// <summary>
+        /// Set True when this part is being considered as a possibility, and the user does not want it to count towards the budget and progress until they set it False.
+        /// </summary>
+        public bool ExcludeFromTotal { get; set; }
     }
 }
