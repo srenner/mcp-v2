@@ -242,7 +242,7 @@ else
     </div>
 
     <!--parts-->
-    <div class="row rb-4">
+    <div class="row mb-4">
         <section class="col-md-12">
             <div class="card shadow-sm">
                 <div class="card-header">
@@ -333,7 +333,62 @@ else
         </section>
     </div>
 
-
+    <!--decision helper-->
+    <div class="row mb-4">
+        <section class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h2 class="d-inline-block">
+                        <button id="togglePartDecider" class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardPartDecider" aria-expanded="false" aria-controls="cardPartDecider" @onclick='async () => { await ToggleSectionAsync(); }'>
+                            <span class="oi oi-resize-height"></span>
+                        </button>
+                        <span>Part Decider</span>
+                        @*<button class="btn btn-primary btn-sm ml-2 mr-2" data-target="#modalPartDecider" data-toggle="modal">
+                            <span class="oi oi-plus"></span>
+                            <span>Add</span>
+                        </button>*@
+                    </h2>
+                </div>
+                <div id="cardPartDecider" class="card-body collapse hide">
+                    <div>
+                        <table class="table">
+                            <tr>
+                                <th colspan="4">
+                                    <h3 class="d-inline-block">Water Pump</h3>
+                                    <button class="btn btn-sm btn-primary d-inline-block">Edit Choices</button>
+                                    <button class="btn btn-sm btn-primary d-inline-block">Decide</button>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>Tuff Stuff 1538N</td>
+                                <td>Cast iron, 3/4" snout, not a rebuild, unknown impeller design</td>
+                                <td>$62.99</td>
+                                <td><a href="https://www.speedwaymotors.com/Tuff-Stuff-1538N-2-3L-Ford-Water-Pump,4283.html">www.speedwaymotors.com</a></td>
+                            </tr>
+                            <tr>
+                                <td>Esslinger</td>
+                                <td>Aluminum, 3/4" snout, not a rebuild, curved impeller blades, maybe can be underdriven, no heater hose port</td>
+                                <td>$240.90</td>
+                                <td><a href="https://esslingeracing.com/waterpumps/billet-aluminum-ford-sohc-water-pump">esslingeracing.com</a></td>
+                            </tr>
+                            <tr>
+                                <td>Racer Walsh</td>
+                                <td>Aluminum, unknown pulley bolt pattern, not a rebuild, stamped steel impeller blades</td>
+                                <td>$180.00</td>
+                                <td><a href="https://racerwalsh.com/product/2-3l-aluminum-water-pump/">racerwalsh.com</a></td>
+                            </tr>
+                            <tr>
+                                <td>FlowKooler</td>
+                                <td>Cast iron, cnc aluminum impeller blades, unknown snout size</td>
+                                <td>$99.00</td>
+                                <td><a href="https://flowkoolerwaterpumps.com/collections/hi-flow-water-pumps/products/1682-1983-1994-ford-140-hi-flow-water-pump">flowkoolerwaterpumps.com</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 }
 
 
