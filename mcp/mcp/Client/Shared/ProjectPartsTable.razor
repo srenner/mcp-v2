@@ -57,11 +57,15 @@
                 </td>
                 <td><a href="@part.Link" target="_blank">@part.LinkText</a></td>
                 <td>
-                    @if (part.Price.HasValue)
+                    @if (part.MoneyAllocated > 0.00M)
                     {
                         <span>$</span>
+                        @part.MoneyAllocated
                     }
-                    @part.Price
+                    else
+                    {
+                        <span>--</span>
+                    }
                 </td>
                 <td>
                     <span class="mr-1">@part.QuantityPurchased/@part.Quantity</span>
