@@ -139,7 +139,7 @@ namespace mcp.Shared.ViewModels
                 decimal allocated = 0.00M;
                 if(this.Parts != null && this.Parts.Count > 0 && this.Parts.Any(a => a.Price.HasValue))
                 {
-                    allocated = this.Parts.Sum(s => s.MoneyAllocated);
+                    allocated = this.Parts.Where(w => w.ExcludeFromTotal == false).Sum(s => s.MoneyAllocated);
                 }
                 return allocated;
             }
@@ -152,7 +152,7 @@ namespace mcp.Shared.ViewModels
                 decimal spent = 0.00M;
                 if (this.Parts != null && this.Parts.Count > 0 && this.Parts.Any(a => a.Price.HasValue) && this.Parts.Any(a => a.QuantityPurchased > 0))
                 {
-                    spent = this.Parts.Sum(s => s.MoneySpent);
+                    spent = this.Parts.Where(w => w.ExcludeFromTotal == false).Sum(s => s.MoneySpent);
                 }
                 return spent;
             }

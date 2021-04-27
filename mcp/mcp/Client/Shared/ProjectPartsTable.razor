@@ -20,7 +20,8 @@
     <tbody>
         @foreach (var part in Parts)
         {
-            <tr class="@(part.QuantityInstalled == part.Quantity ? "alert-success" : "" )">
+            <tr class="@(part.QuantityInstalled == part.Quantity ? "alert-success" : 
+                         part.ExcludeFromTotal ? "alert-dark" : "")">
                 <td>
                     <button class="btn btn-sm btn-outline-info mr-1" data-toggle="modal" data-target="#modalEditPart" @onclick="() => BeginEditPart(part)">
                         <span class="oi oi-pencil"></span>
