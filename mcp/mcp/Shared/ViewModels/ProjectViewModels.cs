@@ -80,6 +80,30 @@ namespace mcp.Shared.ViewModels
         public bool IsDeleted { get; set; }
         public int Progress { get; set; }
 
+        public int RelatedProjectCount
+        {
+            get
+            {
+                int count = 0;
+
+                if(this.SubProjects != null)
+                {
+                    count += this.SubProjects.Count;
+                }
+                if(this.BlockedProjects != null)
+                {
+                    count += this.BlockedProjects.Count;
+                }
+                if(this.Dependencies != null)
+                {
+                    count += this.Dependencies.Count;
+                }
+                
+
+                return count;
+            }
+        }
+
         public List<ProjectPartViewModel> Parts { get; set; }
 
         public List<ProjectListItemViewModel> Dependencies { get; set; }
@@ -99,9 +123,7 @@ namespace mcp.Shared.ViewModels
             get
             {
                 decimal spent = 0.00M;
-
                 spent += PartCostSpent;
-
                 return spent;
             }
         }
@@ -111,7 +133,6 @@ namespace mcp.Shared.ViewModels
             get
             {
                 decimal percent = 0.00M;
-
                 if(TargetCost.HasValue && TargetCost.Value > 0.00M)
                 {
                     percent = (TotalCostSpent / TargetCost.Value);
@@ -127,10 +148,6 @@ namespace mcp.Shared.ViewModels
                 return TotalPercentSpent.ToString() + "%";
             }
         }
-
-
-
-
 
         public decimal PartCostAllocated
         {
@@ -184,11 +201,7 @@ namespace mcp.Shared.ViewModels
             }
         }
 
-
         #endregion
-
-
-
 
     }
 }

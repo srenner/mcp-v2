@@ -118,6 +118,7 @@ else
                             <span class="oi oi-resize-height"></span>
                         </button>
                         <span>Related Projects</span>
+                        <span>(@ProjectViewModel.RelatedProjectCount)</span>
                     </h2>
                 </div>
                 <div id="cardRelated" class="card-body collapse hide">
@@ -402,7 +403,6 @@ else
     private bool IsPartsLocked = true;
 
     private bool IsTipDismissed = false;
-
 
     protected override async Task OnInitializedAsync()
     {
