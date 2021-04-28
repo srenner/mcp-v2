@@ -149,7 +149,8 @@
         var result = await Http.PutAsJsonAsync<ProjectPartViewModel>("api/projectpart/" + part.ProjectPartID, part);
         if (result.IsSuccessStatusCode)
         {
-            StateHasChanged();
+            //StateHasChanged();
+            await Refresh();
         }
     }
 
@@ -159,7 +160,8 @@
         var result = await Http.PutAsJsonAsync<ProjectPartViewModel>("api/projectpart/" + part.ProjectPartID, part);
         if (result.IsSuccessStatusCode)
         {
-            StateHasChanged();
+            //StateHasChanged();
+            await Refresh();
 
         }
     }
