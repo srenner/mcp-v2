@@ -122,6 +122,35 @@ else
                 </div>
                 <div id="cardRelated" class="card-body collapse hide">
                     <div class="row">
+                        <!--sub-projects-->
+                        @if (!IsSubProject)
+                        {
+                            <section class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="card mb-2">
+
+                                    <div class="card-body">
+                                        <h3 class="card-title">
+                                            <span>Sub-Projects</span>
+                                            <button class="btn btn-primary btn-sm ml-2" data-target="#modalProject" data-toggle="modal">
+                                                <span class="oi oi-plus"></span>
+                                                <span>Add</span>
+                                            </button>
+                                        </h3>
+                                        <AddEditProject ProjectID="null" ParentProjectID="@ProjectID" UserCategoryID="@ProjectViewModel.UserCategoryID" VehicleID="@ProjectViewModel.VehicleID" OnRefreshCallback="@RefreshProject"></AddEditProject>
+                                        @if (ProjectViewModel.SubProjects != null && ProjectViewModel.SubProjects.Count > 0)
+                                        {
+                                            <div class="mb-2">
+                                                <ProjectsList Projects="ProjectViewModel.SubProjects"></ProjectsList>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="alert alert-success">No sub-projects</div>
+                                        }
+                                    </div>
+                                </div>
+                            </section>
+                        }
                         <!--dependencies-->
                         @if (!IsSubProject)
                         {
@@ -170,36 +199,6 @@ else
                                             <div class="alert alert-success" role="alert">
                                                 This project isn't blocking any other projects.
                                             </div>
-                                        }
-                                    </div>
-                                </div>
-                            </section>
-                        }
-
-                        <!--sub-projects-->
-                        @if (!IsSubProject)
-                        {
-                            <section class="col-lg-4 col-md-6 col-sm-12">
-                                <div class="card mb-2">
-
-                                    <div class="card-body">
-                                        <h3 class="card-title">
-                                            <span>Sub-Projects</span>
-                                            <button class="btn btn-primary btn-sm ml-2" data-target="#modalProject" data-toggle="modal">
-                                                <span class="oi oi-plus"></span>
-                                                <span>Add</span>
-                                            </button>
-                                        </h3>
-                                        <AddEditProject ProjectID="null" ParentProjectID="@ProjectID" UserCategoryID="@ProjectViewModel.UserCategoryID" VehicleID="@ProjectViewModel.VehicleID" OnRefreshCallback="@RefreshProject"></AddEditProject>
-                                        @if (ProjectViewModel.SubProjects != null && ProjectViewModel.SubProjects.Count > 0)
-                                        {
-                                            <div class="mb-2">
-                                                <ProjectsList Projects="ProjectViewModel.SubProjects"></ProjectsList>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="alert alert-success">No sub-projects</div>
                                         }
                                     </div>
                                 </div>
