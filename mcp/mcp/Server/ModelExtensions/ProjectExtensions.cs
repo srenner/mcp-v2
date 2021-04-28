@@ -35,7 +35,7 @@ namespace mcp.Server.ModelExtensions
 
             if(project.Parts?.Count > 0)
             {
-                model.Parts = project.Parts.ToViewModel().OrderBy(o => o.ExcludeFromTotal).ToList();
+                model.Parts = project.Parts.ToViewModel();
             }
 
             if(project.ChecklistItems?.Count > 0)

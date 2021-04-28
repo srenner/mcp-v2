@@ -32,6 +32,7 @@ namespace mcp.Server.ModelExtensions
         {
             var list = new List<ProjectPartViewModel>();
             parts.ForEach(x => list.Add(x.ToViewModel()));
+            list = list.OrderBy(o => o.ExcludeFromTotal).ToList();
             return list;
         }
     }

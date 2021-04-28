@@ -71,6 +71,11 @@ namespace mcp.Server.Controllers
                     return BadRequest();
                 }
 
+                if(projectPart.QuantityPurchased > 0 || projectPart.QuantityInstalled > 0)
+                {
+                    projectPart.ExcludeFromTotal = false;
+                }
+
                 _context.Entry(projectPart).State = EntityState.Modified;
 
                 try
