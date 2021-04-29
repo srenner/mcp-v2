@@ -253,11 +253,6 @@ else
                         <span>Parts</span>
                         <span class="badge badge-info">@ProjectViewModel.ActivePartCount</span>
 
-                        <button class="btn btn-primary btn-sm ml-2 mr-2" data-target="#modalPart" data-toggle="modal">
-                            <span class="oi oi-plus"></span>
-                            <span>Add</span>
-                        </button>
-
                         @if (IsSubProject)
                         {
                             <button class="btn btn-primary btn-sm ml-2 mr-2" data-target="#modalImportPart" data-toggle="modal">
@@ -295,6 +290,11 @@ else
                     <div>
                         <AddEditPart Part="null" ProjectID="ProjectID" OnRefreshCallback="@RefreshParts"></AddEditPart>
                     </div>
+
+                    <button class="btn btn-primary btn-sm mb-2" data-target="#modalPart" data-toggle="modal">
+                        <span class="oi oi-plus"></span>
+                        <span>Add Part</span>
+                    </button>
 
                     @if (ProjectViewModel.Parts != null && ProjectViewModel.Parts.Count > 0)
                     {
