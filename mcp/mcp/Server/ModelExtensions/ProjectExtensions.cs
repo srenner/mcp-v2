@@ -29,6 +29,7 @@ namespace mcp.Server.ModelExtensions
             model.TargetCost = project.TargetCost;
             model.TargetEndDate = project.TargetEndDate;
             model.UserCategory = project.UserCategory?.Name;
+            model.UserCategoryID = project.UserCategoryID;
             model.VehicleID = project.VehicleID;
             model.VehicleName = project.Vehicle?.Name;
             model.Progress = project.GetProgress();
