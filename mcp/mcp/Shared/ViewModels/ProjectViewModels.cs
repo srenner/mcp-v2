@@ -85,7 +85,6 @@ namespace mcp.Shared.ViewModels
             get
             {
                 int count = 0;
-
                 if(this.SubProjects != null)
                 {
                     count += this.SubProjects.Count;
@@ -98,8 +97,19 @@ namespace mcp.Shared.ViewModels
                 {
                     count += this.Dependencies.Count;
                 }
-                
+                return count;
+            }
+        }
 
+        public int ActivePartCount
+        {
+            get
+            {
+                int count = 0;
+                if(this.Parts != null && this.Parts.Count > 0)
+                {
+                    count = this.Parts.Where(w => w.ExcludeFromTotal == false).Count();
+                }
                 return count;
             }
         }
