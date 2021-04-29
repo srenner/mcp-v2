@@ -41,6 +41,8 @@ namespace mcp.Server.Models
         public bool IsCostPublic { get; set; }
         public bool IsDeleted { get; set; }
 
+        public DateTime LastUpdate { get; set; }
+
         public int ProjectStatusID { get; set; }
         public ProjectStatus ProjectStatus { get; set; }
 

@@ -51,6 +51,7 @@ namespace mcp.Server.Controllers
             {
                 var project = await _context.Project.FindAsync(projectID);
                 project.ProjectStatusID = (int)ProjectStatusEnum.Active;
+                project.LastUpdate = DateTime.Now;
                 _context.Entry(project).State = EntityState.Modified;
                 try
                 {
@@ -75,6 +76,7 @@ namespace mcp.Server.Controllers
             {
                 var project = await _context.Project.FindAsync(projectID);
                 project.ProjectStatusID = (int)ProjectStatusEnum.Backlog;
+                project.LastUpdate = DateTime.Now;
                 _context.Entry(project).State = EntityState.Modified;
                 try
                 {

@@ -55,6 +55,7 @@ namespace mcp.Server.Data
                 builder.Entity<Project>().Property(o => o.TargetCost).HasColumnType(currencyFormat);
                 builder.Entity<Project>().Property(o => o.ActualCost).HasColumnType(currencyFormat);
                 builder.Entity<Project>().Property(p => p.ProjectStatusID).HasDefaultValue(1);
+                builder.Entity<Project>().Property(p => p.LastUpdate).HasDefaultValueSql("getdate()");  //todo possibly not portable to future DBMS
 
                 builder.Entity<ProjectDependency>().HasOne(o => o.DependsOnProject).WithMany(m => m.DependenciesOf).HasForeignKey(k => k.DependsOnProjectID).OnDelete(DeleteBehavior.Restrict);
                 builder.Entity<ProjectDependency>().HasOne(o => o.Project).WithMany(m => m.Dependencies).HasForeignKey(k => k.ProjectID).OnDelete(DeleteBehavior.Restrict);

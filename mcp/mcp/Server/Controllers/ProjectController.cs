@@ -47,6 +47,7 @@ namespace mcp.Server.Controllers
                     .Where(w => w.IsDeleted == false)
                     .Where(w => w.ParentProjectID == null)
                     .Where(w => w.ProjectStatusID == (int)ProjectStatusEnum.Active)
+                    .OrderByDescending(o => o.LastUpdate)
                     .ToListAsync();
                 return projects.ToListItemViewModel();
             }
@@ -74,6 +75,7 @@ namespace mcp.Server.Controllers
                     .Where(w => w.IsDeleted == false)
                     .Where(w => w.ParentProjectID == null)
                     .Where(w => w.ProjectStatusID == (int)ProjectStatusEnum.Backlog)
+                    .OrderByDescending(o => o.LastUpdate)
                     .ToListAsync();
                 return projects.ToListItemViewModel();
             }
@@ -97,6 +99,7 @@ namespace mcp.Server.Controllers
                 .Where(w => w.ProjectStatusID == (int)ProjectStatusEnum.Complete)
                 .Where(w => w.IsDeleted == false)
                 .Where(w => w.ParentProjectID == null)
+                .OrderByDescending(o => o.LastUpdate)
                 .ToListAsync();
             return projects.ToListItemViewModel();;
         }
@@ -173,7 +176,7 @@ namespace mcp.Server.Controllers
             {
                 return BadRequest();
             }
-
+            project.LastUpdate = DateTime.Now;
             _context.Entry(project).State = EntityState.Modified;
 
             try
@@ -200,6 +203,7 @@ namespace mcp.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Project>> PostProject(Project project)
         {
+            project.LastUpdate = DateTime.Now;
             _context.Project.Add(project);
             await _context.SaveChangesAsync();
 
