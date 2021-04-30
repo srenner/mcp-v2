@@ -60,8 +60,6 @@ else
 
     </header>
 
-
-
     @if (!IsTipDismissed)
     {
         <div class="alert alert-light shadow-sm">
@@ -70,12 +68,9 @@ else
                 <button class="btn btn-sm btn-link" type="button"><span class="oi oi-resize-height"></span></button>
                 <span>icons to expand the different sections</span>
             </div>
-
             <button class="btn btn-sm btn-outline-info" @onclick="async () => { await ToggleSectionAsync(); }">Dismiss</button>
-
         </div>
     }
-
 
     <div class="mb-4">
         @if (ProjectViewModel.TargetCost.HasValue)
@@ -108,8 +103,8 @@ else
         </div>
     </div>
 
+    <!--related-->
     <div class="row mb-4">
-        <!--related-->
         <section class="col-md-12">
             <div class="card shadow-sm">
                 <div class="card-header">
@@ -343,9 +338,9 @@ else
                         </button>
                         <span>Part Decider</span>
                         @*<button class="btn btn-primary btn-sm ml-2 mr-2" data-target="#modalPartDecider" data-toggle="modal">
-                            <span class="oi oi-plus"></span>
-                            <span>Add</span>
-                        </button>*@
+                                <span class="oi oi-plus"></span>
+                                <span>Add</span>
+                            </button>*@
                     </h2>
                 </div>
                 <div id="cardPartDecider" class="card-body collapse hide">
@@ -390,9 +385,7 @@ else
     </div>
 }
 
-
 @code {
-
 
     [Parameter]
     public int ProjectID { get; set; }
@@ -407,7 +400,6 @@ else
     {
         IsTipDismissed = await JSRuntime.InvokeAsync<bool>("tips.isDismissed", "expandProjectSection");
     }
-
 
     protected override async Task OnParametersSetAsync()
     {
