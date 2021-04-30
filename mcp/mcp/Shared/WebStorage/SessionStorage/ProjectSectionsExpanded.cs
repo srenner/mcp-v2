@@ -12,5 +12,7 @@ namespace mcp.Shared.WebStorage.SessionStorage
         public bool IsPartsExpanded { get; set; }
         public bool IsRelatedExpanded { get; set; }
         public bool IsPartsDeciderExpanded { get; set; }
+        public bool IsNotesExpanded { get; set; }
+
     }
 }

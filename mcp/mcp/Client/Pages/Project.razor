@@ -4,6 +4,8 @@
 @using System.Text.Json
 @using System.Text.Json.Serialization
 @using mcp.Shared.WebStorage.SessionStorage
+@using Blazored.TextEditor
+@using System.Web 
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
 
@@ -207,19 +209,71 @@ else
     </div>
 
     <!--notes-->
-    <div class="row mb-4 d-none">
+    <div class="row mb-4">
         <section class="col-md-12">
             <div class="card shadow-sm">
                 <div class="card-header">
                     <h2 class="d-inline-block">
-                        <span>Installation Notes</span>
+                        <button id="toggleNotes" class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardNotes" aria-expanded="false" aria-controls="cardNotes" @onclick='async () => { await ToggleSectionAsync(); }'>
+                            <span class="oi oi-resize-height"></span>
+                        </button>
+                        <span>Project Notes</span>
                     </h2>
                 </div>
-                <div class="card-body">
-                    <p>@ProjectViewModel.InstallationNotes</p>
+                <div id="cardNotes" class="card-body collapse hide">
+
+                    <div class="mb-3">
+                        <div class="@(ProjectViewModel.IsNotesEditMode ? "d-none" : "d-inline-block")">
+                            <button class="btn btn-sm btn-primary d-inline-block" @onclick="StartNotesEditMode">Edit</button>
+                            
+                        </div>
+                        <div class="@(ProjectViewModel.IsNotesEditMode ? "d-inline-block" : "d-none")">
+                            <button class="btn btn-sm btn-secondary mr-2" @onclick="CancelNotesEditMode">Cancel</button>
+                            <button class="btn btn-sm btn-success" @onclick="SaveNotes">Save Changes</button>
+                        </div>
+                    </div>
+                    
+
+                    <div class="@(ProjectViewModel.IsNotesEditMode ? "d-none" : "d-block")">
+                        @((MarkupString)ProjectViewModel.InstallationNotes)
+                    </div>
 
                     <!--rich text editor mockup-->
-                    <div id="editor" class="pell"></div>
+                    <div class="@(ProjectViewModel.IsNotesEditMode ? "d-inline-block" : "d-none")">
+                        <BlazoredTextEditor @ref="@QuillInstallationNotes">
+                            <ToolbarContent>
+                                <select class="ql-header">
+                                    <option selected=""></option>
+                                    <option value="1"></option>
+                                    <option value="2"></option>
+                                    <option value="3"></option>
+                                    <option value="4"></option>
+                                    <option value="5"></option>
+                                </select>
+                                <span class="ql-formats">
+                                    <button class="ql-bold"></button>
+                                    <button class="ql-italic"></button>
+                                    <button class="ql-underline"></button>
+                                    <button class="ql-strike"></button>
+                                </span>
+                                <span class="ql-formats">
+                                    <select class="ql-color"></select>
+                                    <select class="ql-background"></select>
+                                </span>
+                                <span class="ql-formats">
+                                    <button class="ql-list" value="ordered"></button>
+                                    <button class="ql-list" value="bullet"></button>
+                                </span>
+                                <span class="ql-formats">
+                                    <button class="ql-link"></button>
+                                </span>
+                            </ToolbarContent>
+                            <EditorContent>
+                                @ProjectViewModel.InstallationNotes
+                            </EditorContent>
+                        </BlazoredTextEditor>
+                    </div>
+
 
                     <h3>Checklist</h3>
                     @if (ProjectViewModel.ChecklistItems == null)
@@ -396,6 +450,44 @@ else
 
     private bool IsTipDismissed = false;
 
+
+
+    BlazoredTextEditor QuillInstallationNotes;
+
+    string QuillHTMLContent;
+
+
+
+
+    public async Task StartNotesEditMode()
+    {
+        await this.QuillInstallationNotes.LoadHTMLContent(ProjectViewModel.InstallationNotes);
+        //StateHasChanged();
+        ProjectViewModel.IsNotesEditMode = true;
+    }
+
+    public void CancelNotesEditMode()
+    {
+        ProjectViewModel.IsNotesEditMode = false;
+
+    }
+
+    public async Task SaveNotes()
+    {
+        var html = await this.QuillInstallationNotes.GetHTML();
+
+        //save
+        var obj = new { notes = html };
+        var notesText = JsonSerializer.Serialize<object>(obj);
+        var result = await Http.PutAsJsonAsync<string>("api/project/notes/" + ProjectViewModel.ProjectID.ToString(), html);
+
+        ProjectViewModel.IsNotesEditMode = false;
+        await RefreshProject();
+    }
+
+
+
+
     protected override async Task OnInitializedAsync()
     {
         IsTipDismissed = await JSRuntime.InvokeAsync<bool>("tips.isDismissed", "expandProjectSection");
@@ -427,6 +519,10 @@ else
             {
                 await JSRuntime.InvokeVoidAsync("expandCollapsible", "#cardRelated");
             }
+            if (expansionStates.IsNotesExpanded)
+            {
+                await JSRuntime.InvokeVoidAsync("expandCollapsible", "#cardNotes");
+            }
         }
     }
 
@@ -447,12 +543,14 @@ else
     {
         bool isRelatedExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsibleExpanded", "#toggleRelated"));
         bool isPartsExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsibleExpanded", "#toggleParts"));
+        bool isNotesExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsibleExpanded", "#toggleNotes"));
 
         var obj = new ProjectSectionsExpanded
         {
             ProjectID = this.ProjectID,
             IsRelatedExpanded = isRelatedExpanded,
-            IsPartsExpanded = isPartsExpanded
+            IsPartsExpanded = isPartsExpanded,
+            IsNotesExpanded = isNotesExpanded
         };
 
         string jsonString = JsonSerializer.Serialize(obj);

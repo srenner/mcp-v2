@@ -167,6 +167,39 @@ namespace mcp.Server.Controllers
             }
         }
 
+        [HttpPut("notes/{id}")]
+        public async Task<IActionResult> PutProjectNotes(int id, [FromBody]string notes)
+        {
+            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var project = await _context.Project
+                .Where(w => w.ProjectID == id)
+                .Where(w => w.Vehicle.UserID == userID)
+                .Where(w => w.IsDeleted == false)
+                .FirstOrDefaultAsync();
+
+            project.InstallationNotes = notes;
+            project.LastUpdate = DateTime.Now;
+            _context.Entry(project).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProjectExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
         // PUT: api/Project/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

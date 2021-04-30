@@ -80,6 +80,8 @@ namespace mcp.Shared.ViewModels
         public bool IsDeleted { get; set; }
         public int Progress { get; set; }
 
+        public bool IsNotesEditMode { get; set; }
+
         public int RelatedProjectCount
         {
             get
