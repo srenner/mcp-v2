@@ -221,26 +221,19 @@ else
                     </h2>
                 </div>
                 <div id="cardNotes" class="card-body collapse hide">
-
-                    <div class="mb-3">
-                        <div class="@(ProjectViewModel.IsNotesEditMode ? "d-none" : "d-inline-block")">
-                            <button class="btn btn-sm btn-primary d-inline-block" @onclick="StartNotesEditMode">Edit</button>
-                            
-                        </div>
-                        <div class="@(ProjectViewModel.IsNotesEditMode ? "d-inline-block" : "d-none")">
-                            <button class="btn btn-sm btn-secondary mr-2" @onclick="CancelNotesEditMode">Cancel</button>
-                            <button class="btn btn-sm btn-success" @onclick="SaveNotes">Save Changes</button>
-                        </div>
-                    </div>
-                    
-
                     <div class="@(ProjectViewModel.IsNotesEditMode ? "d-none" : "d-block")">
-                        @((MarkupString)ProjectViewModel.InstallationNotes)
+                        @if (ProjectViewModel.InstallationNotes?.Length > 0 && ProjectViewModel.InstallationNotes != "<p><br></p>")
+                        {
+                            @((MarkupString)ProjectViewModel.InstallationNotes)
+                        }
+                        else
+                        {
+                            <em>Nothing to see here</em>
+                        }
                     </div>
 
-                    <!--rich text editor mockup-->
-                    <div class="@(ProjectViewModel.IsNotesEditMode ? "d-inline-block" : "d-none")">
-                        <BlazoredTextEditor @ref="@QuillInstallationNotes">
+                    <div class="@(ProjectViewModel.IsNotesEditMode ? "d-inline-block" : "d-none")" style="width: 100%">
+                        <BlazoredTextEditor @ref="@QuillInstallationNotes" Placeholder="Project notes, installation details, etc...">
                             <ToolbarContent>
                                 <select class="ql-header">
                                     <option selected=""></option>
@@ -273,8 +266,16 @@ else
                             </EditorContent>
                         </BlazoredTextEditor>
                     </div>
-
-
+                    <div class="mt-3 mb-3">
+                        <div class="@(ProjectViewModel.IsNotesEditMode ? "d-none" : "d-inline-block")">
+                            <button class="btn btn-sm btn-primary d-inline-block" @onclick="StartNotesEditMode">Edit</button>
+                        </div>
+                        <div class="@(ProjectViewModel.IsNotesEditMode ? "d-inline-block" : "d-none")">
+                            <button class="btn btn-sm btn-secondary mr-2" @onclick="CancelNotesEditMode">Cancel</button>
+                            <button class="btn btn-sm btn-success" @onclick="SaveNotes">Save Changes</button>
+                        </div>
+                    </div>
+                    <hr>
                     <h3>Checklist</h3>
                     @if (ProjectViewModel.ChecklistItems == null)
                     {
@@ -301,14 +302,6 @@ else
 
                         <span>Parts</span>
                         <span class="badge badge-info">@ProjectViewModel.ActivePartCount</span>
-
-                        @if (IsSubProject)
-                        {
-                            <button class="btn btn-primary btn-sm ml-2 mr-2" data-target="#modalImportPart" data-toggle="modal">
-                                <span class="oi oi-arrow-right"></span>
-                                <span>Import Parts From Main Project</span>
-                            </button>
-                        }
 
                     </h2>
                     @if (IsSubProject)
@@ -344,6 +337,15 @@ else
                         <span class="oi oi-plus"></span>
                         <span>Add Part</span>
                     </button>
+
+                    @if (IsSubProject)
+                    {
+                        <button class="btn btn-primary btn-sm ml-2 mb-2" data-target="#modalImportPart" data-toggle="modal">
+                            <span class="oi oi-arrow-right"></span>
+                            <span>Import Parts From Main Project</span>
+                        </button>
+                    }
+
 
                     @if (ProjectViewModel.Parts != null && ProjectViewModel.Parts.Count > 0)
                     {
