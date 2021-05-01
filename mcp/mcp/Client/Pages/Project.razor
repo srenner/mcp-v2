@@ -15,7 +15,6 @@
 }
 else
 {
-
     <!--modal to edit existing-->
     <AddEditProject ProjectID="ProjectID" ParentProjectID="ProjectViewModel.ParentProjectID" UserCategoryID="ProjectViewModel.UserCategoryID" VehicleID="ProjectViewModel.VehicleID" OnRefreshCallback="RefreshProject"></AddEditProject>
 
@@ -106,7 +105,6 @@ else
     </div>
 
     <!--related-->
-
     <div class="@(IsSubProject ? "d-none" : "row mb-4")">
         <section class="col-md-12">
             <div class="card shadow-sm">
@@ -326,7 +324,6 @@ else
                                 }
                             </div>
                         }
-
                     }
                 </div>
                 <div id="cardParts" class="card-body collapse hide">
@@ -347,7 +344,6 @@ else
                         </button>
                     }
 
-
                     @if (ProjectViewModel.Parts != null && ProjectViewModel.Parts.Count > 0)
                     {
                         <div class="mb-1">
@@ -367,7 +363,6 @@ else
                                 </div>
                             </div>
                         </div>
-
 
                         <div>
                             <ProjectPartsTable Parts="@ProjectViewModel.Parts" IsLocked="IsPartsLocked" OnRefreshCallback="@RefreshParts"></ProjectPartsTable>
@@ -453,33 +448,24 @@ else
 
     private bool IsTipDismissed = false;
 
-
-
     BlazoredTextEditor QuillInstallationNotes;
-
     string QuillHTMLContent;
-
-
-
 
     public async Task StartNotesEditMode()
     {
         await this.QuillInstallationNotes.LoadHTMLContent(ProjectViewModel.InstallationNotes);
-        //StateHasChanged();
         ProjectViewModel.IsNotesEditMode = true;
     }
 
     public void CancelNotesEditMode()
     {
         ProjectViewModel.IsNotesEditMode = false;
-
     }
 
     public async Task SaveNotes()
     {
         var html = await this.QuillInstallationNotes.GetHTML();
 
-        //save
         var obj = new { notes = html };
         var notesText = JsonSerializer.Serialize<object>(obj);
         var result = await Http.PutAsJsonAsync<string>("api/project/notes/" + ProjectViewModel.ProjectID.ToString(), html);
@@ -487,9 +473,6 @@ else
         ProjectViewModel.IsNotesEditMode = false;
         await RefreshProject();
     }
-
-
-
 
     protected override async Task OnInitializedAsync()
     {
