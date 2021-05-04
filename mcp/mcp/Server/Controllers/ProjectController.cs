@@ -123,6 +123,7 @@ namespace mcp.Server.Controllers
                         .ThenInclude(i => i.Project)
                     .Include(i => i.SubProjects)
                     .Include(i => i.ParentProject)
+                    .Include(i => i.ProjectStatus)
                     .Where(w => w.ProjectID == id)
                     .Where(w => w.Vehicle.UserID == userID)
                     .Where(w => w.IsDeleted == false)

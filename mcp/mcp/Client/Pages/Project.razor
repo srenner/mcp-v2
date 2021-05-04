@@ -1,5 +1,6 @@
 ﻿@page "/project/{ProjectID:int}"
 @using mcp.Shared.ViewModels
+@using mcp.Shared.Enum 
 @using mcp.Client.Shared
 @using System.Text.Json
 @using System.Text.Json.Serialization
@@ -33,31 +34,39 @@ else
                 <span>@ProjectViewModel.Name</span>
             </h1>
             <div class="d-inline-block ml-4 float-right">
-                @if (ProjectViewModel.UserCategory != null)
-                {
-                    <span class="badge badge-primary badge-pill mr-2"><span class="">@ProjectViewModel.UserCategory</span></span>
-                }
                 <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalProject">
                     <span class="oi oi-cog"></span>
                 </button>
             </div>
         </div>
-        <hr>
-        <p>
+        <div>
             @if (IsSubProject)
             {
                 <span class="badge badge-primary badge-pill mr-2"><span class="">Sub-Project of @ProjectViewModel.ParentProjectName</span></span>
             }
+            @if (ProjectViewModel.UserCategory != null)
+            {
+                <span class="badge badge-primary badge-pill mr-2"><span class="">@ProjectViewModel.UserCategory</span></span>
+            }
+            @switch (ProjectViewModel.ProjectStatusID)
+            {
+                case (int)ProjectStatusEnum.Backlog:
+                    <span class="badge badge-secondary badge-pill mr-2">@ProjectViewModel.ProjectStatusString</span>
+                    break;
+                case (int)ProjectStatusEnum.Active:
+                    <span class="badge badge-primary badge-pill mr-2">@ProjectViewModel.ProjectStatusString</span>
+                    break;
+                case (int)ProjectStatusEnum.Complete:
+                    <span class="badge badge-success badge-pill mr-2">@ProjectViewModel.ProjectStatusString</span>
+                    break;
+            }
+        </div>
 
-            @if (ProjectViewModel.Description?.Length > 0)
-            {
-                <span>@ProjectViewModel.Description</span>
-            }
-            else
-            {
-                <span><em>No description available</em></span>
-            }
-        </p>
+        @if (ProjectViewModel.Description?.Length > 0)
+        {
+            <hr>
+            <p>@ProjectViewModel.Description</p>
+        }
 
     </header>
 
@@ -75,7 +84,7 @@ else
 
     <div class="mb-4">
         @if (ProjectViewModel.TargetCost.HasValue)
-        {
+                {
             <div class="mb-2">
                 <h3>
                     <span class="d-inline-block">Budget</span>
@@ -141,7 +150,7 @@ else
                                             </div>
                                         }
                                         else
-                                        {
+            {
                                             <div class="alert alert-success">No sub-projects</div>
                                         }
                                     </div>
