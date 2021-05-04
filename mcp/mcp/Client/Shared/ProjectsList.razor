@@ -13,22 +13,27 @@
 
             @if (ProjectStatusID.HasValue)
             {
-                <div class="float-right">
-                    @if (ProjectStatusID.Value == (int)ProjectStatusEnum.Backlog)
-                    {
-                        <button class="btn btn-sm btn-outline-success" @onclick="() => ChangeStatus(project.ProjectID, (int)ProjectStatusEnum.Active)">
-                            <span>Make Active</span>
-                            <span class="oi oi-arrow-right"></span>
-                        </button>
-                    }
-                    else if (ProjectStatusID.Value == (int)ProjectStatusEnum.Active)
-                    {
-                        <button class="btn btn-sm btn-outline-warning" @onclick="() => ChangeStatus(project.ProjectID, (int)ProjectStatusEnum.Backlog)">
-                            <span class="oi oi-arrow-left"></span>
-                            <span>Send to Backlog</span>
-                        </button>
-                    }
-                </div>
+        <div class="float-right">
+            @if (ProjectStatusID.Value == (int)ProjectStatusEnum.Backlog)
+            {
+                <button class="btn btn-sm btn-outline-success" @onclick="() => ChangeStatus(project.ProjectID, (int)ProjectStatusEnum.Active)">
+                    <span>Make Active</span>
+                    <span class="oi oi-arrow-right"></span>
+                </button>
+            }
+            else if (ProjectStatusID.Value == (int)ProjectStatusEnum.Active)
+            {
+                <button class="btn btn-sm btn-outline-warning mr-2" @onclick="() => ChangeStatus(project.ProjectID, (int)ProjectStatusEnum.Backlog)">
+                    <span class="oi oi-arrow-left"></span>
+                    <span>Send to Backlog</span>
+                </button>
+
+                <button class="btn btn-sm btn-outline-success" @onclick="() => ChangeStatus(project.ProjectID, (int)ProjectStatusEnum.Complete)">
+                    <span class="oi oi-arrow-right"></span>
+                    <span>Complete</span>
+                </button>
+            }
+        </div>
             }
         </li>
     }
@@ -51,8 +56,6 @@
 
     public async Task ChangeStatus(int projectID, int newStatusID)
     {
-        //var result = await Http.PostAsJsonAsync<ProjectViewModel>("api/project", EditProject);
-
         HttpResponseMessage result = null;
 
         if(newStatusID == (int)ProjectStatusEnum.Active)
@@ -62,6 +65,10 @@
         else if(newStatusID == (int)ProjectStatusEnum.Backlog)
         {
             result = await Http.PutAsync("api/projectstatus/sendtobacklog/" + projectID, null);
+        }
+        else if(newStatusID == (int)ProjectStatusEnum.Complete)
+        {
+            result = await Http.PutAsync("api/projectstatus/sendtocomplete/" + projectID, null);
         }
 
         if (result.IsSuccessStatusCode)

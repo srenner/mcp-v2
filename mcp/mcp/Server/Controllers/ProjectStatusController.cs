@@ -94,6 +94,31 @@ namespace mcp.Server.Controllers
             }
         }
 
+        [HttpPut("sendtocomplete/{projectID}")]
+        public async Task<IActionResult> MakeProjectComplete(int projectID)
+        {
+            if (DoesUserOwnProject(projectID))
+            {
+                var project = await _context.Project.FindAsync(projectID);
+                project.ProjectStatusID = (int)ProjectStatusEnum.Complete;
+                project.LastUpdate = DateTime.Now;
+                _context.Entry(project).State = EntityState.Modified;
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+                return NoContent();
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
         // PUT: api/ProjectStatus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
