@@ -60,6 +60,7 @@ namespace mcp.Server.Controllers
                 .Include(e => e.Modifications)
                 .Where(w => w.UserID == userID)
                 .Where(w => w.IsDeleted == false)
+                .Where(w => w.IsSold == false)
                 .ToListAsync();
 
             if (vehicles == null)
