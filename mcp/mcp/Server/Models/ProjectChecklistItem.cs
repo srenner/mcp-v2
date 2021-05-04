@@ -16,6 +16,9 @@ namespace mcp.Server.Models
 
         public int SortOrder { get; set; }
 
+        public bool IsChecked { get; set; }
+        public DateTime? CheckedDateTime { get; set; }
+
         //public int ParentProjectChecklistItemID { get; set; }
         //public ProjectChecklistItem ParentProjectChecklistItem { get; set; }
     }

@@ -16,6 +16,7 @@ namespace mcp.Shared.ViewModels
         public string Description { get; set; }
 
         public int SortOrder { get; set; }
+        public bool IsChecked { get; set; }
 
         public int ParentProjectChecklistItemID { get; set; }
         public ProjectChecklistItemViewModel ParentProjectChecklistItem { get; set; }

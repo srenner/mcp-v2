@@ -20,6 +20,7 @@ namespace mcp.Server.ModelExtensions
             model.ProjectChecklistItemID = item.ProjectChecklistItemID;
             model.ProjectID = item.ProjectID;
             model.SortOrder = item.SortOrder;
+            model.IsChecked = item.IsChecked;
 
             return model;
         }
