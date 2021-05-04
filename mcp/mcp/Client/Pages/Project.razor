@@ -217,6 +217,7 @@ else
                             <span class="oi oi-resize-height"></span>
                         </button>
                         <span>Project Notes</span>
+                        <span class="badge badge-info">@(ProjectViewModel.InstallationNotes?.Length > 0 && ProjectViewModel.InstallationNotes != "<p><br></p>" ? "*" : "0")</span>
                     </h2>
                 </div>
                 <div id="cardNotes" class="card-body collapse hide">
@@ -226,7 +227,7 @@ else
                             @((MarkupString)ProjectViewModel.InstallationNotes)
                         }
                         else
-                        {
+{
                             <em>Nothing to see here</em>
                         }
                     </div>
@@ -308,7 +309,7 @@ else
                         <ImportParts ProjectID="@ProjectViewModel.ProjectID" ParentProjectID="@ProjectViewModel.ParentProjectID.Value" OnRefreshCallback="@RefreshProject"></ImportParts>
 
                     }
-                    @if (ProjectViewModel.Parts != null && ProjectViewModel.Parts.Count > 0)
+@if (ProjectViewModel.Parts != null && ProjectViewModel.Parts.Count > 0)
                     {
                         @* hiding this badge until we find a better place for it *@
                         @if (false)
