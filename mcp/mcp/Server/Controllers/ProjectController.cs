@@ -248,21 +248,36 @@ namespace mcp.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProject(int id)
         {
-            var project = await _context.Project.FindAsync(id);
-            if (project == null)
+            if(DoesUserOwnProject(id))
             {
-                return NotFound();
+                var project = await _context.Project.FindAsync(id);
+                if (project == null)
+                {
+                    return NotFound();
+                }
+                project.LastUpdate = DateTime.Now;
+                project.IsDeleted = true;
+                _context.Entry(project).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+                return NoContent();
             }
-
-            _context.Project.Remove(project);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            else
+            {
+                return Unauthorized();
+            }
         }
 
         private bool ProjectExists(int id)
         {
             return _context.Project.Any(e => e.ProjectID == id);
+        }
+
+        private bool DoesUserOwnProject(int projectID)
+        {
+            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return _context.Project
+                .Include(i => i.Vehicle)
+                .Any(a => a.Vehicle.UserID == userID);
         }
     }
 }

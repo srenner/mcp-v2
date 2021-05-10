@@ -2,6 +2,10 @@
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
 
+@if (ProjectID != null)
+{
+    <DeleteProject ID="modalDeleteProject" ProjectID="ProjectID.Value"></DeleteProject>
+}
 
 <div class="modal fade" id="modalProject" tabindex="-1" role="dialog" aria-labelledby="modalProjectLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -31,13 +35,13 @@
                             <label for="projectCategory">Category</label>
                             <InputSelect id="projectCategory" class="form-control" @bind-Value="CurrentProject.UserCategoryID">
                                 @if (UserCategories != null)
-                                    {
+                                {
                                     <option value="">Select...</option>
                                     @foreach (var uc in UserCategories)
-                                        {
+                                    {
                                         <option value="@uc.UserCategoryID">@uc.Name</option>
-                                        }
                                     }
+                                }
                             </InputSelect>
                         </div>
                     </div>
@@ -67,6 +71,10 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-success">Save Project</button>
+                    @if (ProjectID.HasValue)
+                    {
+                        <button type="button" class="btn btn-danger" @onclick="BeginDelete">Delete Project</button>
+                    }
                 </div>
             </EditForm>
         </div>
@@ -115,14 +123,12 @@
     private async Task SubmitProject()
     {
         CurrentProject.VehicleID = this.VehicleID;
-        if(this.UserCategoryID.HasValue)
+        if (this.UserCategoryID.HasValue)
         {
             CurrentProject.UserCategoryID = this.UserCategoryID;
         }
-
         var result = new HttpResponseMessage();
-
-        if(CurrentProject.ProjectID == 0)
+        if (CurrentProject.ProjectID == 0)
         {
             result = await Http.PostAsJsonAsync<ProjectViewModel>("api/project", CurrentProject);
         }
@@ -130,16 +136,17 @@
         {
             result = await Http.PutAsJsonAsync<ProjectViewModel>("api/project/" + CurrentProject.ProjectID.ToString(), CurrentProject);
         }
-
-
-
-
-
-
         if (result.IsSuccessStatusCode)
         {
             await JSRuntime.InvokeVoidAsync("hideModal", "#modalProject");
             await OnRefreshCallback.InvokeAsync();
         }
+    }
+
+    private async Task BeginDelete()
+    {
+        await JSRuntime.InvokeVoidAsync("hideModal", "#modalProject");
+        await JSRuntime.InvokeVoidAsync("showModal", "#modalDeleteProject");
+
     }
 }
