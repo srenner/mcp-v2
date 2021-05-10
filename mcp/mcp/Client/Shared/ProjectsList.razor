@@ -17,7 +17,10 @@
             @if (ProjectStatusID.Value == (int)ProjectStatusEnum.Backlog)
             {
                 <button class="btn btn-sm btn-outline-success" @onclick="() => ChangeStatus(project.ProjectID, (int)ProjectStatusEnum.Active)">
-                    <span>Make Active</span>
+                    <span>
+                        <span class="d-none d-xl-inline">Make</span>
+                        <span>Active</span>
+                    </span>
                     <span class="oi oi-arrow-right"></span>
                 </button>
             }
@@ -25,7 +28,10 @@
             {
                 <button class="btn btn-sm btn-outline-warning mr-2" @onclick="() => ChangeStatus(project.ProjectID, (int)ProjectStatusEnum.Backlog)">
                     <span class="oi oi-arrow-left"></span>
-                    <span>Send to Backlog</span>
+                    <span>
+                        <span class="d-none d-xl-inline">Send to</span>
+                        <span>Backlog</span>
+                    </span>
                 </button>
 
                 <button class="btn btn-sm btn-outline-success" @onclick="() => ChangeStatus(project.ProjectID, (int)ProjectStatusEnum.Complete)">
