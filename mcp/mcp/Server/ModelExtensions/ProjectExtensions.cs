@@ -34,7 +34,7 @@ namespace mcp.Server.ModelExtensions
             model.VehicleID = project.VehicleID;
             model.VehicleName = project.Vehicle?.Name;
             model.Progress = project.GetProgress();
-            model.ChecklistItems = project.ChecklistItems.ToViewModel();
+            model.ChecklistItems = project.ChecklistItems?.ToViewModel();
 
             if(project.Parts?.Count > 0)
             {
@@ -65,7 +65,7 @@ namespace mcp.Server.ModelExtensions
             {
                 model.ParentProjectID = project.ParentProjectID;
                 model.ParentProjectName = project.ParentProject != null ? project.ParentProject.Name : null;
-            }    
+            }
 
             return model;
         }
