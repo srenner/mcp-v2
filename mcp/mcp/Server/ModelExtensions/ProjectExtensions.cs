@@ -34,6 +34,7 @@ namespace mcp.Server.ModelExtensions
             model.VehicleID = project.VehicleID;
             model.VehicleName = project.Vehicle?.Name;
             model.Progress = project.GetProgress();
+            model.ChecklistItems = project.ChecklistItems.ToViewModel();
 
             if(project.Parts?.Count > 0)
             {

@@ -286,12 +286,16 @@ else
                     </div>
                     <hr>
                     <h3>Checklist</h3>
-                    @if (ProjectViewModel.ChecklistItems == null)
+                    @if (ProjectViewModel.ChecklistItems == null || ProjectViewModel.ChecklistItems.Count == 0)
                     {
                         <button class="btn btn-primary" @onclick="StartChecklist">
                             <span class="oi oi-check"></span>
                             <span>Start Checklist</span>
                         </button>
+                    }
+                    else
+                    {
+
                     }
                 </div>
             </div>
