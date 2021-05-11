@@ -56,7 +56,7 @@ namespace mcp.Server.Controllers
             var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var vehicles = await _context.Vehicle
-                .Include(e => e.Projects)
+                .Include(e => e.Projects.Where(w => w.IsDeleted == false).Where(w => w.ParentProjectID == null))
                 .Include(e => e.Modifications)
                 .Where(w => w.UserID == userID)
                 .Where(w => w.IsDeleted == false)
