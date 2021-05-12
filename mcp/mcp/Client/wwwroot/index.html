@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>mycarprojects</title>
     <base href="/" />
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <link href="css/app.css" rel="stylesheet" />
     <link href="mcp.Client.styles.css" rel="stylesheet" />
     <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
@@ -17,26 +17,46 @@
         //create functions on window object here and inject them with blazor on razor components
 
         window.hideModal = (modalID) => {
-            $(modalID).modal('hide');
+            //capture legacy jQuery style IDs and convert them
+            if (modalID.substr(0, 1) === '#') {
+                modalID = modalID.substr(1);
+            }
+            var myModal = new bootstrap.Modal(document.getElementById(modalID));
+            myModal.hide();
         };
 
         window.showModal = (modalID) => {
-            $(modalID).modal('show');
-        };
-
-        window.enableTooltips = () => {
-            $('[data-toggle="tooltip"]').tooltip()
+            //capture legacy jQuery style IDs and convert them
+            if (modalID.substr(0, 1) === '#') {
+                modalID = modalID.substr(1);
+            }
+            var myModal = new bootstrap.Modal(document.getElementById(modalID));
+            myModal.show();
         };
 
         window.isCollapsibleExpanded = (element) => {
-            return $(element).attr("aria-expanded");
+            //capture legacy jQuery style IDs and convert them
+            if (element.substr(0, 1) === '#') {
+                element = element.substr(1);
+            }
+
+            var ret = document.getElementById(element).getAttribute("aria-expanded");
+
+            alert(ret);
+            return ret;
         };
 
         window.expandCollapsible = (element) => {
-
-            console.log('expanding ' + element);
-
-            $(element).collapse('show');
+            //capture legacy jQuery style IDs and convert them
+            if (element.substr(0, 1) === '#') {
+                element = element.substr(1);
+            }
+            var myCollapse = document.getElementById(element);
+            if (myCollapse) {
+                var bsCollapse = new bootstrap.Collapse(myCollapse, {
+                    show: true
+                });
+            }
         };
 
 
@@ -87,9 +107,7 @@
     <script>navigator.serviceWorker.register('service-worker.js');</script>
 
     <!--bootstrap js from cdn-->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
 
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script src="_content/Blazored.TextEditor/quill-blot-formatter.min.js"></script>

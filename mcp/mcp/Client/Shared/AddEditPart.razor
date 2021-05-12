@@ -7,9 +7,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalPartLabel">Part @Part?.Name</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <EditForm Model="@EditPart" OnSubmit="@SubmitPart">
                 <div class="modal-body">
@@ -56,7 +54,7 @@
                         <div class="col-xl-3 col-lg-6 col-sm-12 form-group">
                             <label>
                                 <span class="d-inline-block">Extra Cost</span>
-                                <span class="d-inline-block text-right badge badge-light badge-pill" data-toggle="tooltip" data-placement="top" title="shipping, tax, etc.">
+                                <span class="d-inline-block text-right badge rounded-pill bg-light text-dark" title="shipping, tax, etc.">
                                     <span class="oi oi-info"></span>
                                 </span>
                             </label>
@@ -98,7 +96,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-success">Save Part</button>
                 </div>
             </EditForm>
@@ -126,7 +124,7 @@
     {
         if (firstRender)
         {
-            await JSRuntime.InvokeVoidAsync("enableTooltips");
+            //this space used to enable tooltips
         }
         await base.OnAfterRenderAsync(firstRender);
     }

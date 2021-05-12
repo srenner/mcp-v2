@@ -13,7 +13,7 @@
 
             @if (ProjectStatusID.HasValue)
             {
-        <div class="float-right">
+        <div class="float-end">
             @if (ProjectStatusID.Value == (int)ProjectStatusEnum.Backlog)
             {
                 <button class="btn btn-sm btn-outline-success" @onclick="() => ChangeStatus(project.ProjectID, (int)ProjectStatusEnum.Active)">
@@ -26,7 +26,7 @@
             }
             else if (ProjectStatusID.Value == (int)ProjectStatusEnum.Active)
             {
-                <button class="btn btn-sm btn-outline-warning mr-2" @onclick="() => ChangeStatus(project.ProjectID, (int)ProjectStatusEnum.Backlog)">
+                <button class="btn btn-sm btn-outline-warning me-2" @onclick="() => ChangeStatus(project.ProjectID, (int)ProjectStatusEnum.Backlog)">
                     <span class="oi oi-arrow-left"></span>
                     <span>
                         <span class="d-none d-xl-inline">Send to</span>

@@ -33,8 +33,8 @@ else
                 <span> > </span>
                 <span>@ProjectViewModel.Name</span>
             </h1>
-            <div class="d-inline-block ml-4 float-right">
-                <button class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#modalProject">
+            <div class="d-inline-block ms-4 float-end">
+                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalProject">
                     <span class="oi oi-cog"></span>
                 </button>
             </div>
@@ -42,22 +42,22 @@ else
         <div>
             @if (IsSubProject)
             {
-                <span class="badge badge-primary badge-pill mr-2"><span class="">Sub-Project of @ProjectViewModel.ParentProjectName</span></span>
+                <span class="badge rounded-pill bg-primary me-2"><span class="">Sub-Project of @ProjectViewModel.ParentProjectName</span></span>
             }
             @if (ProjectViewModel.UserCategory != null)
             {
-                <span class="badge badge-primary badge-pill mr-2"><span class="">@ProjectViewModel.UserCategory</span></span>
+                <span class="badge rounded-pill bg-primary me-2"><span class="">@ProjectViewModel.UserCategory</span></span>
             }
             @switch (ProjectViewModel.ProjectStatusID)
             {
                 case (int)ProjectStatusEnum.Backlog:
-                    <span class="badge badge-secondary badge-pill mr-2">@ProjectViewModel.ProjectStatusString</span>
+                    <span class="badge rounded-pill bg-secondary me-2">@ProjectViewModel.ProjectStatusString</span>
                     break;
                 case (int)ProjectStatusEnum.Active:
-                    <span class="badge badge-primary badge-pill mr-2">@ProjectViewModel.ProjectStatusString</span>
+                    <span class="badge rounded-pill bg-primary me-2">@ProjectViewModel.ProjectStatusString</span>
                     break;
                 case (int)ProjectStatusEnum.Complete:
-                    <span class="badge badge-success badge-pill mr-2">@ProjectViewModel.ProjectStatusString</span>
+                    <span class="badge rounded-pill bg-success me-2">@ProjectViewModel.ProjectStatusString</span>
                     break;
             }
         </div>
@@ -73,7 +73,7 @@ else
     @if (!IsTipDismissed)
     {
         <div class="alert alert-light shadow-sm">
-            <div class="d-inline-block mr-1">
+            <div class="d-inline-block me-1">
                 <span>Tap the</span>
                 <button class="btn btn-sm btn-link" type="button"><span class="oi oi-resize-height"></span></button>
                 <span>icons to expand the different sections</span>
@@ -88,7 +88,7 @@ else
             <div class="mb-2">
                 <h3>
                     <span class="d-inline-block">Budget</span>
-                    <span class="d-inline-block float-right small">
+                    <span class="d-inline-block float-end small">
                         <span class="@(ProjectViewModel.TotalCostSpent > ProjectViewModel.TargetCost ? "text-danger" : "")">
                             <span>$</span><span>@ProjectViewModel.TotalCostSpent</span>
                         </span>
@@ -119,11 +119,11 @@ else
             <div class="card shadow-sm">
                 <div class="card-header">
                     <h2>
-                        <button id="toggleRelated" class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardRelated" aria-expanded="false" aria-controls="cardRelated" @onclick='async () => { await ToggleSectionAsync(); }'>
+                        <button id="toggleRelated" class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#cardRelated" aria-expanded="false" aria-controls="cardRelated" @onclick='async () => { await ToggleSectionAsync(); }'>
                             <span class="oi oi-resize-height"></span>
                         </button>
                         <span>Related Projects</span>
-                        <span class="badge badge-info">@ProjectViewModel.RelatedProjectCount</span>
+                        <span class="badge bg-info">@ProjectViewModel.RelatedProjectCount</span>
                     </h2>
                 </div>
                 <div id="cardRelated" class="card-body collapse hide">
@@ -137,7 +137,7 @@ else
                                     <div class="card-body">
                                         <h3 class="card-title">
                                             <span>Sub-Projects</span>
-                                            <button class="btn btn-primary btn-sm ml-2" data-target="#modalProject" data-toggle="modal">
+                                            <button class="btn btn-primary btn-sm ms-2" data-bs-target="#modalProject" data-bs-toggle="modal">
                                                 <span class="oi oi-plus"></span>
                                                 <span>Add</span>
                                             </button>
@@ -222,11 +222,11 @@ else
             <div class="card shadow-sm">
                 <div class="card-header">
                     <h2 class="d-inline-block">
-                        <button id="toggleNotes" class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardNotes" aria-expanded="false" aria-controls="cardNotes" @onclick='async () => { await ToggleSectionAsync(); }'>
+                        <button id="toggleNotes" class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#cardNotes" aria-expanded="false" aria-controls="cardNotes" @onclick='async () => { await ToggleSectionAsync(); }'>
                             <span class="oi oi-resize-height"></span>
                         </button>
                         <span>Project Notes</span>
-                        <span class="badge badge-info">@(ProjectViewModel.InstallationNotes?.Length > 0 && ProjectViewModel.InstallationNotes != "<p><br></p>" ? "*" : "0")</span>
+                        <span class="badge bg-info">@(ProjectViewModel.InstallationNotes?.Length > 0 && ProjectViewModel.InstallationNotes != "<p><br></p>" ? "*" : "0")</span>
                     </h2>
                 </div>
                 <div id="cardNotes" class="card-body collapse hide">
@@ -280,7 +280,7 @@ else
                             <button class="btn btn-sm btn-primary d-inline-block" @onclick="StartNotesEditMode">Edit</button>
                         </div>
                         <div class="@(ProjectViewModel.IsNotesEditMode ? "d-inline-block" : "d-none")">
-                            <button class="btn btn-sm btn-secondary mr-2" @onclick="CancelNotesEditMode">Cancel</button>
+                            <button class="btn btn-sm btn-secondary me-2" @onclick="CancelNotesEditMode">Cancel</button>
                             <button class="btn btn-sm btn-success" @onclick="SaveNotes">Save Changes</button>
                         </div>
                     </div>
@@ -309,12 +309,12 @@ else
                 <div class="card-header">
                     <h2 class="d-inline-block">
 
-                        <button id="toggleParts" class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardParts" aria-expanded="false" aria-controls="cardParts" @onclick='async () => { await ToggleSectionAsync(); }'>
+                        <button id="toggleParts" class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#cardParts" aria-expanded="false" aria-controls="cardParts" @onclick='async () => { await ToggleSectionAsync(); }'>
                             <span class="oi oi-resize-height"></span>
                         </button>
 
                         <span>Parts</span>
-                        <span class="badge badge-info">@ProjectViewModel.ActivePartCount</span>
+                        <span class="badge bg-info">@ProjectViewModel.ActivePartCount</span>
 
                     </h2>
                     @if (IsSubProject)
@@ -326,14 +326,14 @@ else
                         @* hiding this badge until we find a better place for it *@
                         @if (false)
                         {
-                            <div class="d-inline-block float-right">
+                            <div class="d-inline-block float-end">
                                 @if (ProjectViewModel.Parts.Any(a => a.QuantityInstalled < a.Quantity))
                                 {
-                                    <span class="badge badge-pill badge-primary d-inline-block">In Progress</span>
+                                    <span class="badge rounded-pill bg-primary d-inline-block">In Progress</span>
                                 }
                                 else
                                 {
-                                    <span class="badge badge-pill badge-success d-inline-block">Complete</span>
+                                    <span class="badge rounded-pill bg-success d-inline-block">Complete</span>
                                 }
                             </div>
                         }
@@ -344,14 +344,14 @@ else
                         <AddEditPart Part="null" ProjectID="ProjectID" OnRefreshCallback="@RefreshParts"></AddEditPart>
                     </div>
 
-                    <button class="btn btn-primary btn-sm mb-2" data-target="#modalPart" data-toggle="modal">
+                    <button class="btn btn-primary btn-sm mb-2" data-bs-target="#modalPart" data-bs-toggle="modal">
                         <span class="oi oi-plus"></span>
                         <span>Add Part</span>
                     </button>
 
                     @if (IsSubProject)
                     {
-                        <button class="btn btn-primary btn-sm ml-2 mb-2" data-target="#modalImportPart" data-toggle="modal">
+                        <button class="btn btn-primary btn-sm ms-2 mb-2" data-bs-target="#modalImportPart" data-bs-toggle="modal">
                             <span class="oi oi-arrow-right"></span>
                             <span>Import Parts From Main Project</span>
                         </button>
@@ -362,7 +362,7 @@ else
                         <div class="mb-1">
                             <h4>
                                 <span class="d-inline-block">Parts Cost</span>
-                                <span class="d-inline-block float-right small">
+                                <span class="d-inline-block float-end small">
                                     <span>$</span><span>@ProjectViewModel.PartCostSpent</span>
                                     <span> spent of </span>
                                     <span class="@(ProjectViewModel.PartCostAllocated > ProjectViewModel.TargetCost ? "text-danger" : "")">
@@ -398,11 +398,11 @@ else
             <div class="card shadow-sm">
                 <div class="card-header">
                     <h2 class="d-inline-block">
-                        <button id="togglePartDecider" class="btn btn-sm btn-link" type="button" data-toggle="collapse" data-target="#cardPartDecider" aria-expanded="false" aria-controls="cardPartDecider" @onclick='async () => { await ToggleSectionAsync(); }'>
+                        <button id="togglePartDecider" class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#cardPartDecider" aria-expanded="false" aria-controls="cardPartDecider" @onclick='async () => { await ToggleSectionAsync(); }'>
                             <span class="oi oi-resize-height"></span>
                         </button>
                         <span>Part Decider</span>
-                        @*<button class="btn btn-primary btn-sm ml-2 mr-2" data-target="#modalPartDecider" data-toggle="modal">
+                        @*<button class="btn btn-primary btn-sm ms-2 me-2" data-bs-target="#modalPartDecider" data-bs-toggle="modal">
                                 <span class="oi oi-plus"></span>
                                 <span>Add</span>
                             </button>*@
@@ -512,15 +512,15 @@ else
             //todo room for improvement
             if (expansionStates.IsPartsExpanded)
             {
-                await JSRuntime.InvokeVoidAsync("expandCollapsible", "#cardParts");
+                await JSRuntime.InvokeVoidAsync("expandCollapsible", "cardParts");
             }
             if (expansionStates.IsRelatedExpanded)
             {
-                await JSRuntime.InvokeVoidAsync("expandCollapsible", "#cardRelated");
+                await JSRuntime.InvokeVoidAsync("expandCollapsible", "cardRelated");
             }
             if (expansionStates.IsNotesExpanded)
             {
-                await JSRuntime.InvokeVoidAsync("expandCollapsible", "#cardNotes");
+                await JSRuntime.InvokeVoidAsync("expandCollapsible", "cardNotes");
             }
         }
     }
@@ -540,9 +540,11 @@ else
 
     private async Task ToggleSectionAsync()
     {
-        bool isRelatedExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsibleExpanded", "#toggleRelated"));
+        //bool isRelatedExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsibleExpanded", "#toggleRelated"));
+        bool isRelatedExpanded = false;
         bool isPartsExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsibleExpanded", "#toggleParts"));
-        bool isNotesExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsibleExpanded", "#toggleNotes"));
+        //bool isNotesExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsibleExpanded", "#toggleNotes"));
+        bool isNotesExpanded = false;
 
         var obj = new ProjectSectionsExpanded
         {
