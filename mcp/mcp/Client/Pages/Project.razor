@@ -471,9 +471,6 @@ else
         IsNotesExpanded = false
     };
 
-
-
-
     public async Task StartNotesEditMode()
     {
         await this.QuillInstallationNotes.LoadHTMLContent(ProjectViewModel.InstallationNotes);
@@ -505,6 +502,10 @@ else
     protected override async Task OnParametersSetAsync()
     {
         ExpansionStates.ProjectID = this.ProjectID;
+        ExpansionStates.IsNotesExpanded = false;
+        ExpansionStates.IsPartsDeciderExpanded = false;
+        ExpansionStates.IsPartsExpanded = false;
+        ExpansionStates.IsRelatedExpanded = false;
 
         await RefreshProject();
     }
@@ -559,24 +560,24 @@ else
             await JSRuntime.InvokeVoidAsync("setCollapsible", elementID, !isExpanded);
 
             //todo this is awful, please fix
-            switch(elementID)
-            {
-                case "cardParts":
-                    ExpansionStates.IsPartsExpanded = !ExpansionStates.IsPartsExpanded;
-                    break;
+            //switch(elementID)
+            //{
+            //    case "cardParts":
+            //        ExpansionStates.IsPartsExpanded = !ExpansionStates.IsPartsExpanded;
+            //        break;
 
-                case "cardRelated":
-                    ExpansionStates.IsRelatedExpanded = !ExpansionStates.IsRelatedExpanded;
-                    break;
+            //    case "cardRelated":
+            //        ExpansionStates.IsRelatedExpanded = !ExpansionStates.IsRelatedExpanded;
+            //        break;
 
-                case "cardNotes":
-                    ExpansionStates.IsNotesExpanded = !ExpansionStates.IsNotesExpanded;
+            //    case "cardNotes":
+            //        ExpansionStates.IsNotesExpanded = !ExpansionStates.IsNotesExpanded;
 
-                    break;
-            }
+            //        break;
+            //}
 
         }
-        
+
 
         string jsonString = JsonSerializer.Serialize(ExpansionStates);
         await JSRuntime.InvokeVoidAsync("projectSession.setExpansionStates", this.ProjectID, jsonString);
