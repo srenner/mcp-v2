@@ -78,7 +78,7 @@ else
                 <button class="btn btn-sm btn-link" type="button"><span class="oi oi-resize-height"></span></button>
                 <span>icons to expand the different sections</span>
             </div>
-            <button class="btn btn-sm btn-outline-info" @onclick="async () => { await ToggleSectionAsync(); }">Dismiss</button>
+            <button class="btn btn-sm btn-outline-info" @onclick="async () => { await DismissTip(); }">Dismiss</button>
         </div>
     }
 
@@ -119,7 +119,7 @@ else
             <div class="card shadow-sm">
                 <div class="card-header">
                     <h2>
-                        <button id="toggleRelated" class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#cardRelated" aria-expanded="false" aria-controls="cardRelated" @onclick='async () => { await ToggleSectionAsync(); }'>
+                        <button id="toggleRelated" class="btn btn-sm btn-link" type="button" aria-expanded="false" aria-controls="cardRelated" @onclick='async () => { await ToggleSectionAsync("cardRelated"); }'>
                             <span class="oi oi-resize-height"></span>
                         </button>
                         <span>Related Projects</span>
@@ -222,7 +222,7 @@ else
             <div class="card shadow-sm">
                 <div class="card-header">
                     <h2 class="d-inline-block">
-                        <button id="toggleNotes" class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#cardNotes" aria-expanded="false" aria-controls="cardNotes" @onclick='async () => { await ToggleSectionAsync(); }'>
+                        <button id="toggleNotes" class="btn btn-sm btn-link" type="button" aria-expanded="false" aria-controls="cardNotes" @onclick='async () => { await ToggleSectionAsync("cardNotes"); }'>
                             <span class="oi oi-resize-height"></span>
                         </button>
                         <span>Project Notes</span>
@@ -309,7 +309,7 @@ else
                 <div class="card-header">
                     <h2 class="d-inline-block">
 
-                        <button id="toggleParts" class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#cardParts" aria-expanded="false" aria-controls="cardParts" @onclick='async () => { await ToggleSectionAsync(); }'>
+                        <button id="toggleParts" class="btn btn-sm btn-link" type="button" aria-expanded="false" aria-controls="cardParts" @onclick='async () => { await ToggleSectionAsync("cardParts"); }'>
                             <span class="oi oi-resize-height"></span>
                         </button>
 
@@ -398,7 +398,7 @@ else
             <div class="card shadow-sm">
                 <div class="card-header">
                     <h2 class="d-inline-block">
-                        <button id="togglePartDecider" class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#cardPartDecider" aria-expanded="false" aria-controls="cardPartDecider" @onclick='async () => { await ToggleSectionAsync(); }'>
+                        <button id="togglePartDecider" class="btn btn-sm btn-link" type="button" aria-expanded="false" aria-controls="cardPartDecider" @onclick='async () => { await ToggleSectionAsync("cardPartDecider"); }'>
                             <span class="oi oi-resize-height"></span>
                         </button>
                         <span>Part Decider</span>
@@ -464,6 +464,16 @@ else
     BlazoredTextEditor QuillInstallationNotes;
     string QuillHTMLContent;
 
+    public ProjectSectionsExpanded ExpansionStates = new ProjectSectionsExpanded
+    {
+        IsRelatedExpanded = false,
+        IsPartsExpanded = false,
+        IsNotesExpanded = false
+    };
+
+
+
+
     public async Task StartNotesEditMode()
     {
         await this.QuillInstallationNotes.LoadHTMLContent(ProjectViewModel.InstallationNotes);
@@ -494,6 +504,8 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
+        ExpansionStates.ProjectID = this.ProjectID;
+
         await RefreshProject();
     }
 
@@ -538,33 +550,42 @@ else
         }
     }
 
-    private async Task ToggleSectionAsync()
+    private async Task ToggleSectionAsync(string elementID)
     {
-        bool isRelatedExpanded = await JSRuntime.InvokeAsync<bool>("isCollapsibleExpanded", "toggleRelated");
-        //bool isRelatedExpanded = false;
 
-        bool isPartsExpanded = await JSRuntime.InvokeAsync<bool>("isCollapsibleExpanded", "toggleParts");
-        //bool isPartsExpanded = false;
-
-        bool isNotesExpanded = await JSRuntime.InvokeAsync<bool>("isCollapsibleExpanded", "toggleNotes");
-        //bool isNotesExpanded = false;
-
-        var obj = new ProjectSectionsExpanded
+        if (!String.IsNullOrEmpty(elementID))
         {
-            ProjectID = this.ProjectID,
-            IsRelatedExpanded = isRelatedExpanded,
-            IsPartsExpanded = isPartsExpanded,
-            IsNotesExpanded = isNotesExpanded
-        };
+            bool isExpanded = await JSRuntime.InvokeAsync<bool>("isCollapsibleExpanded", elementID);
+            await JSRuntime.InvokeVoidAsync("setCollapsible", elementID, !isExpanded);
 
-        string jsonString = JsonSerializer.Serialize(obj);
-        //await JSRuntime.InvokeVoidAsync("projectSession.setExpansionStates", this.ProjectID, jsonString);
+            //todo this is awful, please fix
+            switch(elementID)
+            {
+                case "cardParts":
+                    ExpansionStates.IsPartsExpanded = !ExpansionStates.IsPartsExpanded;
+                    break;
 
-        if (!IsTipDismissed)
-        {
-            IsTipDismissed = true;
-            await JSRuntime.InvokeVoidAsync("tips.dismiss", "expandProjectSection");
+                case "cardRelated":
+                    ExpansionStates.IsRelatedExpanded = !ExpansionStates.IsRelatedExpanded;
+                    break;
+
+                case "cardNotes":
+                    ExpansionStates.IsNotesExpanded = !ExpansionStates.IsNotesExpanded;
+
+                    break;
+            }
+
         }
+        
+
+        string jsonString = JsonSerializer.Serialize(ExpansionStates);
+        await JSRuntime.InvokeVoidAsync("projectSession.setExpansionStates", this.ProjectID, jsonString);
+    }
+
+    private async Task DismissTip()
+    {
+        IsTipDismissed = true;
+        await JSRuntime.InvokeVoidAsync("tips.dismiss", "expandProjectSection");
     }
 
     private async Task RefreshParts()

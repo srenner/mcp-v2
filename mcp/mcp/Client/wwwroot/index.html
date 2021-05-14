@@ -45,15 +45,41 @@
             }
         };
 
-        window.expandCollapsible = (element) => {
+        window.expandCollapsible = (elementID) => {
             //capture legacy jQuery style IDs and convert them
-            if (element.substr(0, 1) === '#') {
-                element = element.substr(1);
+            if (elementID.substr(0, 1) === '#') {
+                elementID = elementID.substr(1);
             }
-            var myCollapse = document.getElementById(element);
+            var myCollapse = document.getElementById(elementID);
             if (myCollapse) {
                 var bsCollapse = new bootstrap.Collapse(myCollapse, {
                     show: true
+                });
+            }
+        };
+
+        window.collapseCollapsible = (elementID) => {
+            //capture legacy jQuery style IDs and convert them
+            if (elementID.substr(0, 1) === '#') {
+                elementID = elementID.substr(1);
+            }
+            var myCollapse = document.getElementById(elementID);
+            if (myCollapse) {
+                var bsCollapse = new bootstrap.Collapse(myCollapse, {
+                    show: false
+                });
+            }
+        };
+
+        window.setCollapsible = (elementID, doShow) => {
+            //capture legacy jQuery style IDs and convert them
+            if (elementID.substr(0, 1) === '#') {
+                elementID = elementID.substr(1);
+            }
+            var myCollapse = document.getElementById(elementID);
+            if (myCollapse) {
+                var bsCollapse = new bootstrap.Collapse(myCollapse, {
+                    show: doShow
                 });
             }
         };
