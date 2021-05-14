@@ -34,16 +34,15 @@
             myModal.show();
         };
 
-        window.isCollapsibleExpanded = (element) => {
-            //capture legacy jQuery style IDs and convert them
-            if (element.substr(0, 1) === '#') {
-                element = element.substr(1);
+        window.isCollapsibleExpanded = (elementID) => {
+            let element = document.getElementById(elementID);
+            if (element && element.hasAttribute("aria-expanded")) {
+                let val = element.getAttribute("aria-expanded");
+                return (val.toLowerCase() === "true");
             }
-
-            var ret = document.getElementById(element).getAttribute("aria-expanded");
-
-            alert(ret);
-            return ret;
+            else {
+                return false;
+            }
         };
 
         window.expandCollapsible = (element) => {

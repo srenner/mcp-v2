@@ -540,11 +540,14 @@ else
 
     private async Task ToggleSectionAsync()
     {
-        //bool isRelatedExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsibleExpanded", "#toggleRelated"));
-        bool isRelatedExpanded = false;
-        bool isPartsExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsibleExpanded", "#toggleParts"));
-        //bool isNotesExpanded = bool.Parse(await JSRuntime.InvokeAsync<string>("isCollapsibleExpanded", "#toggleNotes"));
-        bool isNotesExpanded = false;
+        bool isRelatedExpanded = await JSRuntime.InvokeAsync<bool>("isCollapsibleExpanded", "toggleRelated");
+        //bool isRelatedExpanded = false;
+
+        bool isPartsExpanded = await JSRuntime.InvokeAsync<bool>("isCollapsibleExpanded", "toggleParts");
+        //bool isPartsExpanded = false;
+
+        bool isNotesExpanded = await JSRuntime.InvokeAsync<bool>("isCollapsibleExpanded", "toggleNotes");
+        //bool isNotesExpanded = false;
 
         var obj = new ProjectSectionsExpanded
         {
@@ -555,7 +558,7 @@ else
         };
 
         string jsonString = JsonSerializer.Serialize(obj);
-        await JSRuntime.InvokeVoidAsync("projectSession.setExpansionStates", this.ProjectID, jsonString);
+        //await JSRuntime.InvokeVoidAsync("projectSession.setExpansionStates", this.ProjectID, jsonString);
 
         if (!IsTipDismissed)
         {
