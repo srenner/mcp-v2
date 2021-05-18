@@ -522,19 +522,19 @@ else
         var expansionStates = JsonSerializer.Deserialize<ProjectSectionsExpanded>(jsonExpansion);
         if (expansionStates.ProjectID == this.ProjectID)
         {
-            //todo room for improvement
-            if (expansionStates.IsPartsExpanded)
-            {
-                await JSRuntime.InvokeVoidAsync("expandCollapsible", "cardParts");
-            }
-            if (expansionStates.IsRelatedExpanded)
-            {
-                await JSRuntime.InvokeVoidAsync("expandCollapsible", "cardRelated");
-            }
-            if (expansionStates.IsNotesExpanded)
-            {
-                await JSRuntime.InvokeVoidAsync("expandCollapsible", "cardNotes");
-            }
+            ////todo room for improvement
+            //if (expansionStates.IsPartsExpanded)
+            //{
+            //    await JSRuntime.InvokeVoidAsync("expandCollapsible", "cardParts");
+            //}
+            //if (expansionStates.IsRelatedExpanded)
+            //{
+            //    await JSRuntime.InvokeVoidAsync("expandCollapsible", "cardRelated");
+            //}
+            //if (expansionStates.IsNotesExpanded)
+            //{
+            //    await JSRuntime.InvokeVoidAsync("expandCollapsible", "cardNotes");
+            //}
         }
     }
 
@@ -560,21 +560,21 @@ else
             await JSRuntime.InvokeVoidAsync("setCollapsible", elementID, !isExpanded);
 
             //todo this is awful, please fix
-            //switch(elementID)
-            //{
-            //    case "cardParts":
-            //        ExpansionStates.IsPartsExpanded = !ExpansionStates.IsPartsExpanded;
-            //        break;
+            switch(elementID)
+            {
+                case "cardParts":
+                    ExpansionStates.IsPartsExpanded = !isExpanded;
+                    break;
 
-            //    case "cardRelated":
-            //        ExpansionStates.IsRelatedExpanded = !ExpansionStates.IsRelatedExpanded;
-            //        break;
+                case "cardRelated":
+                    ExpansionStates.IsRelatedExpanded = !isExpanded;
+                    break;
 
-            //    case "cardNotes":
-            //        ExpansionStates.IsNotesExpanded = !ExpansionStates.IsNotesExpanded;
+                case "cardNotes":
+                    ExpansionStates.IsNotesExpanded = !isExpanded;
 
-            //        break;
-            //}
+                    break;
+            }
 
         }
 

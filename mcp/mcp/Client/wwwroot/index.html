@@ -107,6 +107,7 @@
         //manage state of UI on project page on the session level (sessionStorage)
         window.projectSession = {
             setExpansionStates: (projectID, json) => {
+                //console.log(json);
                 sessionStorage.setItem('projectSectionsExpanded_' + projectID, json);
             },
             getExpansionStates: (projectID) => {
