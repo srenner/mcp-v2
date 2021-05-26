@@ -497,6 +497,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         IsTipDismissed = await JSRuntime.InvokeAsync<bool>("tips.isDismissed", "expandProjectSection");
+        await SetExpandibles();
     }
 
     protected override async Task OnParametersSetAsync()
@@ -508,12 +509,13 @@ else
         ExpansionStates.IsRelatedExpanded = false;
 
         await RefreshProject();
+
+
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        await SetExpandibles();
     }
 
     private async Task SetExpandibles()
@@ -523,18 +525,18 @@ else
         if (expansionStates.ProjectID == this.ProjectID)
         {
             ////todo room for improvement
-            //if (expansionStates.IsPartsExpanded)
-            //{
-            //    await JSRuntime.InvokeVoidAsync("expandCollapsible", "cardParts");
-            //}
-            //if (expansionStates.IsRelatedExpanded)
-            //{
-            //    await JSRuntime.InvokeVoidAsync("expandCollapsible", "cardRelated");
-            //}
-            //if (expansionStates.IsNotesExpanded)
-            //{
-            //    await JSRuntime.InvokeVoidAsync("expandCollapsible", "cardNotes");
-            //}
+            if (expansionStates.IsPartsExpanded)
+            {
+                await JSRuntime.InvokeVoidAsync("expandCollapsible", "cardParts");
+            }
+            if (expansionStates.IsRelatedExpanded)
+            {
+                await JSRuntime.InvokeVoidAsync("expandCollapsible", "cardRelated");
+            }
+            if (expansionStates.IsNotesExpanded)
+            {
+                await JSRuntime.InvokeVoidAsync("expandCollapsible", "cardNotes");
+            }
         }
     }
 

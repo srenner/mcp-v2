@@ -51,22 +51,12 @@
                 elementID = elementID.substr(1);
             }
             var myCollapse = document.getElementById(elementID);
+
+            debugger;
+
             if (myCollapse) {
                 var bsCollapse = new bootstrap.Collapse(myCollapse, {
                     show: true
-                });
-            }
-        };
-
-        window.collapseCollapsible = (elementID) => {
-            //capture legacy jQuery style IDs and convert them
-            if (elementID.substr(0, 1) === '#') {
-                elementID = elementID.substr(1);
-            }
-            var myCollapse = document.getElementById(elementID);
-            if (myCollapse) {
-                var bsCollapse = new bootstrap.Collapse(myCollapse, {
-                    show: false
                 });
             }
         };
