@@ -26,6 +26,8 @@ namespace mcp.Client
 
             builder.Services.AddApiAuthorization();
 
+            builder.Logging.SetMinimumLevel(LogLevel.Error);
+
             await builder.Build().RunAsync();
         }
     }
