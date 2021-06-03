@@ -1,12 +1,12 @@
 ﻿@page "/project/{ProjectID:int}"
 @using mcp.Shared.ViewModels
-@using mcp.Shared.Enum 
+@using mcp.Shared.Enum
 @using mcp.Client.Shared
 @using System.Text.Json
 @using System.Text.Json.Serialization
 @using mcp.Shared.WebStorage.SessionStorage
 @using Blazored.TextEditor
-@using System.Web 
+@using System.Web
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
 
@@ -18,6 +18,9 @@ else
 {
     <!--modal to edit existing-->
     <AddEditProject ProjectID="ProjectID" ParentProjectID="ProjectViewModel.ParentProjectID" UserCategoryID="ProjectViewModel.UserCategoryID" VehicleID="ProjectViewModel.VehicleID" OnRefreshCallback="RefreshProject"></AddEditProject>
+
+    <!--if this isn't a subproject, add the ability to add one-->
+    <AddEditProject ProjectID="null"      ParentProjectID="ProjectID"                        UserCategoryID="ProjectViewModel.UserCategoryID" VehicleID="ProjectViewModel.VehicleID" OnRefreshCallback="RefreshProject"></AddEditProject>
 
     <header class="alert alert-primary">
         <div>
@@ -34,7 +37,7 @@ else
                 <span>@ProjectViewModel.Name</span>
             </h1>
             <div class="d-inline-block ms-4 float-end">
-                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalProject">
+                <button class="btn btn-sm btn-outline-primary" @onclick="OpenEditModal">
                     <span class="oi oi-cog"></span>
                 </button>
             </div>
@@ -84,7 +87,7 @@ else
 
     <div class="mb-4">
         @if (ProjectViewModel.TargetCost.HasValue)
-                {
+        {
             <div class="mb-2">
                 <h3>
                     <span class="d-inline-block">Budget</span>
@@ -142,7 +145,7 @@ else
                                                 <span>Add</span>
                                             </button>
                                         </h3>
-                                        <AddEditProject ProjectID="null" ParentProjectID="@ProjectID" UserCategoryID="@ProjectViewModel.UserCategoryID" VehicleID="@ProjectViewModel.VehicleID" OnRefreshCallback="@RefreshProject"></AddEditProject>
+
                                         @if (ProjectViewModel.SubProjects != null && ProjectViewModel.SubProjects.Count > 0)
                                         {
                                             <div class="mb-2">
@@ -242,7 +245,7 @@ else
                     </div>
 
                     <div class="@(ProjectViewModel.IsNotesEditMode ? "d-inline-block" : "d-none")" style="width: 100%">
-                        <BlazoredTextEditor @ref="@QuillInstallationNotes" Placeholder="Project notes, installation details, etc...">
+                        <BlazoredTextEditor @ref="@QuillInstallationNotes" Placeholder="Project notes, installation details, etc..." DebugLevel="warn">
                             <ToolbarContent>
                                 <select class="ql-header">
                                     <option selected=""></option>
@@ -459,6 +462,9 @@ else
     private bool IsSubProject = false;
     private bool IsPartsLocked = true;
 
+    private int? AddEditProjectID = null;
+    private int? AddEditParentID = null;
+
     private bool IsTipDismissed = false;
 
     BlazoredTextEditor QuillInstallationNotes;
@@ -488,16 +494,21 @@ else
 
         var obj = new { notes = html };
         var notesText = JsonSerializer.Serialize<object>(obj);
-        var result = await Http.PutAsJsonAsync<string>("api/project/notes/" + ProjectViewModel.ProjectID.ToString(), html);
+        var result = await Http.PutAsJsonAsync<string>
+    ("api/project/notes/" + ProjectViewModel.ProjectID.ToString(), html);
 
         ProjectViewModel.IsNotesEditMode = false;
         await RefreshProject();
     }
 
+    private async Task OpenEditModal()
+    {
+        await JSRuntime.InvokeVoidAsync("showModal", "modalProject");
+    }
+
     protected override async Task OnInitializedAsync()
     {
         IsTipDismissed = await JSRuntime.InvokeAsync<bool>("tips.isDismissed", "expandProjectSection");
-        await SetExpandibles();
     }
 
     protected override async Task OnParametersSetAsync()
@@ -508,9 +519,9 @@ else
         ExpansionStates.IsPartsExpanded = false;
         ExpansionStates.IsRelatedExpanded = false;
 
+        await SetExpandibles();
+
         await RefreshProject();
-
-
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -518,6 +529,10 @@ else
         await base.OnAfterRenderAsync(firstRender);
     }
 
+    /// <summary>
+    /// Expand collapsible divs on (re)entering page based on session data
+    /// </summary>
+    /// <returns></returns>
     private async Task SetExpandibles()
     {
         string jsonExpansion = await JSRuntime.InvokeAsync<string>("projectSession.getExpansionStates", this.ProjectID);
@@ -562,7 +577,7 @@ else
             await JSRuntime.InvokeVoidAsync("setCollapsible", elementID, !isExpanded);
 
             //todo this is awful, please fix
-            switch(elementID)
+            switch (elementID)
             {
                 case "cardParts":
                     ExpansionStates.IsPartsExpanded = !isExpanded;
@@ -579,8 +594,6 @@ else
             }
 
         }
-
-
         string jsonString = JsonSerializer.Serialize(ExpansionStates);
         await JSRuntime.InvokeVoidAsync("projectSession.setExpansionStates", this.ProjectID, jsonString);
     }
