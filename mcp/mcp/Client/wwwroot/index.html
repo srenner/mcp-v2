@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>mycarprojects</title>
     <base href="/" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <link href="css/app.css" rel="stylesheet" />
     <link href="mcp.Client.styles.css" rel="stylesheet" />
     <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
@@ -22,7 +22,12 @@
                 modalID = modalID.substr(1);
             }
             var myModal = new bootstrap.Modal(document.getElementById(modalID));
-            myModal.hide();
+            if (myModal) {
+                myModal.hide();
+            }
+            else {
+                console.log("Could not find modal to hide: " + modalID);
+            }
         };
 
         window.showModal = (modalID) => {
@@ -31,7 +36,12 @@
                 modalID = modalID.substr(1);
             }
             var myModal = new bootstrap.Modal(document.getElementById(modalID));
-            myModal.show();
+            if (myModal) {
+                myModal.show();
+            }
+            else {
+                console.log("Could not find modal to show: " + modalID);
+            }
         };
 
         window.isCollapsibleExpanded = (elementID) => {
@@ -52,7 +62,7 @@
             }
             var myCollapse = document.getElementById(elementID);
 
-            debugger;
+            //debugger;
 
             if (myCollapse) {
                 var bsCollapse = new bootstrap.Collapse(myCollapse, {
@@ -123,7 +133,7 @@
     <script>navigator.serviceWorker.register('service-worker.js');</script>
 
     <!--bootstrap js from cdn-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script src="_content/Blazored.TextEditor/quill-blot-formatter.min.js"></script>
