@@ -17,10 +17,6 @@
         //create functions on window object here and inject them with blazor on razor components
 
         window.hideModal = (modalID) => {
-            //capture legacy jQuery style IDs and convert them
-            if (modalID.substr(0, 1) === '#') {
-                modalID = modalID.substr(1);
-            }
             var myModal = new bootstrap.Modal(document.getElementById(modalID));
             if (myModal) {
                 myModal.hide();
@@ -31,10 +27,6 @@
         };
 
         window.showModal = (modalID) => {
-            //capture legacy jQuery style IDs and convert them
-            if (modalID.substr(0, 1) === '#') {
-                modalID = modalID.substr(1);
-            }
             var myModal = new bootstrap.Modal(document.getElementById(modalID));
             if (myModal) {
                 myModal.show();
@@ -56,14 +48,7 @@
         };
 
         window.expandCollapsible = (elementID) => {
-            //capture legacy jQuery style IDs and convert them
-            if (elementID.substr(0, 1) === '#') {
-                elementID = elementID.substr(1);
-            }
             var myCollapse = document.getElementById(elementID);
-
-            //debugger;
-
             if (myCollapse) {
                 var bsCollapse = new bootstrap.Collapse(myCollapse, {
                     show: true
@@ -72,10 +57,6 @@
         };
 
         window.setCollapsible = (elementID, doShow) => {
-            //capture legacy jQuery style IDs and convert them
-            if (elementID.substr(0, 1) === '#') {
-                elementID = elementID.substr(1);
-            }
             var myCollapse = document.getElementById(elementID);
             if (myCollapse) {
                 var bsCollapse = new bootstrap.Collapse(myCollapse, {
@@ -83,7 +64,6 @@
                 });
             }
         };
-
 
         //manage state of UI tips on the browser level (localStorage)
         window.tips = {
