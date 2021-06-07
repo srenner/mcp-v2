@@ -1,3 +1,3 @@
 # mcp-v2
 
-Reimaginging the original mycarprojects project. Details to come.
+Reimaginging the original MyCarProjects.net project, rebranded as ModManager.app. Details to come.
