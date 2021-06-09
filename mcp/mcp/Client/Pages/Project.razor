@@ -16,11 +16,17 @@
 }
 else
 {
+    <AddEditProject ProjectID="ProjectModalProjectID" ParentProjectID="ProjectModalParentProjectID" UserCategoryID="ProjectViewModel.UserCategoryID" VehicleID="ProjectViewModel.VehicleID" OnRefreshCallback="RefreshProject"></AddEditProject>
+
+
+
+
+
     <!--modal to edit existing-->
-    <AddEditProject ProjectID="ProjectID" ParentProjectID="ProjectViewModel.ParentProjectID" UserCategoryID="ProjectViewModel.UserCategoryID" VehicleID="ProjectViewModel.VehicleID" OnRefreshCallback="RefreshProject"></AddEditProject>
+    <!--<AddEditProject ProjectID="ProjectID" ParentProjectID="ProjectViewModel.ParentProjectID" UserCategoryID="ProjectViewModel.UserCategoryID" VehicleID="ProjectViewModel.VehicleID" OnRefreshCallback="RefreshProject"></AddEditProject>-->
 
     <!--if this isn't a subproject, add the ability to add one-->
-    <AddEditProject ProjectID="null"      ParentProjectID="ProjectID"                        UserCategoryID="ProjectViewModel.UserCategoryID" VehicleID="ProjectViewModel.VehicleID" OnRefreshCallback="RefreshProject"></AddEditProject>
+    <!--<AddEditProject ProjectID="null" ParentProjectID="ProjectID" UserCategoryID="ProjectViewModel.UserCategoryID" VehicleID="ProjectViewModel.VehicleID" OnRefreshCallback="RefreshProject"></AddEditProject>-->
 
     <header class="alert alert-primary">
         <div>
@@ -140,7 +146,7 @@ else
                                     <div class="card-body">
                                         <h3 class="card-title">
                                             <span>Sub-Projects</span>
-                                            <button class="btn btn-primary btn-sm ms-2" data-bs-target="#modalProject" data-bs-toggle="modal">
+                                            <button class="btn btn-primary btn-sm ms-2" @onclick="OpenAddSubModal">
                                                 <span class="oi oi-plus"></span>
                                                 <span>Add</span>
                                             </button>
@@ -458,6 +464,9 @@ else
     [Parameter]
     public int ProjectID { get; set; }
 
+    int? ProjectModalProjectID = null;
+    int? ProjectModalParentProjectID = null;
+
     private ProjectViewModel ProjectViewModel;
     private bool IsSubProject = false;
     private bool IsPartsLocked = true;
@@ -503,7 +512,18 @@ else
 
     private async Task OpenEditModal()
     {
+        ProjectModalProjectID = this.ProjectID;
+        ProjectModalParentProjectID = this.ProjectViewModel.ParentProjectID;
         await JSRuntime.InvokeVoidAsync("showModal", "modalProject");
+    }
+
+    private async Task OpenAddSubModal()
+    {
+        ProjectModalProjectID = null;
+        ProjectModalParentProjectID = this.ProjectID;
+
+        await JSRuntime.InvokeVoidAsync("showModal", "modalProject");
+
     }
 
     protected override async Task OnInitializedAsync()
