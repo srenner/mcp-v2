@@ -23,7 +23,7 @@
             <tr class="@(part.QuantityInstalled == part.Quantity ? "alert-success" : 
                          part.ExcludeFromTotal ? "alert-dark" : "")">
                 <td>
-                    <button class="btn btn-sm btn-outline-info me-1" data-bs-toggle="modal" data-bs-target="#modalEditPart" @onclick="() => BeginEditPart(part)">
+                    <button class="btn btn-sm btn-outline-info me-1" @onclick="() => BeginEditPart(part)">
                         <span class="oi oi-pencil"></span>
                     </button>
 
@@ -139,7 +139,7 @@
         ActivePart = part;
         ProjectID = part.ProjectID;
         StateHasChanged();
-        await JSRuntime.InvokeVoidAsync("showModal", "#modalEditPart");
+        await JSRuntime.InvokeVoidAsync("showModal", "modalEditPart");
         await OnRefreshCallback.InvokeAsync();
     }
 
