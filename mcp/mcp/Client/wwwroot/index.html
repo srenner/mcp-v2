@@ -16,20 +16,22 @@
     <script>
         //create functions on window object here and inject them with blazor on razor components
 
-        window.hideModal = (modalID) => {
-            var myModal = new bootstrap.Modal(document.getElementById(modalID));
-            if (myModal) {
-                myModal.hide();
+        window.activeModal = null;
+
+        window.hideModal = () => {
+            if (window.activeModal) {
+                window.activeModal.hide();
+                window.activeModal = null;
             }
             else {
-                console.log("Could not find modal to hide: " + modalID);
+                console.log("Could not find modal to hide");
             }
         };
 
         window.showModal = (modalID) => {
-            var myModal = new bootstrap.Modal(document.getElementById(modalID));
-            if (myModal) {
-                myModal.show();
+            window.activeModal = new bootstrap.Modal(document.getElementById(modalID));
+            if (window.activeModal) {
+                window.activeModal.show();
             }
             else {
                 console.log("Could not find modal to show: " + modalID);
