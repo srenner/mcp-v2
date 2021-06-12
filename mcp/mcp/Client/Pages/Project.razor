@@ -343,7 +343,7 @@ else
                         <AddEditPart Part="null" ProjectID="ProjectID" OnRefreshCallback="@RefreshParts"></AddEditPart>
                     </div>
 
-                    <button class="btn btn-primary btn-sm mb-2" data-bs-target="#modalPart" data-bs-toggle="modal">
+                    <button class="btn btn-primary btn-sm mb-2" @onclick="OpenAddPartModal">
                         <span class="oi oi-plus"></span>
                         <span>Add Part</span>
                     </button>
@@ -514,6 +514,11 @@ else
 
         await JSRuntime.InvokeVoidAsync("showModal", "modalProject");
 
+    }
+
+    private async Task OpenAddPartModal()
+    {
+        await JSRuntime.InvokeVoidAsync("showModal", "modalPart");
     }
 
     protected override async Task OnInitializedAsync()
