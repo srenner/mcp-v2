@@ -136,15 +136,19 @@
         }
         if (result.IsSuccessStatusCode)
         {
-            await JSRuntime.InvokeVoidAsync("hideModal", "modalProject");
+            await HideThisModal();
             await OnRefreshCallback.InvokeAsync();
         }
     }
 
     private async Task BeginDelete()
     {
-        await JSRuntime.InvokeVoidAsync("hideModal", "modalProject");
+        await HideThisModal();
         await JSRuntime.InvokeVoidAsync("showModal", "modalDeleteProject");
+    }
 
+    private async Task HideThisModal()
+    {
+        await JSRuntime.InvokeVoidAsync("hideModal", "modalProject");
     }
 }

@@ -1,7 +1,9 @@
 ﻿@page "/vehicle/{VehicleID:int}"
 @using mcp.Shared.ViewModels
-@using mcp.Shared.Enum 
+@using mcp.Shared.Enum
 @inject HttpClient Http
+@inject IJSRuntime JSRuntime
+
 
 <div class="alert alert-primary">
     <h1>
@@ -12,7 +14,7 @@
 </div>
 
 <h2>Projects</h2>
-<button class="btn btn-primary mb-2" data-bs-target="#modalProject" data-bs-toggle="modal">
+<button class="btn btn-primary mb-2" @onclick="OpenProjectModal">
     <span class="oi oi-wrench"></span>
     <span>Add Project</span>
 </button>
@@ -110,6 +112,11 @@
         ActiveProjects = await Http.GetFromJsonAsync<List<ProjectListItemViewModel>>("api/project/active/" + VehicleID.ToString());
         BacklogProjects = await Http.GetFromJsonAsync<List<ProjectListItemViewModel>>("api/project/backlog/" + VehicleID.ToString());
         CompleteProjects = await Http.GetFromJsonAsync<List<ProjectListItemViewModel>>("api/project/complete/" + VehicleID.ToString());
+    }
+
+    private async Task OpenProjectModal()
+    {
+        await JSRuntime.InvokeVoidAsync("showModal", "modalProject");
     }
 
 }
