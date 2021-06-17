@@ -7,7 +7,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalVehicleLabel">Vehicle @EditVehicle?.Name</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" @onclick="CloseThisModal" aria-label="Close"></button>
             </div>
             <EditForm Model="@EditVehicle" OnSubmit="@SubmitVehicle">
                 <div class="modal-body">
@@ -96,17 +96,22 @@
 
     }
 
-    private async void SubmitVehicle()
+    private async Task SubmitVehicle()
     {
         var result = await Http.PostAsJsonAsync<VehicleViewModel>("api/vehicle", EditVehicle);
 
         if (result.IsSuccessStatusCode)
         {
-            await JSRuntime.InvokeVoidAsync("hideModal", "#modalVehicle");
             EditVehicle = new VehicleViewModel { };
+            await CloseThisModal();
             await OnRefreshCallback.InvokeAsync();
 
         }
     }
+
+    private async Task CloseThisModal()
+        {
+            await JSRuntime.InvokeVoidAsync("hideModal", "modalVehicle");
+        }
 
 }

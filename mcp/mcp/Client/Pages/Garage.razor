@@ -6,6 +6,7 @@
 @using mcp.Client.Shared
 @attribute [Authorize]
 @inject HttpClient Http
+@inject IJSRuntime JSRuntime
 
 <div class="alert alert-primary">
     <h1>Garage</h1>
@@ -19,7 +20,7 @@
 }
 else
 {
-    <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalVehicle">Add Vehicle</button>
+    <button type="button" class="btn btn-primary mb-2" @onclick="OpenVehicleModal">Add Vehicle</button>
     <AddEditVechicle VehicleID="null" OnRefreshCallback="@RefreshVehicles"></AddEditVechicle>
 
     @if (vehicles != null)
@@ -61,4 +62,10 @@ else
     {
         vehicles = await Http.GetFromJsonAsync<List<VehicleListItemViewModel>>("/api/Vehicle/listitems");
     }
+
+    private async Task OpenVehicleModal()
+    {
+        await JSRuntime.InvokeVoidAsync("showModal", "modalVehicle");
+    }
+
 }
