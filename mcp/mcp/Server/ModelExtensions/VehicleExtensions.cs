@@ -47,6 +47,7 @@ namespace mcp.Server.ModelExtensions
             model.IsForSale = vehicle.IsForSale;
             model.IsSold = vehicle.IsSold;
             model.Name = vehicle.Name;
+            model.Notes = vehicle.Notes;
             model.PurchaseDate = vehicle.PurchaseDate;
             model.PurchasePrice = vehicle.PurchasePrice;
             model.TotalInvested = vehicle.TotalInvested;

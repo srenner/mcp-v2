@@ -18,6 +18,7 @@ namespace mcp.Server.Models
         public ApplicationUser User { get; set; }
 
         public string Name { get; set; }
+        public string Notes { get; set; }
         public DateTime? PurchaseDate { get; set; }
         [DataType(DataType.Currency)]
         public Decimal? PurchasePrice { get; set; }

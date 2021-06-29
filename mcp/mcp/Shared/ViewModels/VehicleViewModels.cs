@@ -27,6 +27,7 @@ namespace mcp.Shared.ViewModels
         public string UserDisplayName { get; set; }
 
         public string Name { get; set; }
+        public string Notes { get; set; }
         public DateTime? PurchaseDate { get; set; }
         public Decimal? PurchasePrice { get; set; }
         public Decimal? TotalInvested { get; set; }

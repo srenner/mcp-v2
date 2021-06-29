@@ -13,67 +13,80 @@
     </h1>
 </div>
 
-<h2>Projects</h2>
-<button class="btn btn-primary mb-2" @onclick="OpenProjectModal">
-    <span class="oi oi-wrench"></span>
-    <span>Add Project</span>
-</button>
-<AddEditProject ProjectID="null" ParentProjectID="null" UserCategoryID="null" VehicleID="@VehicleID" OnRefreshCallback="@RefreshProjects"></AddEditProject>
-<div class="row">
-    <div class="col-xl-4 col-lg-6 col-md-12 mb-2">
-        <div class="card">
-            <div class="card-header"><h3>Backlog</h3></div>
-            <div class="card-body">
-                @if (BacklogProjects == null || BacklogProjects.Count == 0)
-                {
-                    <div class="alert alert-info">No Projects in Backlog</div>
+<!--notes-->
+<section>
+    <h2>Vehicle Notes</h2>
+    @if (VehicleViewModel != null)
+    {
+        <div>@VehicleViewModel.Notes</div>
+    }
+</section>
 
-                }
-                else
-                {
-                    <div>
-                        <ProjectsList Projects="BacklogProjects" ProjectStatusID="(int)ProjectStatusEnum.Backlog" OnRefreshCallback="@RefreshProjects"></ProjectsList>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-4 col-lg-6 col-md-12 mb-2">
-        <div class="card">
-            <div class="card-header"><h3>Active</h3></div>
-            <div class="card-body">
-                @if (ActiveProjects == null || ActiveProjects.Count == 0)
-                {
-                    <div class="alert alert-info">No Active Projects</div>
-                }
-                else
-                {
-                    <div>
-                        <ProjectsList Projects="ActiveProjects" ProjectStatusID="(int)ProjectStatusEnum.Active" OnRefreshCallback="@RefreshProjects"></ProjectsList>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-4 col-lg-6 col-md-12 mb-2">
-        <div class="card">
-            <div class="card-header"><h3>Complete</h3></div>
-            <div class="card-body">
-                @if (CompleteProjects == null || CompleteProjects.Count == 0)
-                {
-                    <div class="alert alert-info">No Completed Projects</div>
+<!--projects-->
+<section>
+    <h2>Projects</h2>
+    <button class="btn btn-primary mb-2" @onclick="OpenProjectModal">
+        <span class="oi oi-wrench"></span>
+        <span>Add Project</span>
+    </button>
+    <AddEditProject ProjectID="null" ParentProjectID="null" UserCategoryID="null" VehicleID="@VehicleID" OnRefreshCallback="@RefreshProjects"></AddEditProject>
+    <div class="row">
+        <div class="col-xl-4 col-lg-6 col-md-12 mb-2">
+            <div class="card">
+                <div class="card-header"><h3>Backlog</h3></div>
+                <div class="card-body">
+                    @if (BacklogProjects == null || BacklogProjects.Count == 0)
+                    {
+                        <div class="alert alert-info">No Projects in Backlog</div>
 
-                }
-                else
-                {
-                    <div>
-                        <ProjectsList Projects="CompleteProjects"></ProjectsList>
-                    </div>
-                }
+                    }
+                    else
+                    {
+                        <div>
+                            <ProjectsList Projects="BacklogProjects" ProjectStatusID="(int)ProjectStatusEnum.Backlog" OnRefreshCallback="@RefreshProjects"></ProjectsList>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-12 mb-2">
+            <div class="card">
+                <div class="card-header"><h3>Active</h3></div>
+                <div class="card-body">
+                    @if (ActiveProjects == null || ActiveProjects.Count == 0)
+                    {
+                        <div class="alert alert-info">No Active Projects</div>
+                    }
+                    else
+                    {
+                        <div>
+                            <ProjectsList Projects="ActiveProjects" ProjectStatusID="(int)ProjectStatusEnum.Active" OnRefreshCallback="@RefreshProjects"></ProjectsList>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-12 mb-2">
+            <div class="card">
+                <div class="card-header"><h3>Complete</h3></div>
+                <div class="card-body">
+                    @if (CompleteProjects == null || CompleteProjects.Count == 0)
+                    {
+                        <div class="alert alert-info">No Completed Projects</div>
+
+                    }
+                    else
+                    {
+                        <div>
+                            <ProjectsList Projects="CompleteProjects"></ProjectsList>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>
+
 
 
 
