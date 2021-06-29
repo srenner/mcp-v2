@@ -18,9 +18,18 @@
     <h2>Vehicle Notes</h2>
     @if (VehicleViewModel != null)
     {
-        <div>@VehicleViewModel.Notes</div>
-    }
+        @if (!String.IsNullOrEmpty(VehicleViewModel.Notes))
+        {
+            <div>@VehicleViewModel.Notes</div>
+        }
+        else
+        {
+            <em>Nothing to see here</em>
+        }
+     }
 </section>
+
+<hr>
 
 <!--projects-->
 <section>
