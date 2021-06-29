@@ -19,7 +19,7 @@
                     <InputText @bind-Value="ProjectNameConfirm" class="form-control" />
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" @onclick="CloseThisModal">Close</button>
                     <button type="submit" class="btn btn-danger" disabled="@(ProjectNameConfirm == ProjectName ? false : true)">Confirm Delete</button>
                 </div>
             </EditForm>
@@ -66,8 +66,13 @@
 
         if (response.IsSuccessStatusCode)
         {
-            await JSRuntime.InvokeVoidAsync("hideModal", "#" + ID);
+            await CloseThisModal();
             NavigationManager.NavigateTo("/vehicle/" + Project.VehicleID.ToString());
         }
     }
+
+    private async Task CloseThisModal()
+        {
+            await JSRuntime.InvokeVoidAsync("hideModal", ID);
+        }
 }
