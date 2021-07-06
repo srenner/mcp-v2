@@ -10,6 +10,7 @@ using mcp.Server.Models;
 using System.Security.Claims;
 using mcp.Shared.ViewModels;
 using mcp.Server.ModelExtensions;
+using mcp.Shared.Enum;
 
 namespace mcp.Server.Controllers
 {
@@ -57,6 +58,17 @@ namespace mcp.Server.Controllers
             {
                 return Unauthorized();
             }
+        }
+
+        public async Task<ActionResult<List<ProjectPartViewModel>>> GetPartShoppingList(int vehicleID)
+        {
+            var parts = await _context.ProjectPart
+                .Where(w => w.Project.VehicleID == vehicleID)
+                .Where(w => w.Project.ProjectStatusID == (int)ProjectStatusEnum.Active)
+                .Where(w => w.QuantityPurchased < w.Quantity)
+                .ToListAsync();
+
+            return parts.ToViewModel();
         }
 
         // PUT: api/ProjectPart/5
