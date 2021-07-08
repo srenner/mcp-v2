@@ -1,0 +1,50 @@
+﻿@using mcp.Shared.ViewModels
+@using System.Text.Json
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Project</th>
+            <th>Part</th>
+            <th>Link</th>
+            <th>Price</th>
+            <th>Purchased</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var part in Parts)
+        {
+            <tr>
+                <td>
+                    <span>@part.ProjectName</span>
+                </td>
+                <td>
+                    <span class="font-weight-bold">@part.Name</span>
+                </td>
+                <td><a href="@part.Link" target="_blank">@part.LinkText</a></td>
+                <td>
+                    @if (part.MoneyAllocated > 0.00M)
+                    {
+                        <span>$</span>
+                        @part.MoneyAllocated
+                    }
+                    else
+                    {
+                        <span>--</span>
+                    }
+                </td>
+                <td>
+                    <span class="me-1">@part.QuantityPurchased/@part.Quantity</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public List<ProjectPartViewModel> Parts { get; set; }
+
+}

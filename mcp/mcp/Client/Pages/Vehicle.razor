@@ -32,9 +32,10 @@
 <!--shopping list-->
 <section>
     <h2>Shopping List</h2>
-    <ul>
-        <li>list here</li>
-    </ul>
+    @if (ShoppingList?.Count > 0)
+    {
+        <VehicleShoppingList Parts="ShoppingList"></VehicleShoppingList>
+    }
 </section>
 
 <!--projects-->
