@@ -20,6 +20,7 @@ namespace mcp.Server.ModelExtensions
             model.Price = part.Price;
             model.ExtraCost = part.ExtraCost;
             model.ProjectID = part.ProjectID;
+            model.ProjectName = part.Project?.Name;
             model.ProjectPartID = part.ProjectPartID;
             model.Quantity = part.Quantity;
             model.QuantityPurchased = part.QuantityPurchased;

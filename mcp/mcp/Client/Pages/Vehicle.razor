@@ -29,6 +29,14 @@
      }
 </section>
 
+<!--shopping list-->
+<section>
+    <h2>Shopping List</h2>
+    <ul>
+        <li>list here</li>
+    </ul>
+</section>
+
 <!--projects-->
 <section>
     <h2>Projects</h2>
@@ -109,12 +117,14 @@
     private List<ProjectListItemViewModel> ActiveProjects;
     private List<ProjectListItemViewModel> BacklogProjects;
     private List<ProjectListItemViewModel> CompleteProjects;
+    private List<ProjectPartViewModel> ShoppingList;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             await RefreshProjects();
+            await GetShoppingList();
         }
         catch
         {
@@ -137,6 +147,12 @@
     private async Task OpenProjectModal()
     {
         await JSRuntime.InvokeVoidAsync("showModal", "modalProject");
+    }
+
+    private async Task GetShoppingList()
+    {
+        ShoppingList = await Http.GetFromJsonAsync<List<ProjectPartViewModel>>("api/projectpart/shop/" + VehicleID.ToString());
+
     }
 
 }
