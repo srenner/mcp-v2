@@ -131,7 +131,6 @@ namespace mcp.Server.Controllers
         public async Task<ActionResult<List<VehicleListItemViewModel>>> GetVehicleListItems()
         {
             var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             var vehicles = await _context.Vehicle
                 .Include(e => e.Projects.Where(w => w.IsDeleted == false).Where(w => w.ParentProjectID == null))
                 .Include(e => e.Modifications)
@@ -139,15 +138,31 @@ namespace mcp.Server.Controllers
                 .Where(w => w.IsDeleted == false)
                 .Where(w => w.IsSold == false)
                 .ToListAsync();
-
             if (vehicles == null)
             {
                 return NotFound();
             }
-
             return vehicles.ToListItemViewModel();
-                
         }
+
+        [HttpGet("listitems/sold")]
+        public async Task<ActionResult<List<VehicleListItemViewModel>>> GetSoldVehicleListItems()
+        {
+            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var vehicles = await _context.Vehicle
+                .Include(e => e.Projects.Where(w => w.IsDeleted == false).Where(w => w.ParentProjectID == null))
+                .Include(e => e.Modifications)
+                .Where(w => w.UserID == userID)
+                .Where(w => w.IsDeleted == false)
+                .Where(w => w.IsSold == true)
+                .ToListAsync();
+            if (vehicles == null)
+            {
+                return NotFound();
+            }
+            return vehicles.ToListItemViewModel();
+        }
+
 
         [HttpGet("listitem/{id}")]
         [Authorize]

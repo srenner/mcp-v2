@@ -41,10 +41,30 @@ else
             </div>
         }
     }
+
+    <section>
+        @if (!showSold)
+        {
+            <button class="btn btn-link" @onclick="LoadSoldVehicles">show sold vehicles</button>
+
+        }
+        @if (showSold)
+        {
+            <div class="row">
+                @foreach (var vehicle in soldVehicles)
+                {
+                    <VehicleListItem Vehicle=@vehicle></VehicleListItem>
+                }
+            </div>
+        }
+    </section>
+    
 }
 
 @code {
     private List<VehicleListItemViewModel> vehicles;
+    private List<VehicleListItemViewModel> soldVehicles;
+    private bool showSold = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -56,6 +76,12 @@ else
         {
             exception.Redirect();
         }
+    }
+
+    private async Task LoadSoldVehicles()
+    {
+        soldVehicles = await Http.GetFromJsonAsync<List<VehicleListItemViewModel>>("/api/Vehicle/listitems/sold");
+        showSold = true;
     }
 
     private async Task RefreshVehicles()
