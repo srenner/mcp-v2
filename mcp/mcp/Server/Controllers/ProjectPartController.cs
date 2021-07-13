@@ -60,19 +60,7 @@ namespace mcp.Server.Controllers
             }
         }
 
-        [HttpGet("shop/{vehicleID}")]
-        public async Task<ActionResult<List<ProjectPartViewModel>>> GetPartShoppingList(int vehicleID)
-        {
-            var parts = await _context.ProjectPart
-                .Include(i => i.Project)
-                .Where(w => w.Project.VehicleID == vehicleID)
-                .Where(w => w.Project.ProjectStatusID == (int)ProjectStatusEnum.Active)
-                .Where(w => w.QuantityPurchased < w.Quantity)
-                .OrderBy(o => o.ProjectID)
-                .ToListAsync();
 
-            return parts.ToViewModel();
-        }
 
         // PUT: api/ProjectPart/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

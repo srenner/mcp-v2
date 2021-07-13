@@ -12,6 +12,7 @@ using mcp.Server.ModelExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using mcp.Shared.Enum;
 
 namespace mcp.Server.Controllers
 {
@@ -48,6 +49,82 @@ namespace mcp.Server.Controllers
             }
 
             return vehicle.ToViewModel();
+        }
+
+        [HttpGet("shop/{vehicleID}")]
+        public async Task<ActionResult<List<ProjectShoppingListViewModel>>> GetShoppingList(int vehicleID)
+        {
+            var t = await _context.ProjectPart
+                .Include(i => i.Project)
+                .Where(w => w.Project.VehicleID == vehicleID)
+                .Where(w => w.Project.ProjectStatusID == (int)ProjectStatusEnum.Active)
+                .Where(w => w.QuantityPurchased < w.Quantity)
+                .OrderBy(o => o.ProjectID)
+                .ToListAsync();
+
+            try
+            {
+                var pg = await _context.ProjectPart
+                    .Include(i => i.Project)
+                    .Where(w => w.Project.VehicleID == vehicleID)
+                    .Where(w => w.Project.ProjectStatusID == (int)ProjectStatusEnum.Active)
+                    .Where(w => w.QuantityPurchased < w.Quantity)
+                    .ToListAsync();
+
+                throw new NotImplementedException();
+
+                var grouped = pg.GroupBy(g => g.Project).ToList();
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+
+            var partGroups = await _context.ProjectPart
+                .Include(i => i.Project)
+                .Where(w => w.Project.VehicleID == vehicleID)
+                .Where(w => w.Project.ProjectStatusID == (int)ProjectStatusEnum.Active)
+                .Where(w => w.QuantityPurchased < w.Quantity)
+                .OrderBy(o => o.ProjectID)
+                .GroupBy(g => g.ProjectID)
+                .ToListAsync();
+
+            var vm = new List<ProjectShoppingListViewModel>();
+
+            //loop through projects
+            foreach(var group in partGroups)
+            {
+                var firstPart = group.FirstOrDefault();
+                if(firstPart != null)
+                {
+                    var projectList = new ProjectShoppingListViewModel();
+                    projectList.PendingPartCost = 0.00M;
+                    projectList.ProjectID = firstPart.ProjectID;
+                    projectList.ProjectName = firstPart.Project?.Name;
+
+                    projectList.Parts = new List<ProjectPartViewModel>();
+
+
+                    foreach (var part in group)
+                    {
+                        projectList.Parts.Add(part.ToViewModel());
+                        if (part.Price.HasValue)
+                        {
+                            var quantityToBuy = part.Quantity - part.QuantityPurchased;
+                            projectList.PendingPartCost += (part.Price.Value * quantityToBuy);
+                        }
+                        if (part.ExtraCost.HasValue)
+                        {
+                            projectList.PendingPartCost += part.ExtraCost.Value;
+                        }
+                    }
+                    vm.Add(projectList);
+                }
+
+                
+            }
+
+            return vm;
         }
 
         [HttpGet("listitems")]

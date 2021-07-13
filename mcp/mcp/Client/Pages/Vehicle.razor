@@ -152,7 +152,7 @@
 
     private async Task GetShoppingList()
     {
-        ShoppingList = await Http.GetFromJsonAsync<List<ProjectPartViewModel>>("api/projectpart/shop/" + VehicleID.ToString());
+        ShoppingList = await Http.GetFromJsonAsync<List<ProjectPartViewModel>>("api/vehicle/shop/" + VehicleID.ToString());
 
     }
 
