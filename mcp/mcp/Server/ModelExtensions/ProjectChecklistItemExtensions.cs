@@ -14,9 +14,6 @@ namespace mcp.Server.ModelExtensions
             var model = new ProjectChecklistItemViewModel();
 
             model.Description = item.Description;
-            //model.ParentProjectChecklistItem = item.ParentProjectChecklistItem.ToViewModel();
-            //model.ParentProjectChecklistItemID = item.ParentProjectChecklistItemID;
-            //model.Project = item.Project.ToViewModel();
             model.ProjectChecklistItemID = item.ProjectChecklistItemID;
             model.ProjectID = item.ProjectID;
             model.SortOrder = item.SortOrder;

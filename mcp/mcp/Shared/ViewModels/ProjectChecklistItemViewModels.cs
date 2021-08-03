@@ -11,7 +11,6 @@ namespace mcp.Shared.ViewModels
         public int ProjectChecklistItemID { get; set; }
 
         public int ProjectID { get; set; }
-        public ProjectViewModel Project { get; set; }
 
         public string Description { get; set; }
 
