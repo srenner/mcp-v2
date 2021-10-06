@@ -4,7 +4,6 @@
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
 
-
 <div class="alert alert-primary">
     <h1>
         <NavLink href="/garage" Match="NavLinkMatch.All" class="text-decoration-none">Garage</NavLink>
@@ -54,7 +53,6 @@
                     @if (BacklogProjects == null || BacklogProjects.Count == 0)
                     {
                         <div class="alert alert-info">No Projects in Backlog</div>
-
                     }
                     else
                     {
@@ -89,7 +87,6 @@
                     @if (CompleteProjects == null || CompleteProjects.Count == 0)
                     {
                         <div class="alert alert-info">No Completed Projects</div>
-
                     }
                     else
                     {
@@ -103,15 +100,10 @@
     </div>
 </section>
 
-
-
-
 @code {
-
 
     [Parameter]
     public int VehicleID { get; set; }
-
 
     private VehicleViewModel VehicleViewModel;
 
@@ -155,5 +147,4 @@
         ShoppingList = await Http.GetFromJsonAsync<List<ProjectPartViewModel>>("api/vehicle/shop/" + VehicleID.ToString());
 
     }
-
 }
