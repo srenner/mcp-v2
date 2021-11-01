@@ -79,15 +79,17 @@
     [Parameter]
     public EventCallback OnRefreshCallback { get; set; }
 
-    private VehicleViewModel EditVehicle { get; set; }
+    private VehicleViewModel EditVehicle = new VehicleViewModel();// { get; set; }
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
         base.OnParametersSet();
 
         if (VehicleID.HasValue && VehicleID.Value > 0)
         {
             //fetch for edit
+            EditVehicle = await Http.GetFromJsonAsync<VehicleViewModel>("api/vehicle/" + VehicleID.ToString());
+            string debugger = "stop";
         }
         else
         {
@@ -98,7 +100,17 @@
 
     private async Task SubmitVehicle()
     {
-        var result = await Http.PostAsJsonAsync<VehicleViewModel>("api/vehicle", EditVehicle);
+        HttpResponseMessage result;
+
+        if(EditVehicle.VehicleID > 0)
+        {
+            result = await Http.PutAsJsonAsync<VehicleViewModel>("api/vehicle/" + EditVehicle.VehicleID, EditVehicle);
+        }
+        else
+        {
+            result = await Http.PostAsJsonAsync<VehicleViewModel>("api/vehicle", EditVehicle);
+        }
+
 
         if (result.IsSuccessStatusCode)
         {
@@ -110,8 +122,8 @@
     }
 
     private async Task CloseThisModal()
-        {
-            await JSRuntime.InvokeVoidAsync("hideModal", "modalVehicle");
-        }
+    {
+        await JSRuntime.InvokeVoidAsync("hideModal", "modalVehicle");
+    }
 
 }

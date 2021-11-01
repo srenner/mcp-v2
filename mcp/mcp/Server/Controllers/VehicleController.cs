@@ -40,8 +40,10 @@ namespace mcp.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<VehicleViewModel>> GetVehicle(int id)
         {
-            var vehicle = await _context.Vehicle.FindAsync(id);
-
+            var vehicle = await _context.Vehicle
+                .Include(i => i.User)
+                .Where(w => w.VehicleID == id)
+                .FirstOrDefaultAsync();
 
             if (vehicle == null || vehicle.IsDeleted)
             {

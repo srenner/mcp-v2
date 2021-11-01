@@ -1,16 +1,24 @@
 ﻿@page "/vehicle/{VehicleID:int}"
 @using mcp.Shared.ViewModels
 @using mcp.Shared.Enum
+@using mcp.Client.Shared 
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
 
-<div class="alert alert-primary">
-    <h1>
+<AddEditVechicle VehicleID="@VehicleID" OnRefreshCallback="@RefreshVehicle"></AddEditVechicle>
+
+<header class="alert alert-primary">
+    <h1 class="d-inline-block">
         <NavLink href="/garage" Match="NavLinkMatch.All" class="text-decoration-none">Garage</NavLink>
         <span> > </span>
         <span>@VehicleViewModel?.Name</span>
     </h1>
-</div>
+    <div class="d-inline-block ms-4 float-end">
+        <button class="btn btn-sm btn-outline-primary" @onclick="OpenVehicleModal">
+            <span class="oi oi-cog"></span>
+        </button>
+    </div>
+</header>
 
 <!--notes-->
 <section>
@@ -131,10 +139,22 @@
 
     private async Task RefreshProjects()
     {
-        VehicleViewModel = await Http.GetFromJsonAsync<VehicleViewModel>("api/vehicle/" + VehicleID.ToString());
+        await RefreshVehicle();
         ActiveProjects = await Http.GetFromJsonAsync<List<ProjectListItemViewModel>>("api/project/active/" + VehicleID.ToString());
         BacklogProjects = await Http.GetFromJsonAsync<List<ProjectListItemViewModel>>("api/project/backlog/" + VehicleID.ToString());
         CompleteProjects = await Http.GetFromJsonAsync<List<ProjectListItemViewModel>>("api/project/complete/" + VehicleID.ToString());
+    }
+
+    private async Task RefreshVehicle()
+    {
+        VehicleViewModel = await Http.GetFromJsonAsync<VehicleViewModel>("api/vehicle/" + VehicleID.ToString());
+    }
+
+    private async Task OpenVehicleModal()
+    {
+        //ProjectModalProjectID = this.ProjectID;
+        //ProjectModalParentProjectID = this.ProjectViewModel.ParentProjectID;
+        await JSRuntime.InvokeVoidAsync("showModal", "modalVehicle");
     }
 
     private async Task OpenProjectModal()
