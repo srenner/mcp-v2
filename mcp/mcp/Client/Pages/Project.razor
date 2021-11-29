@@ -115,12 +115,12 @@ else
 
     <!--project notes-->
     <section class="mb-4">
-        <h3>
+        <h2>
             <span class="d-inline-block">Project Notes</span>
             <span class="@(ProjectViewModel.IsNotesEditMode ? "d-none" : "d-inline-block")">
                 <button class="btn btn-sm btn-outline-info" @onclick="StartNotesEditMode"><span class="oi oi-pencil"></span></button>
             </span>
-        </h3>
+        </h2>
         <div>
             <div class="@(ProjectViewModel.IsNotesEditMode ? "d-none" : "d-block")">
                 @if (ProjectViewModel.InstallationNotes?.Length > 0 && ProjectViewModel.InstallationNotes != "<p><br></p>")
